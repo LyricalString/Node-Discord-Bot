@@ -101,7 +101,8 @@ Si quieres contribuir, siéntete libre de bifurcar el repositorio y solicitar un
 ## 📝 Créditos
 
 [@amadeusgray](https://github.com/amadeusgray) Por ser mi mano derecha en el proyecto.
-[@amadeusgray](https://github.com/amadeusgray) Por ser mi mano derecha en el proyecto.
+[@soyultro](https://github.com/SoyUltro) Por la ayuda creando comands y el multilenguaje.
+[@didacus12](https://github.com/Didacus12) Por tu ayuda en el desarrollo del bot.
 
 ## 📜 Licencia
 
