@@ -33,6 +33,6 @@ if (process.env.mode == 'production') {
     })
 }
 
-manager.on('shardCreate', shard => console.log(`Launching shard ${shard.id + 1}`));
+manager.on('shardCreate', shard => console.log(`Iniciando shard ${shard.id + 1}`));
 
 manager.spawn().catch((err) => console.log(err));
