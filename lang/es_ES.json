@@ -1,0 +1,1204 @@
+{
+  "oldDiscord": "Si no eres capaz de ver el menú, actualiza Discord.",
+  "music_error": "Debido a recientes problemas con Youtube y los bots de Discord, hemos decidido desactivar la música por precaución. Podeis usar `.youtube` para iniciaros una sesión de Youtube Together dentro de Discord.",
+  "event_error": "El evento que dio error fue: ",
+  "utility_error": "La utilidad que dio error fue: ",
+  "fatal_error": "Ha ocurrido un error fatal. Ha sido comunicado a los desarrolladores, por favor, deje de usar este comando. Si necesitas más ayuda, contáctanos en https://discord.gg/nodebot.",
+  "reload": "Está bien, recargué todos los comandos.",
+  "ADDCHANNEL": {
+    "1": "Se ha seleccionado el chat <#",
+    "2": "> como canal principal para la escucha del bot.",
+    "3": "El canal seleccionado no es válido",
+    "4": "El chat de escucha no puede ser el mismo que el chat de administradores."
+  },
+  "ADDADMINROLE": "Has seleccionado el rol administrador de Node: <@&",
+  "ADDADMINUSER": {
+    "1": "Has añadido a un usuario como administrador de Node: <@",
+    "2": "El usuario ya esta en la lista de administradores"
+  },
+  "ADMINSHOW": "No hay ningun administrador",
+  "DELADMINUSER": {
+    "1": "Has eliminado a un administrador de la lista de administradores de Node: <@",
+    "2": "El usuario no es administrador"
+  },
+  "ADDLISTENINGCHANNEL": {
+    "1": "Has añadido un canal de escucha de Node: <#",
+    "2": "El canal ya se encuentra en la lista de canales de escucha.",
+    "3": "El canal seleccionado no es un canal de texto.",
+    "4": "No he podido encontrar el canal deseado.",
+    "5": "El canal seleccionado no es un canal de voz.",
+    "6": "Has añadido un canal de musica para Node: <#",
+    "7": "El canal ya se encuentra en la lista de canales de música."
+  },
+  "DELLISTENINGCHANNEL": {
+    "1": "Has eliminado un canal de la lista de canales de escucha de Node: <#",
+    "2": "El canal no está en la lista de canales de escucha.",
+    "3": "Has eliminado un canal de la lista de canales de música de Node: <#"
+  },
+  "SHOWLISTENINGCHANNEL": {
+    "1": "No hay ningun canal de escucha de comandos de Node.",
+    "2": "Lista de canales de escucha",
+    "3": "El canal seleccionado no es un canal de texto.",
+    "4": "No he podido encontrar el canal deseado.",
+    "5": "Has reseteado los canales de escucha de Node.",
+    "6": "no has seguido correctamente el esquema del comando. Escribe",
+    "7": "help channel para ver los usos.",
+    "8": "No hay ningun canal de escucha de música de Node."
+  },
+  "CHECKLISTENINGCHANNEL": {
+    "1": "Checkeado"
+  },
+  "CREATEINVITEPERMS": "Hey! El bot necesita los permisos de `CREATE_INSTANT_INVITE` para poder continuar, en caso de no tenerlos este comando no funcionará",
+  "CREATEEMBED": {
+    "1": "**:x: Error |** ¡Debes definir el color del anuncio!",
+    "2": "**:x: Error |** ¡Debes definir el titulo del anuncio!",
+    "3": "**:x: Error |** ¡Debes definir la descripción del anuncio!",
+    "4": "**:x: Error |** El canal seleccionado no existe.",
+    "5": "**:x: Error |** No has insertado argumentos.",
+    "6": "**:x: Error |** Los colores disponibles son: "
+  },
+  "SHOWADMINS": "Lista de Administradores por Usuario",
+  "ADDADMINCHAT": {
+    "1": "Se ha seleccionado el chat <#",
+    "2": "> como canal para administradores.",
+    "3": "El canal seleccionado no es válido",
+    "4": "El chat de administradores no puede ser el mismo que el chat de escucha."
+  },
+  "STATS": {
+    "1": "El server está funcionando en ",
+    "2": " servers. ",
+    "3": " usuarios están disfrutando del bot.",
+    "4": "Dueño",
+    "5": "Version",
+    "6": "Libreria",
+    "7": "Memoria",
+    "8": "Uptime",
+    "9": "Servidores",
+    "10": "Usuarios",
+    "11": "Canales"
+  },
+  "CREDITS": "Gracias a xJamp, Dexo y Didacus_12 por colaborar en el desarrollo de Node ^^",
+  "RAM": {
+    "1": "Uso de ram:",
+    "2": "Uso de ram de Node",
+    "3": "Uso de ram actual"
+  },
+  "PING": {
+    "1": "Este es el ping de la API de Discord",
+    "2": "Este es el ping de Node"
+  },
+  "STATUS": {
+    "1": "Información y estadísticas de",
+    "2": "Aquí hay algunas estadísticas e información sobre el bot",
+    "3": "Rendimiento",
+    "4": "Sistema",
+    "5": "Procesador: Intel",
+    "6": "RAM total:",
+    "7": "Sistema operativo:",
+    "8": "Total de usuarios",
+    "9": "Total de emotes",
+    "10": "Total de servidores",
+    "11": "Tiempo de actividad del bot",
+    "12": "Dias",
+    "13": "Horas",
+    "14": "Minutos",
+    "15": "Segundos",
+    "16": "Tiempo de actividad del host",
+    "17": "Último inicio",
+    "18": "Alojado por"
+  },
+  "MEMORYADD": {
+    "1": "La categoria seleccionada no existe",
+    "2": "La frase no es suficientemente larga (mínimo 5 palabras).",
+    "3": "He recibido como input: ",
+    "4": " y como output: ",
+    "5": "Has alcanzado el número maximo de ",
+    "6": " entrenamientos. Para mas entrenamientos, revisa ",
+    "7": "patreon",
+    "8": "Porfavor, sigue el siguiente patron: \n",
+    "9": "memory add {categoria}",
+    "10": "{mensaje}"
+  },
+  "INVITE": "Para invitar a Node a tu servidor haz [click aquí](https://discord.com/api/oauth2/authorize?client_id=828771710676500502&permissions=259844861815&redirect_uri=https%3A%2F%2Fdiscord.gg%2FEFPn63xVU7&scope=bot%20applications.commands) <a:corazonmulticolor:836295982768586752>",
+  "TRAIN": {
+    "1": "Debes de entrenar con un input y output antes. Please, follow this structure: ",
+    "2": "memory add {categoría}",
+    "3": "{mensaje}"
+  },
+  "CATEGORIES": {
+    "1": "No has insertado aún categorias.",
+    "2": "Las categorias disponibles son: \n\n"
+  },
+  "CHECK": {
+    "1": "Eres un administrador :crown:",
+    "2": "No eres administrador..."
+  },
+  "SAVE": "Se ha guardado la nueva configuración",
+  "DEL_MEMORY": {
+    "1": "Has borrado de la memoria el aprendizaje número [",
+    "2": "El indice no existe, prueba ",
+    "3": "memory show",
+    "4": "Por favor, indica un índice siguiendo el siguiente patrón: ",
+    "5": "memory del (índice)",
+    "6": "El índice debe de ser un número."
+  },
+  "EDIT_CATEGORY": {
+    "1": "Categoria editada",
+    "2": "No existe la categoria que quieres reemplazar"
+  },
+  "DELCATEGORY": {
+    "1": "Has borrado la categoría: ",
+    "2": "La categoría no existe.",
+    "3": "Esa categoría no existe"
+  },
+  "SHOWMEMORY": {
+    "1": "Memoria",
+    "2": "Debes añadir datos de entrenamiento antes a la memoria."
+  },
+  "SHOWCATEGORY": "Las categorías disponibles son:",
+  "ADDCATEGORY": {
+    "1": "Por favor, sigue el siguiente patrón: ",
+    "2": "Has creado una nueva categoría\n\nCategoría: ",
+    "3": "\nMensaje: ",
+    "4": "Has alcanzado el número maximo de categorías (",
+    "5": "). Para poder añadir nuevas, revisa ",
+    "6": "category add {category}",
+    "7": "{message}",
+    "8": "patreon"
+  },
+  "ADDMESSAGE": {
+    "1": "Por favor, sigue el siguiente patrón: ",
+    "2": "message add {categoria}",
+    "3": "{new_mesage}",
+    "4": "La categoria seleccionada no existe",
+    "5": "Has añadido el mensaje ",
+    "6": " a la categoría: "
+  },
+  "DELMESSAGE": {
+    "1": "Por favor, sigue el siguiente patrón: ",
+    "2": "message del {categoria}",
+    "3": "{new_mesage}",
+    "4": "La categoria seleccionada no existe",
+    "5": "No existe este índice",
+    "6": "Debe haber almenos un mensaje por categoria.",
+    "7": "Has eliminado el mensaje con índice ["
+  },
+  "SEND_CHANNEL": "Alguien ha intentado usar la red neuronal desde el chat de escucha pero no tengo entrenamiento. Por favor, sigue la guia indicada y añade una frase de aprendizaje y una categoría. | ",
+  "ADMINSCOMMAND": "Esto es un comando de administradores.",
+  "ERROR_TRAINING": "El entrenamiento del bot ha fallado, borra los ultimos cambios de la memoria para solucionarlo.",
+  "PROBABILITIES": " \n\n        **Probabilidades:** \n\n",
+  "SUCCESFUL_TRAINING": "La información ha sido entrenada.",
+  "MODE": {
+    "1": "Has seleccionado el modo: ",
+    "2": "Encendido",
+    "3": "Apagado",
+    "4": "Entrenamiento"
+  },
+  "MODEMENU": "SELECCIONA TU MODO",
+  "LANGMENU": {
+    "1": "Selecciona el lenguaje.",
+    "2": "Solo puedes seleccionar un idioma de la lista.",
+    "3": "Solo el que ejecutó el comando puede usar el menú."
+  },
+  "NOT_SURE_MESSAGE": "No estoy seguro de mi respuesta",
+  "PREFIX": {
+    "1": "Has seleccionado un nuevo prefijo: ",
+    "2": "El uso adecuado es:",
+    "3": "nuevo prefijo",
+    "4": "Por favor, añada un prefijo."
+  },
+  "MESSAGE_SHOW": "La categoria que quieres mostrar no existe",
+  "TRAINING_CHANNEL": "El chat seleccionado para los entrenamientos es: <#",
+  "TRAININGMODE": "El bot ha entrado en el modo entrenamiento",
+  "TRAININGOPTIONS": {
+    "1": "Mensaje: ➜ ",
+    "2": "Categoria Predicha: ➜ "
+  },
+  "GUIDE": {
+    "1": "Se ha creado un nuevo chat para la guía: <#"
+  },
+  "SUPPORT": "Soporte: <https://support.nodebot.xyz>",
+  "LOVE": {
+    "1": "¡Menciona a alguien porfavor!",
+    "2": "No puedes hacer eso contigo mismo.",
+    "3": "No puedo calcular eso conmigo 😳",
+    "4": "El porcetanje de ",
+    "5": " es:",
+    "6": "Yo calculo que entre ",
+    "7": " el porcentaje de amor es:"
+  },
+  "MCHISTORY": {
+    "1": "Uso: ",
+    "2": "mchistory (nombre minecraft java)",
+    "3": "El usuario no existe",
+    "4": "Historial de nombres",
+    "5": "Primer nombre"
+  },
+  "GD": {
+    "1": "Uso: ",
+    "2": "gd (frase)",
+    "3": "Has superado el máximo de carácteres posibles."
+  },
+  "SKIN": {
+    "1": "Uso: ",
+    "2": "skin (name mc)",
+    "3": "¡Usa las flechas!",
+    "4": "¡Usa las reacciones!"
+  },
+  "INVITATIONS": {
+    "1": "Me faltan permisos...",
+    "2": "No puedo ejecutar este comando porque me falta el permiso `Administrar servidor`",
+    "3": "No hay invitaciones en este servidor.",
+    "4": "Este servidor no tiene invitaciones activas, por lo que la cantidad de invitaciones que tiene es 0.",
+    "5": "No hay invitaciones activas en este servidor",
+    "6": "Invitaciones de ",
+    "7": "Códigos de invitaciones activos",
+    "8": "Total de invitaciones",
+    "9": "**Códigos de invitaciones activos**",
+    "10": "**Total de invitaciones**"
+  },
+  "QUESTIONBALL": {
+    "1": "A su pregunta",
+    "2": "Mi respuesta",
+    "3": "No veo ninguna pregunta a la que responder...",
+    "4": [
+      "Sí",
+      "No",
+      "Tal vez",
+      "Obviamente",
+      "Yo digo que sí",
+      "Yo digo que no",
+      "Probablemente",
+      "Tengo mis dudas...",
+      "Ni lo dudes",
+      "No hacía falta ni que preguntases ;)",
+      "Para nada...",
+      "No creo..."
+    ]
+  },
+  "RELOAD": "No tienes permisos para ejecutar este comando.",
+  "SEPARATOR_SET": {
+    "1": "Has cambiado el separador a",
+    "2": "El uso adecuado del comando es:",
+    "3": "nuevo separador"
+  },
+  "FEED": {
+    "1": "A ",
+    "2": " le entró el apetito y se puso a comer.",
+    "3": "alimentó a",
+    "4": "Uso correcto: ",
+    "5": "<Mención/ID del usuario>",
+    "6": "No he podido encontrar al usuario.",
+    "7": "No puedes alimentarte a ti mismo."
+  },
+  "IMPOSTOR": {
+    "1": "No era el impostor",
+    "2": "Era el impostor",
+    "3": "La ID o mención no corresponde a un usuario."
+  },
+  "KILL": {
+    "1": "No he podido encontrar al usuario.",
+    "2": "es un asesino y mató a",
+    "3": "No puedes matarte a ti mismo...",
+    "4": "No puedes matarme 😳",
+    "5": "no has seleccionado a un usuario."
+  },
+  "NOPERMS": {
+    "1": "Necesitas el permiso",
+    "2": "para ejecutar este comando."
+  },
+  "NOARGS": "No has insertado argumentos.",
+  "PROPERUSAGE": "El uso correcto sería:",
+  "COOLDOWN": {
+    "1": "por favor espera",
+    "2": "segundo(s) antes de reusar el comando",
+    "3": ""
+  },
+  "ERROR": "There was an error trying to execute that command!",
+  "ROLEPREFIX": {
+    "1": "Se te ha asignado el prefijo",
+    "2": "del rango"
+  },
+  "USERINFO": {
+    "1": "Nombre de Usuario",
+    "2": "Tag del Usuario",
+    "3": "ID del Usuario",
+    "4": "Fecha De Unión",
+    "5": "Fecha Registro",
+    "6": "Número de roles",
+    "7": "¿Es un bot?",
+    "8": "Ninguno",
+    "9": "Sí",
+    "10": "No",
+    "11": "Emblemas",
+    "12": "Juego",
+    "13": "Rol más alto",
+    "14": "Rol Público",
+    "15": "Link al avatar",
+    "16": "No está jugando a ningún juego.",
+    "17": "No he podido encontrar al miembro.",
+    "18": "Emblemas Node"
+  },
+  "FIVEM": {
+    "1": "Código Inválido",
+    "2": "IP:Puerto",
+    "3": "Detalles del Servidor",
+    "4": "IP",
+    "5": "País",
+    "6": "Ciudad",
+    "7": "ISP",
+    "8": "Org",
+    "9": "Codigo Postal",
+    "10": "Zona Horaria",
+    "11": "Servidor FiveM",
+    "12": "Nombre del Servidor",
+    "13": "Jugadores Online",
+    "14": "Jugadores Máximos",
+    "15": "Artefactos",
+    "16": "Recursos",
+    "17": "¿Onesync Habilitado?",
+    "18": "No pude encontrar los detalles del servidor...",
+    "19": "Url Cfx"
+  },
+  "NODE": "Mi prefijo es",
+  "REMEMBERVOTE": "Usted no ha realizado ningún voto todavía, realice primero un voto y tendrá la opción de cambiar esto.",
+  "MCSERVER": {
+    "1": "Parece que tu servidor es inidentificable... ¡Por favor verifica que esté online y no esté bloqueando el acceso!",
+    "2": "Cargando estadísticas, por favor espera...",
+    "3": ":chart_with_downwards_trend: El servidor",
+    "4": "se encuentra apagado o fuera de servicio.",
+    "5": "Aquí estan las estadisticas para",
+    "6": "Conectados",
+    "7": "jugadores",
+    "8": "Máximo",
+    "9": "Estado",
+    "10": "Encendido",
+    "11": "Apagado",
+    "12": "La IP contiene carácteres inválidos."
+  },
+  "TIKTOK": {
+    "1": "Analizando cuenta, por favor espera...",
+    "2": "🧑 Usuario:",
+    "3": "🌍 Alias:",
+    "4": "💬 Descripción:",
+    "5": "☁️ Link de la biografía",
+    "6": "👥 Seguidores:",
+    "7": "🧍 Seguidos",
+    "8": "🤍 Me gusta:",
+    "9": "🎞️ Videos:",
+    "10": "👀 Visitas último video",
+    "11": "💖 Likes último video",
+    "12": "Ese usuario no existe, probablemente lo hayas insertado con acentos o carácteres no admitidos.",
+    "13": "La cuenta fue creada el: "
+  },
+  "ACHIEVEMENT": "Uso adecuado:",
+  "ACHIEVEMENTEMBED": ".achievement <bloque>, <titulo>, <mensaje>, <mensaje2>",
+  "BAN": {
+    "1": "No tienes permisos para ejecutar este comando.",
+    "2": "No tengo permisos para banear usuarios.",
+    "3": "Por favor especifíca el usuario que quieres banear.",
+    "4": "ban <usuario> [motivo]",
+    "5": "No puedes banearte a ti mismo.",
+    "6": "No puedo banearme a mí mismo.",
+    "7": "No puedes banear a alguien con un rol igual o mayor al tuyo.",
+    "8": "El usuario especificado tiene roles iguales o superiores a los mios.",
+    "9": "Un usuario ha sido baneado.",
+    "10": " ha sido baneado de ",
+    "11": "Motivo: ",
+    "12": "Baneado por: ",
+    "13": "ha sido baneado."
+  },
+  "KICK": {
+    "1": "No tienes permisos para ejecutar este comando.",
+    "2": "No tengo permiso para expulsar a usuarios.",
+    "3": "Por favor especifica el usuario que quieres expulsar.",
+    "4": "kick <mención/id del usuario> [motivo]",
+    "5": "No puedes expulsarte a ti mismo.",
+    "6": "No puedo echarme a mi mismo.",
+    "7": "No puedes expulsar a alguien con los mismos roles o más altos que tú.",
+    "8": "El usuario mencionado tiene roles superiores o iguales a los de Node.",
+    "9": "Un nuevo usuario ha sido expulsado.",
+    "10": "ha sido expulsado de",
+    "11": "Motivo: ",
+    "12": "Expulsado por: ",
+    "13": "El usuario con ID",
+    "14": "ha sido expulsado."
+  },
+  "MUTE": {
+    "1": "ha sido silenciado."
+  },
+  "YOUTUBE": {
+    "1": "Debes de estar en un canal de voz para ejecutar este comando.",
+    "2": "Click aquí",
+    "3": "La única opción válida es --unlimited. Comprueba su uso con",
+    "4": "help youtube.",
+    "5": "No tengo los permisos necesarios."
+  },
+  "WARN": {
+    "1": "No tienes el permiso para hacer eso.",
+    "2": "Por favor especifíca a quien quieres avisar. **",
+    "3": "No puedes avisar a usuarios muteados.",
+    "4": "No pude encontrar el rol de Muted.",
+    "5": "llegó a (**5**/**5**) avisos. \nMotivos:",
+    "6": "ha sido avisado por",
+    "7": "\nMotivo:",
+    "8": "warn <usuario> [motivo]**"
+  },
+  "EXCLUSIVE": "Este comando solo puede ser ejecutado en el Servidor de Soporte de Node. No está desarrollao todavía para otros serviores.",
+  "FORCEBAN": {
+    "1": "No tienes permisos para ejecutar este comando.",
+    "2": "No tengo permisos para banear usuarios.",
+    "3": "Por favor especifica el ID del usuario que quieres banear.",
+    "4": "forceban <ID Usuario> [motivo]",
+    "5": "¡No puedo banearme a mi mismo!",
+    "6": "El ID del usuario debe de ser un número.",
+    "7": "No puedes autobanearte.",
+    "8": "Force Ban",
+    "9": "ha sido baneado forzosamente de",
+    "10": "Razón: ",
+    "11": "Baneado por: ",
+    "12": "Ha surgido un error:"
+  },
+  "AVATAR": {
+    "1": "No he podido encontrar al usuario :(",
+    "2": "Este es el avatar de",
+    "3": " | Avatar"
+  },
+  "EMOJI": {
+    "1": "Necesitas adjuntar un archivo para convertirlo a emoticono.",
+    "2": "Te faltó poner el nombre del emoticono: ",
+    "3": "<nombre> + imagen adjunta",
+    "4": "Se ha añadido el nuevo emote",
+    "5": "¡Escribe",
+    "6": "para usarlo!",
+    "7": "El emoji no puede superar los 256kb de tamaño.",
+    "8": "Has llegado al máximo de emoticonos disponibles."
+  },
+  "VOTE": "Usa este enlace para votar a Node: \n<https://discordthings.com/bot/828771710676500502>",
+  "RANKING": {
+    "1": "Cogiendo las estadísticas de la base de datos...",
+    "2": "<:shopblurple:863983092658208791> Tabla de clasificación"
+  },
+  "SLOWMODE": {
+    "1": "No tienes permiso para ajustar el slowmode.",
+    "2": "No tengo permiso para ajustar el slowmode en este canal.",
+    "3": "Por favor escribe la duración del slowmode para este canal.",
+    "4": "Solo puedo poner hasta 21600 segundos máximo, que son 6 horas.",
+    "5": "El slowmode ha sido ajustado a",
+    "6": "segundos\n\nSi quieres apagar el slowmode escribe",
+    "7": "Canal",
+    "8": "Ajustado por",
+    "9": "Ajustado por"
+  },
+  "INSTAGRAM": {
+    "1": "Por favor escribe un nombre de usuario.",
+    "2": "🧑 Usuario:",
+    "3": "🌍 Alias:",
+    "4": "💬 Descripción:",
+    "5": "☁️ Link de la biografía",
+    "6": "👥 Seguidores:",
+    "7": "🧍 Seguidos",
+    "8": "🖼️ Publicaciones:",
+    "9": "🎞️ IGTV:",
+    "12": "Analizando cuenta, por favor espera...",
+    "13": "El usuario no existe."
+  },
+  "SNIPE": {
+    "1": "No se ha borrado recientemente ningun mensaje",
+    "2": "Mensaje enviado por",
+    "3": "Canal",
+    "4": "¡Te he enviado una copia del mensaje por privado!"
+  },
+  "CLEAR": {
+    "1": "No tienes permisos de **GESTIÓN DE MENSAJES** para usar este comando.",
+    "2": "No tengo permisos de **GESTIÓN DE MENSAJES** para usar este comando.",
+    "3": "bots",
+    "4": " - Elimina los mensajes enviados por los bots. (Ignorar a los humanos)",
+    "5": "humans",
+    "6": " - Elimina los mensajes enviados por humanos. (Ignorar los bots)",
+    "7": "embeds",
+    "8": " - Elimina los mensajes que contienen embeds.",
+    "9": "files",
+    "10": " - Elimina los mensajes que contienen archivos/imágenes/adjuntos.",
+    "11": "mentions",
+    "12": " - Elimina los mensajes que contengan menciones a miembros/usuarios/canales/roles.",
+    "13": "pins",
+    "14": " - Elimina los mensajes anclados.",
+    "19": "text",
+    "20": " - Elimina los mensajes que sólo contienen texto. (Ignora archivos/imágenes/adjuntos, embeds)",
+    "21": "match <text>",
+    "22": " - Elimina los mensajes que contienen texto.",
+    "23": "not <text>",
+    "24": " - Elimina los mensajes que no contienen texto.",
+    "25": "startswith <text>",
+    "26": " - Elimina los mensajes que empiezan con un texto..",
+    "27": "endswith <text>",
+    "28": " - Elimina los mensajes que acaban con un texto.",
+    "29": "Purge | Clear | Delete | Prune",
+    "30": "Elimina un número de mensajes de un canal. (Ignora los mensajes anclados y el límite es 100)",
+    "31": "Uso",
+    "32": "clear <cantidad>",
+    "33": " - Borrar un número de mensajes.\n",
+    "34": "clear <cantidad> --",
+    "35": "purge",
+    "36": "clear",
+    "37": "delete",
+    "38": "prune",
+    "39": "Por favor, introduzca un número de mensajes para purgar.",
+    "40": "Introduzca un número de mensaje entre 2 y 100.",
+    "41": "<a:tick:836295873091862568>  ¡Borré **",
+    "42": "** mensajes!",
+    "43": "Sólo puedes eliminar los mensajes que no tengan más de 14 días de antigüedad.",
+    "44": "<a:tick:836295873091862568>  ¡Borré **",
+    "45": "** mensajes!",
+    "46": "Sólo puedes eliminar los mensajes que no tengan más de 14 días de antigüedad.",
+    "47": "<a:tick:836295873091862568>  ¡Borré **",
+    "48": "** mensajes!",
+    "49": "Se ha producido un error.",
+    "50": "Se ha producido un error: "
+  },
+  "LOCK": {
+    "1": "Necesito permisos para **GESTIONAR EL SERVIDOR** y *GESTIÓN DE CANALES**",
+    "2": "se ha bloqueado.",
+    "3": "Actualizaciones del canal"
+  },
+  "COMMAND": {
+    "1": "no es un comando válido, asegurate de usar el nombre del comando.",
+    "2": "Has deshabilitado el comando ",
+    "3": "Ese comando ya está en la lista de comandos deshabilitados.",
+    "4": "Ese no es un comando válido, asegurate de usar el nombre del comando.",
+    "5": "Has habilitado el comando ",
+    "6": "Ese comando no está en la lista de comandos deshabilitados.",
+    "7": "No hay ningún comando en la lista de comandos deshabilitados",
+    "8": " Lista de comandos deshabilitados",
+    "9": "No has seguido correctamente el esquema del comando. Escribe ",
+    "10": "help command para ver los usos."
+  },
+  "COMMANDS": {
+    "1": "Moderación",
+    "2": "Sesiones",
+    "3": "Música",
+    "4": "Diversión",
+    "5": "Información y Utilidades",
+    "6": "Aquí encontrarás todos mis comandos.\nPuedes escribir",
+    "7": "comando",
+    "8": "para obtener más información",
+    "9": "Categorías",
+    "10": "Los comandos están divididos en categorías. Solo pulsa un botón y te mostrará los comandos de dicha categoría.",
+    "11": "Comandos",
+    "12": "Selecciona una categoría",
+    "13": "Muestra los comandos de moderación.",
+    "14": "Muestra los comandos de sesiones y juegos.",
+    "15": "Muestra los comandos de música.",
+    "16": "Muestra los comandos de diversión.",
+    "17": "Muestra los comandos de información y utilidades.",
+    "18": "Administración",
+    "19": "Interacción",
+    "20": "Muestra los comandos de administración.",
+    "21": "Muestra los comandos de interacción."
+  },
+  "HELP": {
+    "1": "Web Node Bot",
+    "2": "Invítame",
+    "3": "Servidor de Soporte",
+    "4": "¡Te he enviado un mensaje privado con mi menu de ayuda!",
+    "5": "Hola, soy ",
+    "6": "un bot todo en uno, multifuncional y con comandos innovadores.",
+    "7": "¿Cómo veo los comandos?",
+    "8": "Fácil, solo tienes que escribir",
+    "9": "Si necesito soporte, ¿cómo os puedo contactar?",
+    "10": "¡Puedes preguntar en nuestro servidor de soporte!",
+    "11": "¿Cómo puedo votar al bot?",
+    "12": "Puedes hacerlo usando el comando",
+    "13": " - Menú de ayuda",
+    "14": "o haciendo [Click Aquí]",
+    "15": "Nombre",
+    "16": "Alias",
+    "17": "Descripción",
+    "18": "Uso",
+    "19": "Cooldown",
+    "20": "Comando ",
+    "21": "¡\nYou can send",
+    "22": "command name",
+    "23": "to get info on a specific command!",
+    "24": "",
+    "25": " no es un comando válido.",
+    "26": "Puedes escribir",
+    "27": "nombre del comando",
+    "28": "para obtener información de un comando en específico.",
+    "29": "Ninguno",
+    "30": "segundo"
+  },
+  "POKER": {
+    "1": "Haz click para unirte a la sesión"
+  },
+  "FISHING": {
+    "1": "Haz click para unirte a la sesión"
+  },
+  "CHESS": {
+    "1": "Haz click para unirte a la sesión"
+  },
+  "BETRAYAL": {
+    "1": "[Haz click aquí]",
+    "2": "Debes de estar en un canal de voz para ejecutar este comando.",
+    "3": "Haz click para unirte a la sesión"
+  },
+  "ACTIVITY": {
+    "1": "Estado cambiado."
+  },
+  "HOSTING": {
+    "1": "Node está hosteado en [Hosting XYZ](https://hosting-xyz.com/), con un servicio VPS de 12GB de RAM. ¿Quiéres algún servicio? ¡Usa nuestro código **'Node10'** de descuento para conseguir el 10%! \n\n <a:arrowright:835907836352397372> https://hosting-xyz.com/ <a:flechaizquierda:836295936673579048>",
+    "2": " te he enviado un mensaje por privado con toda la información necesaria. :)",
+    "3": "Creo que tienes los mensajes privados desactivados. Actívalos para que te pueda enviar la información."
+  },
+  "BOTNOPERMS": {
+    "1": "No dispongo del permiso",
+    "2": "para ejecutar este comando."
+  },
+  "ROLE": {
+    "1": "No se ha seleccionado ningún usuario..",
+    "2": "No se ha seleccionado ningún rol.",
+    "3": "No he podido encontrar al usuario.",
+    "4": "No he podido encontrar al rol.",
+    "5": "El usuario",
+    "6": "ya tiene el rol",
+    "7": "¡El rol",
+    "8": "ha sido añadido a",
+    "9": "correctamente!",
+    "10": "No puedes añadir roles al dueño.",
+    "11": "No puedes seleccionar un rol superior o igual al tuyo en la jerarquía de roles.",
+    "12": "El rol seleccionado es superior al de Node en la jerarquía de roles.",
+    "13": "Ya dispones actualmente del rol",
+    "14": "ha añadido el rol",
+    "15": "a sí mismo correctamente!",
+    "16": "No puedes añadir roles a ese usuario, tendrá roles superiores o similares a los tuyos en la jerarquía de roles.",
+    "17": "No puedes seleccionar un rol superior o similar al tuyo en la jerarquía de roles.",
+    "18": "Ese usuario ya disponde del rol",
+    "19": "¡El rol",
+    "20": "ha sido añadido a",
+    "21": "correctamente!",
+    "22": "No puedes añadir roles al dueño.",
+    "23": "ha sido eliminado de"
+  },
+  "UNLOCK": "ha sido desbloqueado",
+  "VOICEKICK": {
+    "1": "No he podido encontrar al usuario mencionado en este servidor.",
+    "2": "¡El usuario no se encuentra en ningún canal de voz!",
+    "3": "¡Un usuario ha sido expulsado de"
+  },
+  "VOICEMOVE": {
+    "1": "No he podido encontrar al usuario en este servidor.",
+    "2": "No he podido encontrar el canal de voz. ¡Asegúrate de que el canal mencionado es un canal de voz y no de texto!",
+    "3": "El usuario ya se encuentra en ese canal de voz.",
+    "4": "El miembro ha sido movido correctamente <a:tick:836295873091862568>!",
+    "5": "El usuario no está conectado en ningún canal de voz."
+  },
+  "AUTOMIX": {
+    "1": "Es necesario que te unas a un canal de voz para reproducir música.",
+    "2": "Generando lista aleatoria... <a:pepeRiendose:835905480160444466>",
+    "3": "No he podido encontrar resultados.",
+    "4": "Auto-Mix generado!",
+    "5": "Titulo",
+    "6": "Canciones",
+    "7": "Solicitante"
+  },
+  "LOOP": {
+    "1": "La canción va a ser repetida.",
+    "2": "La canción se dejará de repetir.",
+    "3": "La cola se dejará de repetir.",
+    "4": "La cola va a ser repetida.",
+    "5": "No estás escuchando música."
+  },
+  "NOWPLAYING": {
+    "1": "Error | Necesitas estar en un canal de voz para poder ejecutar este comando.",
+    "2": "Error | No se están reproduciendo canciones en este momento.",
+    "3": "Reproduciendo ahora",
+    "4": "Pausado",
+    "5": "Autor",
+    "6": "Solicitada por",
+    "7": "Duración"
+  },
+  "PLAY": {
+    "1": "Necesitas estar en un canal de voz para ejecutar este comando.",
+    "2": "Necesitas estar en el mismo canal de voz que el bot para ejecutar este comando.",
+    "3": "Añadida a la cola",
+    "4": "Autor",
+    "5": "Solicitante",
+    "6": "Duración",
+    "7": "Nombre de la lista",
+    "8": "Total de canciones",
+    "9": "El enlace adjunto no dispone de contenido reproducible.",
+    "10": "No he podido encontrar resultados.",
+    "11": "Playlist añadida!",
+    "12": "Título",
+    "13": "Canciones"
+  },
+  "QUEUE": {
+    "1": "No hay canciones reproduciendose en este servidor. ¿Por qué no agregas alguna utilizando play?",
+    "2": "Reproductor de Node",
+    "3": "Reproduciendo ahora:",
+    "4": "¡La pagina no existe!",
+    "5": "Total de canciones en cola:",
+    "6": "Cola de",
+    "7": "",
+    "8": "A Continuación",
+    "9": "No hay canciones en la cola de reproducción. ¿Por qué no agregas alguna utilizando play?"
+  },
+  "RADIO": {
+    "1": "Tienes que estar en un canal de voz para reproducir música.",
+    "2": "No puedo conectarme a tu canal de voz, ¡asegurate de que tengo permisos para ello!.",
+    "3": "Por favor inserta el nombre de una estación de radio.",
+    "4": "Estación de radio inválida",
+    "5": "Puedes buscar estaciones como 'Los 40 Principales'",
+    "6": "Reproduciendo Estación",
+    "7": "Página Oficial",
+    "8": "[Click Aquí]",
+    "9": "Codec",
+    "10": "Bitrate",
+    "11": "No pude añadir esta estación.",
+    "12": "__**Radio Node**__",
+    "13": "El canal de voz donde te encuentras no está permitido para escuchar música."
+  },
+  "SKIP": {
+    "1": "Ninguna canción se está reproduciendo.",
+    "2": "No estás en el mismo canal de voz.",
+    "3": "No hay música reproduciendose.",
+    "4": "ha sido saltada."
+  },
+  "STOP": "No se está reproduciendo ninguna canción",
+  "VOLUME": {
+    "1": "ALERTA",
+    "2": "No se está reproduciendo una canción en este momento.",
+    "3": "Tienes que estar en un canal de voz para utilizar este comando.",
+    "4": "Un rango valido de volumen es del 0 al 100",
+    "5": "Reproductor Node",
+    "6": "__**Volumen Actual**__",
+    "7": "El volumen actual ya es igual a:",
+    "8": "Volumen ajustado",
+    "9": "El volumen debe de ser un número entre 0 y 100."
+  },
+  "ROLEINFO": {
+    "1": "Nombre",
+    "2": "ID",
+    "3": "Miembros con el rol",
+    "4": "Posición",
+    "5": "Color",
+    "6": "Mencionable",
+    "7": "Separado",
+    "8": "Gestionado por Discord",
+    "9": "¡Debes especificar un rol!",
+    "10": "Si",
+    "11": "No"
+  },
+  "MESSAGE": {
+    "1": "No dispongo del permiso ",
+    "2": "Ese comando está desactivado por los administradores.",
+    "3": "Este comando es exclusivo para developers",
+    "4": "Este comando es solo para testers",
+    "5": "este comando es solo para premiums.",
+    "6": "Este mensaje es solo para personas que han votado en las últimas 12h.",
+    "7": "Usaste mal",
+    "8": ", uso correcto:",
+    "9": "",
+    "10": "Espera",
+    "11": "segundos para usar",
+    "12": "Hubo un error en la ejecución del comando. Por favor acceda al servidor de soporte ( <https://support.nodebot.xyz> ) y repórtelo.",
+    "13": "Este comando es exclusivo del servidor de soporte de Node, en un futuro estará disponible para el público ^^.",
+    "14": "El prefijo de Node es",
+    "15": "Estás baneado del bot.",
+    "16": "Peligro",
+    "17": "El enlace adjunto contiene un enlace malicioso.",
+    "18": "El enlace adjunto contiene un enlace prohibido por los administradores.",
+    "19": "Necesito el permiso ",
+    "20": "para poder asegurar este servidor ante enlaces maliciosos <:check:864102909704798208>."
+  },
+  "QR": {
+    "1": "Debes introducir el link a convertir",
+    "2": "Solicitado por",
+    "3": "La única opción de personalización es",
+    "4": "para poner el fondo del logo en el código QR transparente.",
+    "5": "Debes de insertar una imagen adjunta como logo para asignarle la propiedad de fondo transparente.",
+    "6": "El límite está en 500 carácteres."
+  },
+  "ERROREMBED": "Error <a:no:854740402531991573>",
+  "SUCCESSEMBED": "Éxito <a:tick:836295873091862568>",
+  "RESET": "No se está reproduciendo música.",
+  "NOQUEUE": "La cola de reproducción ha acabado.",
+  "SERVERINFO": {
+    "1": "```No hay restricciones.```",
+    "2": "```Leve (Cuenta verificada).```",
+    "3": "```Media (Cuenta verificada al menos desde hace 5 minutos).```",
+    "4": "```Alta (Cuenta verificada y miembro del servidor por +10 minutos).```",
+    "5": "```Extrema (Cuenta verificada y número telefónico verificado vinculado).```",
+    "6": "No escanea ningún mensaje.",
+    "7": "Escanea los usuarios sin roles.",
+    "8": "Escanea todos los mensajes.",
+    "9": "Dueño",
+    "10": "ID del servidor",
+    "11": "Miembros",
+    "12": "Numero de emojis",
+    "13": "Estáticos",
+    "14": "Animados",
+    "15": "Roles",
+    "16": "Canales",
+    "17": "Categorias",
+    "18": "Texto",
+    "19": "Voz",
+    "20": "Creada el",
+    "21": "Boosters",
+    "22": "Nivel de mejoras",
+    "23": "Nivel",
+    "24": "Región",
+    "25": "Nivel de verificación",
+    "26": "Nivel de filtro de contenido explícito"
+  },
+  "GITHUB": {
+    "1": "Por favor escribe un usuario.",
+    "2": "🧑 Nombre:",
+    "3": " Tipo de cuenta:",
+    "4": "🏢 Organización:",
+    "5": "☁️ Link",
+    "6": "🗺 Ubicación:",
+    "7": "📩 Email",
+    "8": "📃 Biografía",
+    "9": "🐦 Twitter:",
+    "10": "📂 Repositorios Públicos",
+    "11": "🧍 Seguidores",
+    "12": "Analizando cuenta, por favor espera...",
+    "13": "El usuario no se encontró"
+  },
+  "CATEGORY": {
+    "1": "no es una categoría válida, puedes encontrar la lista escribiendo ",
+    "2": "Has deshabilitado la categoría ",
+    "3": "Esa categoría ya está en la lista de categorías deshabilitadas.",
+    "4": "Esa no es una categoría válida, puedes encontrar la lista escribiendo ",
+    "5": "Has habilitado la categoría ",
+    "6": "Esa categoría no está en la lista de categorías deshabilitadas.",
+    "7": "No hay ninguna categoría en la lista de categorías deshabilitadas.",
+    "8": " Lista de categorías deshabilitadas",
+    "9": "No has seguido correctamente el esquema del comando. Escribe ",
+    "10": "help category para ver sus usos.",
+    "11": "Esa categoría no existe.",
+    "12": "Lista de categorías deshabilitadas",
+    "13": "category list",
+    "14": "Categorías",
+    "15": "<:lightbluedot:864163603844956170> Administración\n<:lightbluedot:864163603844956170> Diversión\n<:lightbluedot:864163603844956170> Interaccion\n<:lightbluedot:864163603844956170> Moderación\n<:lightbluedot:864163603844956170> Música\n<:lightbluedot:864163603844956170> Sesiones\n<:lightbluedot:864163603844956170> Información\n"
+  },
+  "SEEK": {
+    "1": "Número incorrecto, por favor proporciona un número en segundos. \nUso correcto",
+    "2": "segundos.",
+    "3": "No puedo saltar la canción más allá del final de la canción.",
+    "4": "¡Has adelantado la canción al segundo",
+    "5": "! 🎶"
+  },
+  "VOICESTATEUPDATE": {
+    "1": "Abandonando",
+    "2": "en",
+    "3": "segundos.",
+    "4": "Han pasado el tiempo y me he salido del canal de voz."
+  },
+  "BANNEDWORDS": {
+    "1": "A partir de ahora ninguna URL podrá contener la palabra ",
+    "2": "Esa palabra ya está incluida en la lista.",
+    "3": "Ahora los enlaces enviados podrán contener la palabra ",
+    "4": "Esa palabra no se encuentra en la lista.",
+    "5": "La lista de palabras prohibidas está vacia.",
+    "6": "Lista de palabras prohibidas.",
+    "7": "Has usado elcomando incorrecto, por favor revisa su uso escribiendo",
+    "8": "Las palabras prohibidas han sido reseteadas. Ahora la lista se encuentra vacía."
+  },
+  "TOSMODE": {
+    "1": "Has activado el modo seguro ante los comandos contra el ToS.",
+    "2": "Has desactivado el modo seguro antes los comandos contra el ToS."
+  },
+  "SPAMMODE": {
+    "1": "Has activado los comandos de spam de Node.",
+    "2": "Has desactivado los comandos de spam de Node."
+  },
+  "HUG": {
+    "1": "No puedes abrazarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "abrazó a"
+  },
+  "BITE": {
+    "1": "No puedes morderte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "mordió a"
+  },
+  "BLUSH": {
+    "1": "No puedes sonrojarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "sonrojó a",
+    "4": "se sonrojó."
+  },
+  "BORED": {
+    "1": "se encuentra aburrido."
+  },
+  "BOOP": {
+    "1": "No puedes tocarte la nariz a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "le tocó la nariz a"
+  },
+  "BONK": {
+    "1": "No puedes golpearte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "golpeó a"
+  },
+  "BULLY": {
+    "1": "No puedes hacerte bullying a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "hizo bullying a"
+  },
+  "BYE": {
+    "1": "No puedes despedirte de tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "se despidió de",
+    "4": "se despidió."
+  },
+  "PVC": {
+    "1": "Por favor crea un chat de voz privado antes uniéndote a ",
+    "2": "tu canal de voz privado ha sido **abierto** al público.",
+    "3": "tu canal de voz privado ha sido **cerrado** al público.",
+    "4": "Por favor sigue el siguiente esquema.",
+    "5": "<id/mención del usuario>",
+    "6": "Has baneado a",
+    "7": "de tu canal temporal privado.",
+    "8": "Por favor sigue el siguiente esquema.",
+    "9": "<id/mención del usuario>",
+    "10": "Has desbaneado a",
+    "11": "de tu canal temporal privado.",
+    "12": "No he podido encontrar al usuario."
+  },
+  "CHASE": {
+    "1": "No puedes perseguirte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "persiguió a"
+  },
+  "CRY": {
+    "1": "se encuentra llorando."
+  },
+  "CRINGE": {
+    "1": "sintió cringe."
+  },
+  "CUDDLE": {
+    "1": "No puedes abrazarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "abrazó a"
+  },
+  "DAB": {
+    "1": "No puedes hacerte un dab a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "hicieron un dab",
+    "4": "hizo un dab."
+  },
+  "DANCE": {
+    "1": "No puedes bailarte de tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "bailó con",
+    "4": "bailó."
+  },
+  "DIE": {
+    "1": "se murió."
+  },
+  "FACEPALM": {
+    "1": "se golpeó la cara."
+  },
+  "GLOMP": {
+    "1": "No puedes avalancharte sobre tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "se avalanchó sobre"
+  },
+  "HAPPY": {
+    "1": "se alegró."
+  },
+  "HATE": {
+    "1": "No puedes odiarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "odia a"
+  },
+  "KISS": {
+    "1": "No puedes besarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "besó a"
+  },
+  "HIGHFIVE": {
+    "1": "No puedes chocarte los cinco contigo tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "le chocó los cinco a"
+  },
+  "HI": {
+    "1": "No puedes saludarte de tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "saludó a",
+    "4": "saludó."
+  },
+  "LAUGH": {
+    "1": "No puedes reirte de tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "se está riendo de",
+    "4": "se rió."
+  },
+  "LICK": {
+    "1": "No puedes lamerte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "lamió a"
+  },
+  "LURK": {
+    "1": "está espiando."
+  },
+  "NERVOUS": {
+    "1": "está nervioso."
+  },
+  "NOPE": {
+    "1": "No puedes decir que no a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "dijo que no a",
+    "4": "dijo que no."
+  },
+  "PAMPERING": {
+    "1": "No puedes mimarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "le dio mimos a"
+  },
+  "PANIC": {
+    "1": "está en pánico."
+  },
+  "PAT": {
+    "1": "No puedes acariciarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "acarició a"
+  },
+  "PECK": {
+    "1": "No puedes picotearte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "le dió un pico a"
+  },
+  "POUT": {
+    "1": "está haciendo pucheros."
+  },
+  "RUN": {
+    "1": "está corriendo."
+  },
+  "SAD": {
+    "1": "está triste."
+  },
+  "YES": {
+    "1": "No puedes decir que sí a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "dijo que sí a",
+    "4": "dijo que sí."
+  },
+  "SHOOT": {
+    "1": "No puedes dispararte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "le disparó a"
+  },
+  "SHRUG": {
+    "1": "se encoge de hombros."
+  },
+  "SLAP": {
+    "1": "No puedes bofetearte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "bofeteó a"
+  },
+  "SLEEP": {
+    "1": "se está durmiendo."
+  },
+  "STARE": {
+    "1": "No puedes mirarte fijamente a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "miró fijamente a"
+  },
+  "TEASE": {
+    "1": "No puedes burlarte de tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "se burló de"
+  },
+  "THINK": {
+    "1": "está pensando."
+  },
+  "TICKLE": {
+    "1": "No puedes hacerte cosquillas a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "le hizo cosquillas a"
+  },
+  "THUMBSUP": {
+    "1": "dice que sí con el pulgar."
+  },
+  "TRIGGERED": {
+    "1": "está loco."
+  },
+  "WAG": {
+    "1": "está moviendo la cola."
+  },
+  "WAVE": {
+    "1": "No puedes saludarte a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "saludó a",
+    "4": "está saludando."
+  },
+  "WINK": {
+    "1": "No puedes guiñarte el ojo a tí mismo.",
+    "2": "No he podido encontrar al usuario.",
+    "3": "guiñó el ojo a",
+    "4": "guiñó el ojo."
+  },
+  "OLDMODE": {
+    "1": "Has habilitado la versión antigua de Node para tu usuario.",
+    "2": "Has deshabilitado la versión antigua de Node para tu usuario."
+  },
+  "SHARDS": {
+    "1": "Grupo",
+    "2": "Shards",
+    "3": "Servidores",
+    "4": "Memoria",
+    "5": "Tiempo Activo",
+    "6": "Servidores Socios",
+    "7": "Latencia Media"
+  },
+  "FNPROFILE": {
+    "1": "Puntuación Total 💯",
+    "2": "Partidas Jugadas 🎮",
+    "3": "Victorias 🥇",
+    "4": "Porcentaje de Victorias 📈",
+    "5": "Asesinatos ☠️",
+    "6": "Asesinatos/Muerte ⚔️",
+    "7": "Estadísticas de todo el tiempo de ",
+    "8": "El jugador ",
+    "9": " no existe.",
+    "10": "Ha ocurrido un error al buscar al usuario. Comprueba que su nombre está bien escrito.",
+    "11": "Obteniendo estadísticas..."
+  },
+  "CODE": {
+    "1": "Tu código de referidos es ",
+    "2": "¡Tu nuevo código de referidos es",
+    "3": "Solo los miembros con permiso de Administrador del servidor pueden usar este comando.",
+    "4": "Debes de añadir el código de referidos.",
+    "5": "code redeem (código de 8 dígitos)",
+    "6": "El código de referidos no es válido.",
+    "7": "Este servidor ya ha sido referido.",
+    "8": "Has canjeado con éxito el código de referidos.",
+    "9": "Los códigos de referidos solo se pueden usar en servidores nuevos.",
+    "10": "Un total de",
+    "11": "usuarios",
+    "12": "y",
+    "13": "servidores",
+    "14": "han sido referidos a través de este código."
+  },
+  "SWITCHTHINGS": {
+    "1": "Necesito un rol de silenciado para poder silenciar al usuario. Añádelo desde `/config automod mutedrole`",
+    "2": "Necesito el permiso de `MANAGE_CHANNELS` para poder editar los permisos del usuario en este canal.",
+    "3": "Necesito el permiso de `MANAGE_MESSAGES` para poder borrar los mensajes.",
+    "4": "Ha ocurrido un error al borrar los mensajes. Lo más probable es que no tenga el permiso `MANAGE_MESSAGES`.",
+    "5": "Necesito el permiso de `MANAGE_ROLES` para poder añadir el rol de silenciado al usuario.",
+    "6": "El usuario es superior a mí y no he podido asignarle el rol de silenciado.",
+    "7": "No he podido banear al usuario. Lo más probable es que no tenga permisos.",
+    "8": "No he podido expulsar al usuario. Lo más probable es que no tenga permisos."
+  },
+  "UNBAN": {
+    "1": "Un usuario ha sido desbaneado",
+    "2": "El usuario con id",
+    "3": "ha sido desbaneado.",
+    "4": "No he podido encontrar al usuario."
+  }
+}
