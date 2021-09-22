@@ -1,4 +1,5 @@
 > **⚠ AVISO ⚠**  
+> La explicación de la situación está en se puede encontrar [aquí](https://youtu.be/WhJ21pJ-IRQ)
 > El bot ya no se encuentra en funcionamiento. Podeis hacer un fork de este repositorio y crear vuestros propios bots para seguir con la esencia de Node 😄
 
 
