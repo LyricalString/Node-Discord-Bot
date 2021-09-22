@@ -1,4 +1,4 @@
-> **⚠ AVISO**  
+> **⚠ AVISO ⚠**  
 > El bot ya no se encuentra en funcionamiento. Podeis hacer un fork de este repositorio y crear vuestros propios bots para seguir con la esencia de Node 😄
 
 
@@ -19,7 +19,7 @@ Node es un bot multifunción, multilenguaje, programado en [Discord.js](https://
 
 ## Requisitos
 
-1. Token de Discord Developers **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
+1. Token de Discord Developers **[Guía](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
 2. Java (para ejecutar Lavalink del módulo de música)
 3. Node.js v16.0.0 o una más reciente.
 
@@ -32,13 +32,13 @@ cd Node
 npm install
 ```
 
-⚠️ Luego de la instalación, antes de ejecutar `node index.js` y `java -jar Lavalink2.jar`, deberás de crear un archivo `.env` y añadir las credenciales tal como se muestra más abajo. ⚠️
+⚠️ Luego de la instalación, antes de ejecutar `node index.js` y `java -jar Lavalink2.jar`, deberás de crear un archivo `.env` y añadir las credenciales tal como se muestra más abajo. 
 
 ## ⚙️ Configuración
 
 Siguiendo el formato más abajo, deberás de crear un archivo llamado `.env` para añadir las credenciales.
 
-⚠️ **Nota: Nunca publiques o muestres tu token o las claves de API's públicamente** ⚠️
+⚠️ **Nota: Nunca publiques o muestres tu token o las claves de API's públicamente** 
 
 ```json
 mode = "[development/production]"
