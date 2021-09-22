@@ -104,6 +104,7 @@ Si quieres contribuir, siéntete libre de bifurcar el repositorio y solicitar un
 * [@soyultro](https://github.com/SoyUltro) Por la ayuda creando comandos y el multilenguaje.
 * [@didacus12](https://github.com/Didacus12) Por tu ayuda en el desarrollo del bot.
 * [@usarral](https://github.com/usarral) Por tus aportes en Node.
+* [@andressantamaria2003](https://github.com/andressantamaria2003) Por prestarnos tu ayuda desde el hosting hasta en la seguridad de Node.
 
 ## 📜 Licencia
 
