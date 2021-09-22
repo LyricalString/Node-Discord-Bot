@@ -29,7 +29,7 @@ if (process.env.mode == 'production') {
     const poster = AutoPoster(process.env.topggToken, manager)
     
     poster.on('posted', (stats) => {
-      console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`)
+      console.log(`Posted stats to Top.gg | ${stats.serverCount} servidores.`)
     })
 }
 
