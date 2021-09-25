@@ -15,16 +15,6 @@ module.exports = class AutoMix extends Command {
     });
   }
   async run(client, message, args, prefix, lang, webhookClient, ipc) {
-    if (process.env.mode != 'development') {
-      const errorembed = new Discord.MessageEmbed()
-        .setColor("RED")
-        .setTitle(client.language.ERROREMBED)
-        .setDescription(
-          client.language.music_error
-        )
-        .setFooter(message.author.username, message.author.avatarURL());
-      return message.channel.send({ embeds: [errorembed] });
-    }
     try {
       const sc = message.attachments.first() || args.join(" ");
       if (!message.member) {

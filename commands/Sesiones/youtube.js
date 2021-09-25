@@ -20,7 +20,6 @@ module.exports = class Youtube extends Command {
 	}
 	async run(client, message, args, prefix, lang, webhookClient, ipc) {
 		try {
-			console.log(message.member.user.presence.status)
 			const { DiscordTogether } = require('discord-together');
 
 			client.discordTogether = new DiscordTogether(client);
