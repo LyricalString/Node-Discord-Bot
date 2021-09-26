@@ -6,11 +6,11 @@
 
 # Node
 
-[![⭐ GitHub](https://img.shields.io/github/stars/LyricalString/Node.svg?style=social&label=Stars&style=flat)](https://github.com/LyricalString/Node/stargazers)
+[![⭐ GitHub](https://img.shields.io/github/stars/LyricalString/Node-Discord-Bot.svg?style=social&label=Stars&style=flat)](https://github.com/LyricalString/Node-Discord-Bot/stargazers)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=LyricalString_probando&metric=ncloc)](https://sonarcloud.io/dashboard?id=LyricalString_probando)
 [![](https://img.shields.io/badge/discord.js-v13.0.0--dev-blue.svg?logo=npm)](https://github.com/discordjs)
 [![DevServer](https://discordapp.com/api/guilds/834440041010561074/widget.png?style=shield)](https://discord.gg/SbsFVV5dNG)
-[![](https://img.shields.io/github/languages/top/LyricalString/Node)]()
+[![](https://img.shields.io/github/languages/top/LyricalString/Node-Discord-Bot)]()
 
 > Este bot fue usado por más de 3.000.000 usuarios de Discord y más de 28.000 servidores.
 
