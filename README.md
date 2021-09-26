@@ -89,7 +89,7 @@ Node tiene más de 100 comandos repartidos en  **7 categorías**:
 
 ## 📎 Links
 
-*   [Discord](https://discord.gg/SbsFVV5dNG)
+*   [Discord](https://discord.gg/smZ4uXZdN9)
 *   [Github](https://github.com/LyricalString)
 
 ## 🤝 Contribuciones
