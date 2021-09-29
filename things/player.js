@@ -1,8 +1,6 @@
 const { Manager } = require("erela.js");
 const Discord = require("discord.js");
 const prettyMilliseconds = require("pretty-ms");
-const clientID = process.env.clientIDSpotify; //De preferencia mantenerlo en secreto mediante .env
-const clientSecret = process.env.clientSecretSpotify; //x2
 const Spotify = require("erela.js-spotify");
 module.exports = async (client) => {
   try {
@@ -21,12 +19,7 @@ module.exports = async (client) => {
         },
       ],
       autoPlay: true,
-      plugins: [
-        new Spotify({
-          clientID,
-          clientSecret,
-        }),
-      ],
+      plugins: [],
       send(id, payload) {
         const guild = client.guilds.cache.get(id);
         if (guild) guild.shard.send(payload);
