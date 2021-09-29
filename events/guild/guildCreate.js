@@ -15,7 +15,7 @@ module.exports = class guildCreate extends Event {
   async run(guild) {
     if (guild.memberCount > 10000) {
       webhookClient.send(
-        `Se ha añadido una nueva Guild: **${guild.name}**. Numero de usuarios: **${guild.memberCount}** <@155411408752869377> <@817466918357172285>`
+        `Se ha añadido una nueva Guild: **${guild.name}**. Numero de usuarios: **${guild.memberCount}**`
       );
     } else if (guild.memberCount > 500) {
       webhookClient.send(

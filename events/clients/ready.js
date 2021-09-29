@@ -165,63 +165,6 @@ async function updateStatus(client2) {
 	);
 }
 
-async function dashboardAPI(client2, guildSchema) {
-	// Cargar el modulo HTTP
-	var http = require('http');
-
-	const guildNum2 = await client2.shard.fetchClientValues(
-		"guilds.cache.size"
-	);
-
-	const channelNum2 = await client2.shard.fetchClientValues(
-		"channels.cache.size"
-	);
-
-	const memberNum2 = await client2.shard.broadcastEval(client =>
-		client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)
-	);
-	const members = memberNum2.reduce(
-		(prev, memberCount) => prev + memberCount,
-		0
-	);
-	const guilds = guildNum2.reduce((total, shard) => total + shard, 0);
-	const channels = channelNum2.reduce((total, shard) => total + shard, 0);
-
-
-
-	// Configurar una respuesta HTTP para todas las peticiones
-	function onRequest(request, response) {
-		response.writeHead(200, { "Content-Type": "text/html" });
-		if(request.headers.guildid){
-			console.log('Actualizando: ' + request.headers.guildid);
-			updateGuild(client2, guildSchema, request.headers.guildid)
-			.then(res => {
-				console.log(res)
-			}).catch(err => {
-				console.log(err)
-			})
-			response.end();
-		}else{
-
-		var guildmsg2 = JSON.stringify({
- 	        "channels": channels,
-            	"guilds": guilds,
-            	"members": members
-        	})
-		console.log(guildmsg2);
-		response.end(guildmsg2);
-		}
-	}
-
-	var server = http.createServer(onRequest);
-
-	// Escuchar al puerto 8080
-	server.listen(8080);
-
-	// Poner un mensaje en la consola
-	console.log("Servidor funcionando en http://localhost:8080/");
-}
-
 async function updateGuild(client2, GuildModel, guildId) {
 	if (!guildId) return
 	let Guild = client2.guilds.cache.get(guildId);

@@ -24,22 +24,17 @@ module.exports = class Status extends Command {
 	}
 	async run(client, message, args, prefix, lang, webhookClient, ipc) {
 		try {
-			console.log('1')
 			const guildNum = await client.shard.fetchClientValues(
 				"guilds.cache.size"
 			);
-			console.log('2')
 			const memberNum = await client.shard.broadcastEval(client =>
 				client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)
 			);
-			console.log('3')
 			const totalMembers = memberNum.reduce(
 				(prev, memberCount) => prev + memberCount,
 				0
 			);
-			console.log('4')
 			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
-			console.log('5')
 			var mem = osu.mem;
 			let freeRAM;
 			let usedRAM;
@@ -48,7 +43,6 @@ module.exports = class Status extends Command {
 				freeRAM = info["freeMemMb"]
 				usedRAM = info["totalMemMb"] - freeRAM
 			})
-			console.log('6')
 			const full = "▰";
 			const empty = "▱";
 			const diagramMaker = (used, free) => {
@@ -57,16 +51,14 @@ module.exports = class Status extends Command {
 				free = Math.round((free / total) * 10);
 				return full.repeat(used) + empty.repeat(free);
 			};
-			console.log('7')
 			let cpuUsage;
 			var cpu = osu.cpu;
 
 			const p1 = cpu.usage().then((cpuPercentage) => {
 				cpuUsage = cpuPercentage;
 			});
-			console.log('8')
 			await Promise.all([p1]);
-			console.log('9')
+
 			const embed = new Discord.MessageEmbed()
 				.setColor(process.env.EMBED_COLOR)
 				.setAuthor(`${client.language.STATUS[1]} ${client.user.username}`)
