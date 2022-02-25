@@ -59,6 +59,12 @@ guildAddWebhookToken = "token del webhook donde se enviarán las notificaciones 
 OsuSecret = "clave API para OSU"
 trnAPIKey = "clave API para TRN (comando de fnprofile)"
 ```
+Para facilitar el proceso de configuración puede ejecutar el comando
+```cmd
+npm run config
+```
+el cual le pedirá los datos para la creación automáctica del archivo `.env`. Los datos que no tenga a la mano podrá omitirlos con un simple `Enter` y ejecutar el script mas tarde sin necesidad de rellenar nuevamente los datos ya dados; *no se preocupe que los datos omitidos no se sobrescribirán.* 
+
 🚨 **Como mínimo deberás de rellenar hasta el MONGO_URL para poder iniciarlo, el resto te darán error los comandos que lo usen.** 🚨
 
 
