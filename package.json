@@ -101,7 +101,8 @@
     "logs": "pm2 logs ",
     "stop": "pm2 stop",
     "restart": "pm2 stop index",
-    "start": "node ."
+    "start": "node .",
+    "config": "node utils/generateEnvFile"
   },
   "repository": {
     "type": "git",
