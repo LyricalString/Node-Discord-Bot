@@ -1,10 +1,9 @@
 const Command = require('../../structures/Commandos.js')
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const moment = require('moment')
 const osu = require('node-os-utils')
 const os = require('node:os')
 require('moment-duration-format')
-const fs = require('fs')
 
 module.exports = class Status extends Command {
     constructor(client) {
@@ -61,7 +60,7 @@ module.exports = class Status extends Command {
             })
             await Promise.all([p1])
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setAuthor(
                     `${client.language.STATUS[1]} ${client.user.username}`
@@ -160,7 +159,7 @@ module.exports = class Status extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

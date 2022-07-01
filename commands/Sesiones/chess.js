@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js')
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
 module.exports = class Chess extends Command {
@@ -26,7 +26,7 @@ module.exports = class Chess extends Command {
                 if (!Guild) return
                 if (!Member) return
                 if (!channel) {
-                    const errorembed = new Discord.MessageEmbed()
+                    const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.BETRAYAL[2])
@@ -42,39 +42,32 @@ module.exports = class Chess extends Command {
                             .createTogetherCode(channel.id, 'chess', 0)
                             .then(async invite => {
                                 if (invite.code === 50013) {
-                                    const errorembed =
-                                        new Discord.MessageEmbed()
-                                            .setColor('RED')
-                                            .setTitle(
-                                                client.language.ERROREMBED
-                                            )
-                                            .setDescription(
-                                                client.language
-                                                    .CREATEINVITEPERMS
-                                            )
-                                            .setFooter(
-                                                message.author.username,
-                                                message.author.avatarURL()
-                                            )
+                                    const errorembed = new MessageEmbed()
+                                        .setColor('RED')
+                                        .setTitle(client.language.ERROREMBED)
+                                        .setDescription(
+                                            client.language.CREATEINVITEPERMS
+                                        )
+                                        .setFooter(
+                                            message.author.username,
+                                            message.author.avatarURL()
+                                        )
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
                                 }
-                                const embed = new Discord.MessageEmbed()
+                                const embed = new MessageEmbed()
                                 if (!invite.code) {
-                                    const errorembed =
-                                        new Discord.MessageEmbed()
-                                            .setColor('RED')
-                                            .setTitle(
-                                                client.language.ERROREMBED
-                                            )
-                                            .setDescription(
-                                                client.language.BETRAYAL[2]
-                                            )
-                                            .setFooter(
-                                                message.author.username,
-                                                message.author.avatarURL()
-                                            )
+                                    const errorembed = new MessageEmbed()
+                                        .setColor('RED')
+                                        .setTitle(client.language.ERROREMBED)
+                                        .setDescription(
+                                            client.language.BETRAYAL[2]
+                                        )
+                                        .setFooter(
+                                            message.author.username,
+                                            message.author.avatarURL()
+                                        )
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -90,26 +83,23 @@ module.exports = class Chess extends Command {
                                     e ==
                                     'Your bot lacks permissions to perform that action'
                                 ) {
-                                    const errorembed =
-                                        new Discord.MessageEmbed()
-                                            .setColor('RED')
-                                            .setTitle(
-                                                client.language.ERROREMBED
-                                            )
-                                            .setDescription(
-                                                client.language.YOUTUBE[5]
-                                            )
-                                            .setFooter(
-                                                message.author.username,
-                                                message.author.avatarURL()
-                                            )
+                                    const errorembed = new MessageEmbed()
+                                        .setColor('RED')
+                                        .setTitle(client.language.ERROREMBED)
+                                        .setDescription(
+                                            client.language.YOUTUBE[5]
+                                        )
+                                        .setFooter(
+                                            message.author.username,
+                                            message.author.avatarURL()
+                                        )
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
                                 }
                             })
                     } else {
-                        const errorembed = new Discord.MessageEmbed()
+                        const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(
@@ -127,7 +117,7 @@ module.exports = class Chess extends Command {
                     .createTogetherCode(channel.id, 'chess', 900)
                     .then(async invite => {
                         if (invite.code === 50013) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(
@@ -141,9 +131,9 @@ module.exports = class Chess extends Command {
                                 embeds: [errorembed]
                             })
                         }
-                        const embed = new Discord.MessageEmbed()
+                        const embed = new MessageEmbed()
                         if (!invite.code) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.BETRAYAL[2])
@@ -166,7 +156,7 @@ module.exports = class Chess extends Command {
                             e ==
                             'Your bot lacks permissions to perform that action'
                         ) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.YOUTUBE[5])
@@ -184,7 +174,7 @@ module.exports = class Chess extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

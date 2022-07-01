@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
 module.exports = class Love extends Command {
@@ -31,7 +31,7 @@ module.exports = class Love extends Command {
                             return
                         })
                 } else {
-                    const errorembed = new Discord.MessageEmbed()
+                    const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.NOARGS)
@@ -43,7 +43,7 @@ module.exports = class Love extends Command {
                 }
             }
             if (!user) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.LOVE[1])
@@ -54,7 +54,7 @@ module.exports = class Love extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!user.user) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.LOVE[1])
@@ -65,7 +65,7 @@ module.exports = class Love extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (user.user.id == message.author.id) {
-                let embed = new Discord.MessageEmbed()
+                let embed = new MessageEmbed()
                     .setTimestamp(' ')
                     .setColor(process.env.EMBED_COLOR)
                     .setFooter(
@@ -75,7 +75,7 @@ module.exports = class Love extends Command {
                 return message.channel.send({ embeds: [embed] })
             }
             if (user.user.id == client.user.id) {
-                let embed = new Discord.MessageEmbed()
+                let embed = new MessageEmbed()
                     .setTimestamp(' ')
                     .setColor(process.env.EMBED_COLOR)
                     .setFooter(
@@ -106,7 +106,7 @@ module.exports = class Love extends Command {
                     client.language.LOVE[7]
             ]
             let msg = resp[Math.floor(Math.random() * resp.length)]
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setAuthor(`${msg}`)
                 .setDescription(`${emoji} ${random}% ${emoji}`) //Resultado aleatorio de lo anterior estructurado
                 .setColor(process.env.EMBED_COLOR)
@@ -120,7 +120,7 @@ module.exports = class Love extends Command {
         } catch (e) {
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

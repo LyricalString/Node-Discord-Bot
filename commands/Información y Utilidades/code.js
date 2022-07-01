@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const codeModel = require('../../models/code.js')
 const guildModel = require('../../models/guild.js')
@@ -31,7 +31,7 @@ module.exports = class Code extends Command {
                     .then((s, err) => {
                         if (err) return
                         if (s) {
-                            const embed = new Discord.MessageEmbed()
+                            const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
                                 .setFooter(
                                     message.author.username,
@@ -50,7 +50,7 @@ module.exports = class Code extends Command {
                                 USERS: '0'
                             })
                             usercode.save().catch(e => console.error(e))
-                            const embed = new Discord.MessageEmbed()
+                            const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(client.language.SUCCESSEMBED)
                                 .setDescription(
@@ -70,7 +70,7 @@ module.exports = class Code extends Command {
                     .then((s, err) => {
                         if (err) return
                         if (s.Creado < 1629381609000) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.CODE[9])
@@ -83,7 +83,7 @@ module.exports = class Code extends Command {
                             })
                         }
                         if (s.REFERED) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(
@@ -102,7 +102,7 @@ module.exports = class Code extends Command {
                                 .permissionsFor(message.author)
                                 .has('ADMINISTRATOR')
                         ) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.CODE[3])
@@ -115,7 +115,7 @@ module.exports = class Code extends Command {
                             })
                         }
                         if (!args[1]) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(
@@ -131,7 +131,7 @@ module.exports = class Code extends Command {
                         }
 
                         if (args[1].length != 8) {
-                            const errorembed = new Discord.MessageEmbed()
+                            const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.CODE[6])
@@ -147,19 +147,16 @@ module.exports = class Code extends Command {
                             .findOne({ CODE: args[1] })
                             .then(async (s2, err) => {
                                 if (!s2) {
-                                    const errorembed =
-                                        new Discord.MessageEmbed()
-                                            .setColor('RED')
-                                            .setTitle(
-                                                client.language.ERROREMBED
-                                            )
-                                            .setDescription(
-                                                'Ese código de referidos no existe.'
-                                            )
-                                            .setFooter(
-                                                message.author.username,
-                                                message.author.avatarURL()
-                                            )
+                                    const errorembed = new MessageEmbed()
+                                        .setColor('RED')
+                                        .setTitle(client.language.ERROREMBED)
+                                        .setDescription(
+                                            'Ese código de referidos no existe.'
+                                        )
+                                        .setFooter(
+                                            message.author.username,
+                                            message.author.avatarURL()
+                                        )
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -176,7 +173,7 @@ module.exports = class Code extends Command {
                                 message.guild.refered = true
                                 s.REFERED = true
                                 s.save().catch(e => {})
-                                const embed = new Discord.MessageEmbed()
+                                const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTitle(client.language.SUCCESSEMBED)
                                     .setDescription(
@@ -194,7 +191,7 @@ module.exports = class Code extends Command {
             } else if (args[0].toLowerCase() == 'stats') {
                 codeModel.findOne({ CODE: args[1] }).then(async (s2, err) => {
                     if (!s2) {
-                        const errorembed = new Discord.MessageEmbed()
+                        const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(
@@ -206,7 +203,7 @@ module.exports = class Code extends Command {
                             )
                         return message.channel.send({ embeds: [errorembed] })
                     }
-                    const embed = new Discord.MessageEmbed()
+                    const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setDescription(
                             `${client.language.CODE[10]} \`${s2.USERS} ${client.language.CODE[11]}\` ${client.language.CODE[12]} \`${s2.SERVERS} ${client.language.CODE[13]}\` ${client.language.CODE[14]}`
@@ -218,7 +215,7 @@ module.exports = class Code extends Command {
                     return message.channel.send({ embeds: [embed] })
                 })
             } else {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CODE[6])
@@ -232,7 +229,7 @@ module.exports = class Code extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

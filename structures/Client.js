@@ -1,11 +1,11 @@
-const Discord = require('discord.js')
-const fs = require('fs')
+const { Client, Collection } = require('discord.js')
+const { readFileSync } = require('fs')
 const archivo = require('.././lang/index.json')
-const language = fs
-    .readFileSync('lang/' + archivo.find(language => language.default).archivo)
-    .toString()
+const language = readFileSync(
+    'lang/' + archivo.find(language => language.default).archivo
+).toString()
 
-module.exports = class Client extends Discord.Client {
+module.exports = class extends Client {
     constructor() {
         super({
             partials: ['MESSAGE', 'CHANNEL'],
@@ -23,10 +23,10 @@ module.exports = class Client extends Discord.Client {
             restGlobalRateLimit: 50
         })
 
-        this.commands = new Discord.Collection()
-        this.messages = new Discord.Collection()
+        this.commands = new Collection()
+        this.messages = new Collection()
         this.snipes = new Map()
-        this.aliases = new Discord.Collection()
+        this.aliases = new Collection()
         this.language = JSON.parse(language)
     }
     async login(token = this.token) {

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const { MessageEmbed } = require('discord.js')
 const isUrl = require('../../utils/isUrl.js')
@@ -19,7 +19,7 @@ module.exports = class Radio extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            // const errorembed = new Discord.MessageEmbed()
+            // const errorembed = new MessageEmbed()
             //     .setColor("RED")
             //     .setTitle(client.language.ERROREMBED)
             //     .setDescription('La API se encuentra en mantenimiento. Volverán cuando vuelva la API.')
@@ -27,7 +27,7 @@ module.exports = class Radio extends Command {
             //   return message.channel.send({ embeds: [errorembed] });
             const { channel } = message.member.voice
             if (!channel) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[1])
@@ -42,7 +42,7 @@ module.exports = class Radio extends Command {
                 message.guild.config.MUSIC_CHANNELS[0] &&
                 !message.guild.config.MUSIC_CHANNELS.includes(channel.id)
             ) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[13])
@@ -65,7 +65,7 @@ module.exports = class Radio extends Command {
             }
             const playerCanal = client.channels.cache.get(player.voiceChannel)
             if (!playerCanal) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[1])
@@ -83,7 +83,7 @@ module.exports = class Radio extends Command {
                     })
                 member.voice.setChannel(channel.id)
             } else if (playerCanal.id != channel.id) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[2])
@@ -95,7 +95,7 @@ module.exports = class Radio extends Command {
             }
             const query = args.join(' ')
             if (!args[0]) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[3])
@@ -138,7 +138,7 @@ module.exports = class Radio extends Command {
                     bitrate = radio[0].bitrate
                 })
                 .catch(e => {
-                    const errorembed = new Discord.MessageEmbed()
+                    const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.RADIO[11])
@@ -192,7 +192,7 @@ module.exports = class Radio extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

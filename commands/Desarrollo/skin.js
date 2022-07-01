@@ -1,9 +1,8 @@
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 require('discord-reply')
 let descripcion, usage
-const fs = require('fs')
 let encendido = false
 
 module.exports = class Skin extends Command {
@@ -45,7 +44,7 @@ module.exports = class Skin extends Command {
             console.log('2')
             let ButtonArray = [cabeza, cuerpo, avatar, jugador]
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setTitle(`${args[0]}`)
                 .setDescription(
@@ -73,7 +72,7 @@ module.exports = class Skin extends Command {
                     if (err) return
                     console.log('5')
                     if (button.id === 'bu1') {
-                        const embed = new Discord.MessageEmbed()
+                        const embed = new MessageEmbed()
                             .setColor('#DD8811')
                             .setImage(`https://mc-heads.net/head/${args[0]}`)
                         await button.reply.send('', {
@@ -83,7 +82,7 @@ module.exports = class Skin extends Command {
                         console.log('6')
                         return
                     } else if (button.id === 'bu2') {
-                        const embed = new Discord.MessageEmbed()
+                        const embed = new MessageEmbed()
                             .setColor('#DD8811')
                             .setImage(`https://mc-heads.net/body/${args[0]}`)
                         await button.reply.send('', {
@@ -93,7 +92,7 @@ module.exports = class Skin extends Command {
                         console.log('7')
                         return
                     } else if (button.id === 'bu3') {
-                        const embed = new Discord.MessageEmbed()
+                        const embed = new MessageEmbed()
                             .setColor('#DD8811')
                             .setImage(`https://mc-heads.net/avatar/${args[0]}`)
                         await button.reply.send('', {
@@ -103,7 +102,7 @@ module.exports = class Skin extends Command {
                         console.log('8')
                         return
                     } else if (button.id === 'bu4') {
-                        const embed = new Discord.MessageEmbed()
+                        const embed = new MessageEmbed()
                             .setColor('#DD8811')
                             .setImage(`https://mc-heads.net/player/${args[0]}`)
                         await button.reply.send('', {
@@ -120,7 +119,7 @@ module.exports = class Skin extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

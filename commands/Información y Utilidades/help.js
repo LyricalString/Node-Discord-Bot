@@ -1,5 +1,4 @@
 require('dotenv').config()
-const Discord = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 require('discord-reply')
 const { MessageEmbed } = require('discord.js')
@@ -74,7 +73,7 @@ module.exports = class Help extends Command {
                     )
 
                 if (!command) {
-                    const errorembed = new Discord.MessageEmbed()
+                    const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(name + client.language.HELP[25])
@@ -107,7 +106,7 @@ module.exports = class Help extends Command {
                         command.cooldown || 3
                     } ${client.language.HELP[30]}(s)`
                 )
-                let embed2 = new Discord.MessageEmbed()
+                let embed2 = new MessageEmbed()
                     .setTitle(
                         client.language.HELP[20] +
                             command.name +
@@ -148,7 +147,7 @@ module.exports = class Help extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

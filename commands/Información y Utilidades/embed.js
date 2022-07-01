@@ -1,5 +1,5 @@
 const Command = require('../../structures/Commandos.js')
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 
 module.exports = class Embed extends Command {
     constructor(client) {
@@ -21,7 +21,7 @@ module.exports = class Embed extends Command {
             args = args.join(' ').split(' + ')
 
             if (!args[0]) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[5])
@@ -32,7 +32,7 @@ module.exports = class Embed extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[1]) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[1])
@@ -43,7 +43,7 @@ module.exports = class Embed extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[2]) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[2])
@@ -54,7 +54,7 @@ module.exports = class Embed extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[3]) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[3])
@@ -72,7 +72,7 @@ module.exports = class Embed extends Command {
             descripcion = args[3]
             titulo = args[2]
             if (!canal) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[4])
@@ -114,7 +114,7 @@ module.exports = class Embed extends Command {
                 }
             }
             if (!color) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[6])
@@ -125,7 +125,7 @@ module.exports = class Embed extends Command {
                     .setImage('https://i.postimg.cc/gj8NSLsy/embed-colors.png')
                 return message.channel.send({ embeds: [errorembed] })
             }
-            var embed = new Discord.MessageEmbed()
+            var embed = new MessageEmbed()
                 .setDescription(`${descripcion}`)
                 .setColor(`${color}`)
 
@@ -155,7 +155,7 @@ module.exports = class Embed extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

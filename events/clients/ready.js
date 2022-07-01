@@ -1,12 +1,7 @@
-const memory = '../../settings.json'
-const file = require(memory)
 const Event = require('../../structures/Event.js')
 const mongoose = require('mongoose')
-const UserModel = require('../../models/user.js')
-const Discord = require('discord.js')
 require('dotenv').config()
 const CreateManager = require('../../things/player.js')
-const { Guild } = require('discord.js')
 const GuildSchema = require('../../models/guild.js')
 const clearcache = require('../../utils/clearcache.js')
 const MutesModel = require('../../models/mutes.js')

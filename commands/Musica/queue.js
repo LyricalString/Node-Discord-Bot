@@ -1,11 +1,8 @@
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
-const fs = require('fs')
 require('discord-reply')
-let descripcion, usage
-let encendido = false
 module.exports = class queue extends Command {
     constructor(client) {
         super(client, {
@@ -24,7 +21,7 @@ module.exports = class queue extends Command {
         try {
             const player = client.manager.players.get(message.guild.id)
             if (!player) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.SKIP[1])
@@ -35,7 +32,7 @@ module.exports = class queue extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!player.queue.current) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.QUEUE[2])
@@ -53,7 +50,7 @@ module.exports = class queue extends Command {
             if (!player.queue[1]) {
                 return message.channel.send({
                     embeds: [
-                        new Discord.MessageEmbed()
+                        new MessageEmbed()
                             .setTitle(client.language.QUEUE[9])
                             .setDescription(
                                 `🎧 ${client.language.QUEUE[3]}\n[${title}](${uri}) [<@${requester.id}>]`
@@ -89,7 +86,7 @@ module.exports = class queue extends Command {
                 )
                 .join('\n')
             if (!queuelist) {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.QUEUE[4])
@@ -99,7 +96,7 @@ module.exports = class queue extends Command {
                     )
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
             embed.setDescription(
                 `🎧 ${client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${client.language.QUEUE[8]}__:\n${queuelist}`
             )
@@ -321,7 +318,7 @@ module.exports = class queue extends Command {
 			    .catch((err) => console.error(err.message));
 			}
 			if (!player.queue.current) {
-			  const errorembed = new Discord.MessageEmbed()
+			  const errorembed = new MessageEmbed()
 			    .setColor("RED")
 			    .setTitle(client.language.ERROREMBED)
 			    .setDescription(client.language.QUEUE[2])
@@ -369,7 +366,7 @@ module.exports = class queue extends Command {
 			  )
 			  .join("\n");
 			if (!queuelist) {
-			  const errorembed = new Discord.MessageEmbed()
+			  const errorembed = new MessageEmbed()
 			    .setColor("RED")
 			    .setTitle(client.language.ERROREMBED)
 			    .setDescription(client.language.QUEUE[4])
@@ -430,7 +427,7 @@ module.exports = class queue extends Command {
 			            }
 			          }
 			        });
-			        const embed = new Discord.MessageEmbed().setDescription(test);
+			        const embed = new MessageEmbed().setDescription(test);
 			        await button.reply.send({
 			          embed: embed,
 			          ephemeral: true,
@@ -463,7 +460,7 @@ module.exports = class queue extends Command {
 			            }
 			          }
 			        });
-			        const embed = new Discord.MessageEmbed().setDescription(test);
+			        const embed = new MessageEmbed().setDescription(test);
 			        await button.reply.send({
 			          embed: embed,
 			          ephemeral: true,
@@ -497,7 +494,7 @@ module.exports = class queue extends Command {
 			            }
 			          }
 			        });
-			        const embed = new Discord.MessageEmbed().setDescription(test);
+			        const embed = new MessageEmbed().setDescription(test);
 			        await button.reply.send("", {
 			          embed: embed,
 			          ephemeral: true,
@@ -530,7 +527,7 @@ module.exports = class queue extends Command {
 			            }
 			          }
 			        });
-			        const embed = new Discord.MessageEmbed().setDescription(test);
+			        const embed = new MessageEmbed().setDescription(test);
 			        await button.reply.send("", {
 			          embed: embed,
 			          ephemeral: true,
@@ -565,7 +562,7 @@ module.exports = class queue extends Command {
 			            }
 			          }
 			        });
-			        const embed = new Discord.MessageEmbed().setDescription(test);
+			        const embed = new MessageEmbed().setDescription(test);
 			        await button.reply.send("", {
 			          embed: embed,
 			          ephemeral: true,
@@ -721,7 +718,7 @@ module.exports = class queue extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const UserModel = require('../models/user.js')
 
 module.exports = async function clearcache(client, ipc) {

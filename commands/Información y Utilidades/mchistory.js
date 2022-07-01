@@ -2,7 +2,7 @@ const parserTimeStamp = require('../..//utils/parserTimeStamp.js')
 const fetch = require('node-fetch')
 
 require('dotenv').config()
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
 module.exports = class McHistory extends Command {
@@ -35,7 +35,7 @@ module.exports = class McHistory extends Command {
                     if (res.status == 200) {
                         return res.json()
                     } else {
-                        const errorembed = new Discord.MessageEmbed()
+                        const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.MCHISTORY[3])
@@ -50,7 +50,7 @@ module.exports = class McHistory extends Command {
                 .then(History_Info => {
                     if (!History_Info) return
 
-                    const embedhistory = new Discord.MessageEmbed()
+                    const embedhistory = new MessageEmbed()
                         .setTitle(client.language.MCHISTORY[4])
                         .setColor(process.env.EMBED_COLOR)
                         .setTimestamp(' ')
@@ -84,7 +84,7 @@ module.exports = class McHistory extends Command {
             console.error(e)
             message.channel.send({
                 embeds: [
-                    new Discord.MessageEmbed()
+                    new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)

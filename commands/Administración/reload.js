@@ -1,7 +1,7 @@
 const Command = require('../../structures/Commandos.js')
-const fs = require('fs')
-const Discord = require('discord.js')
-const categories = fs.readdirSync('./commands')
+const { readdirSync, readdir } = require('fs')
+const { MessageEmbed } = require('discord.js')
+const categories = readdirSync('./commands')
 
 module.exports = class Reload extends Command {
     constructor(client) {
@@ -20,12 +20,12 @@ module.exports = class Reload extends Command {
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
             categories.forEach(async category => {
-                fs.readdir(`./commands/${category}`, err => {
+                readdir(`./commands/${category}`, err => {
                     if (err) return console.error(err)
                     const iniciar = async () => {
-                        const commands = fs
-                            .readdirSync(`./commands/${category}`)
-                            .filter(archivo => archivo.endsWith('.js'))
+                        const commands = readdirSync(
+                            `./commands/${category}`
+                        ).filter(archivo => archivo.endsWith('.js'))
                         for (const archivo of commands) {
                             const a = require(`../../commands/${category}/${archivo}`)
                             delete require.cache[
@@ -58,7 +58,7 @@ module.exports = class Reload extends Command {
                     iniciar()
                 })
             })
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setTitle(client.language.SUCCESSEMBED)
                 .setDescription('Todo ha sido recargado correctamente')
@@ -67,7 +67,7 @@ module.exports = class Reload extends Command {
         } catch (e) {
             console.error(e)
             message.channel.send(
-                new Discord.MessageEmbed()
+                new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.fatal_error)

@@ -1,14 +1,11 @@
 require('dotenv').config()
-const Discord = require('discord.js')
-const prefix = process.env.prefix
-const botID = process.env.botID
+const { MessageEmbed } = require('discord.js')
 const Event = require('../../structures/Event.js')
 const UserModel = require('../../models/user.js')
 const GuildModel = require('../../models/guild.js')
 const axios = require('axios')
 const moment = require('moment')
 const Bottleneck = require('bottleneck')
-const backupModel = require('../../models/backups.js')
 const limiter = new Bottleneck({
     maxConcurrent: 2,
     minTime: 1000
@@ -53,7 +50,7 @@ module.exports = class Interaction extends Event {
                         .catch(e => {
                             return
                         })
-                    let embed = new Discord.MessageEmbed()
+                    let embed = new MessageEmbed()
                     embed.setColor('00ff00')
                     embed.setImage(
                         member.user.displayAvatarURL({
@@ -80,7 +77,7 @@ module.exports = class Interaction extends Event {
                     if (!member) {
                         const { soyultro } = require('soyultro')
                         let author = interaction.member.user.username
-                        let embed = new Discord.MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
+                        let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
                             .setTitle(
                                 `${author} ${
                                     this.client.language.HI[3]
@@ -102,7 +99,7 @@ module.exports = class Interaction extends Event {
                             })
                     }
                     if (member.id == interaction.member.user.id) {
-                        const errorembed = new Discord.MessageEmbed()
+                        const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(this.client.language.ERROREMBED)
                             .setDescription(this.client.language.HI[1])
@@ -121,7 +118,7 @@ module.exports = class Interaction extends Event {
                     }
                     const { soyultro } = require('soyultro')
                     let author = interaction.member.user.username
-                    let embed = new Discord.MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
+                    let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
                         .setTitle(
                             `${author} ${this.client.language.HI[3]} ${member.user.username}`
                         )
@@ -150,7 +147,7 @@ module.exports = class Interaction extends Event {
 
                     if (!member) return
                     if (member.id == interaction.member.user.id) {
-                        const errorembed = new Discord.MessageEmbed()
+                        const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(this.client.language.ERROREMBED)
                             .setDescription(this.client.language.KISS[1])
@@ -168,7 +165,7 @@ module.exports = class Interaction extends Event {
                             })
                     }
                     const { soyultro } = require('soyultro')
-                    let embed = new Discord.MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
+                    let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
                         .setTitle(
                             `${interaction.member.user.username} ${this.client.language.KISS[3]} ${member.user.username}`
                         )
@@ -195,7 +192,7 @@ module.exports = class Interaction extends Event {
                             return
                         })
                     if (member.user.id == interaction.member.user.id) {
-                        let embed = new Discord.MessageEmbed()
+                        let embed = new MessageEmbed()
                             .setTimestamp(' ')
                             .setColor('RED')
                             .setFooter(this.client.language.LOVE[2])
@@ -213,7 +210,7 @@ module.exports = class Interaction extends Event {
                             })
                     }
                     if (member.user.id == this.client.user.id) {
-                        let embed = new Discord.MessageEmbed()
+                        let embed = new MessageEmbed()
                             .setTimestamp(' ')
                             .setColor('RED')
                             .setFooter(this.client.language.LOVE[3])
@@ -252,7 +249,7 @@ module.exports = class Interaction extends Event {
                             this.client.language.LOVE[7]
                     ]
                     let msg = resp[Math.floor(Math.random() * resp.length)]
-                    const embed = new Discord.MessageEmbed()
+                    const embed = new MessageEmbed()
                         .setAuthor(`${msg}`)
                         .setDescription(`${emoji} ${random}% ${emoji}`) //Resultado aleatorio de lo anterior estructurado
                         .setColor(process.env.EMBED_COLOR)
@@ -440,9 +437,7 @@ module.exports = class Interaction extends Event {
                             .map(role => role.toString())
                             .slice(0, -1)
                         const userFlags = member.user.flags.toArray()
-                        const embed = new Discord.MessageEmbed().setTimestamp(
-                            ' '
-                        )
+                        const embed = new MessageEmbed().setTimestamp(' ')
                         if (member.user.displayAvatarURL())
                             embed.setThumbnail(
                                 member.user.displayAvatarURL({
@@ -1666,16 +1661,15 @@ module.exports = class Interaction extends Event {
                                             .value == true
                                     ) {
                                         if (!s.config.Pvc) {
-                                            const embed =
-                                                new Discord.MessageEmbed()
-                                                    .setColor('RED')
-                                                    .setTitle(
-                                                        this.client.language
-                                                            .ERROREMBED
-                                                    )
-                                                    .setDescription(
-                                                        `Antes de iniciar los canales de voz privados debes de configurar el canal y la categoría. Usa \`/config pvc canalprincipal\` y \`/config pvc categoria\` para ello.`
-                                                    )
+                                            const embed = new MessageEmbed()
+                                                .setColor('RED')
+                                                .setTitle(
+                                                    this.client.language
+                                                        .ERROREMBED
+                                                )
+                                                .setDescription(
+                                                    `Antes de iniciar los canales de voz privados debes de configurar el canal y la categoría. Usa \`/config pvc canalprincipal\` y \`/config pvc categoria\` para ello.`
+                                                )
                                             return this.client.api
                                                 .interactions(
                                                     interaction.id,
@@ -1692,16 +1686,15 @@ module.exports = class Interaction extends Event {
                                                 })
                                         }
                                         if (!s.config.Pvc.Category) {
-                                            const embed =
-                                                new Discord.MessageEmbed()
-                                                    .setColor('RED')
-                                                    .setTitle(
-                                                        this.client.language
-                                                            .ERROREMBED
-                                                    )
-                                                    .setDescription(
-                                                        `No has configurado la categoría donde se crearán los canales de voz privados. Usa \`/config pvc categoría\` para seleccionarla.`
-                                                    )
+                                            const embed = new MessageEmbed()
+                                                .setColor('RED')
+                                                .setTitle(
+                                                    this.client.language
+                                                        .ERROREMBED
+                                                )
+                                                .setDescription(
+                                                    `No has configurado la categoría donde se crearán los canales de voz privados. Usa \`/config pvc categoría\` para seleccionarla.`
+                                                )
                                             return this.client.api
                                                 .interactions(
                                                     interaction.id,
@@ -1719,16 +1712,15 @@ module.exports = class Interaction extends Event {
                                         } else if (
                                             !s.config.Pvc.StartingChannel
                                         ) {
-                                            const embed =
-                                                new Discord.MessageEmbed()
-                                                    .setColor('RED')
-                                                    .setTitle(
-                                                        this.client.language
-                                                            .ERROREMBED
-                                                    )
-                                                    .setDescription(
-                                                        `No has configurado el canal donde los usuarios se unirán para crear los canales de voz privados. Usa \`/config pvc canalprincipal\` para seleccionarla.`
-                                                    )
+                                            const embed = new MessageEmbed()
+                                                .setColor('RED')
+                                                .setTitle(
+                                                    this.client.language
+                                                        .ERROREMBED
+                                                )
+                                                .setDescription(
+                                                    `No has configurado el canal donde los usuarios se unirán para crear los canales de voz privados. Usa \`/config pvc canalprincipal\` para seleccionarla.`
+                                                )
                                             return this.client.api
                                                 .interactions(
                                                     interaction.id,
@@ -1748,16 +1740,15 @@ module.exports = class Interaction extends Event {
                                             !s.REFERED &&
                                             !s.Partner
                                         ) {
-                                            const embed =
-                                                new Discord.MessageEmbed()
-                                                    .setColor('RED')
-                                                    .setTitle(
-                                                        this.client.language
-                                                            .ERROREMBED
-                                                    )
-                                                    .setDescription(
-                                                        `No has participado en el evento de los 25.000 servidores. Para participar debes de canjear un código previamente creado o crear uno usando \`.code generate\` y luego usar \`.code redeem (código)\`.`
-                                                    )
+                                            const embed = new MessageEmbed()
+                                                .setColor('RED')
+                                                .setTitle(
+                                                    this.client.language
+                                                        .ERROREMBED
+                                                )
+                                                .setDescription(
+                                                    `No has participado en el evento de los 25.000 servidores. Para participar debes de canjear un código previamente creado o crear uno usando \`.code generate\` y luego usar \`.code redeem (código)\`.`
+                                                )
                                             return this.client.api
                                                 .interactions(
                                                     interaction.id,

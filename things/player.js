@@ -1,5 +1,5 @@
 const { Manager } = require('erela.js')
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const prettyMilliseconds = require('pretty-ms')
 module.exports = async client => {
     try {
@@ -35,7 +35,7 @@ module.exports = async client => {
             // )
             .on('trackStart', (player, track) => {
                 if (!track) return
-                const embed = new Discord.MessageEmbed()
+                const embed = new MessageEmbed()
                     .setDescription(
                         `Reproduciendo **[${track.title}](${
                             track.uri
@@ -50,7 +50,7 @@ module.exports = async client => {
                     .send({ embeds: [embed] })
             })
             .on('queueEnd', player => {
-                const errorembed = new Discord.MessageEmbed()
+                const errorembed = new MessageEmbed()
                     .setColor('ORANGE')
                     .setDescription(client.language.NOQUEUE)
                 if (client.channels.cache.get(player.textChannel))
