@@ -1,9 +1,9 @@
 require('dotenv').config()
 const Event = require('../../structures/Event.js')
-const { MessageEmbed } = require('discord.js')
+const { WebhookClient } = require('discord.js')
 let guildAddWebhookID = process.env.guildAddWebhookID
 let guildAddWebhookToken = process.env.guildAddWebhookToken
-const webhookClient = new Discord.WebhookClient({
+const webhookClient = new WebhookClient({
     id: guildAddWebhookID,
     token: guildAddWebhookToken
 })

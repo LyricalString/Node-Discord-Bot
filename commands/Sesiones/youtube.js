@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js')
 require('dotenv').config()
-const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
 module.exports = class Youtube extends Command {

@@ -1,7 +1,6 @@
 require('dotenv').config()
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
-const { MessageEmbed } = require('discord.js')
 const isUrl = require('../../utils/isUrl.js')
 module.exports = class Radio extends Command {
     constructor(client) {

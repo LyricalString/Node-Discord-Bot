@@ -1,11 +1,11 @@
 require('dotenv').config()
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed, WebhookClient, Collection } = require('discord.js')
 const { readFileSync } = require('fs')
 const Event = require('../../structures/Event.js')
 const UserModel = require('../../models/user.js')
 const GuildModel = require('../../models/guild.js')
 const CommandModel = require('../../models/command.js')
-const cooldown = new Discord.Collection()
+const cooldown = new Collection()
 const archivo = require('../../lang/index.json')
 let args
 let command
@@ -13,7 +13,7 @@ let usage
 const SwitchThings = require('../../utils/SwitchThings')
 let errorWebhookID = process.env.errorWebhookID
 let errorWebhookToken = process.env.errorWebhookToken
-const webhookClient = new Discord.WebhookClient({
+const webhookClient = new WebhookClient({
     id: errorWebhookID,
     token: errorWebhookToken
 })

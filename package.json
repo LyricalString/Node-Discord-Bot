@@ -17,7 +17,7 @@
         "erela.js": "2.3.3",
         "moment": "2.29.1",
         "moment-duration-format": "2.3.2",
-        "mongoose": "^5.12.13",
+        "mongoose": "5.12.13",
         "node-fetch": "2.6.1",
         "node-os-utils": "1.3.5",
         "node-osu": "2.2.1",
@@ -26,8 +26,8 @@
         "soyultro": "4.5.9",
         "spotify-url-info": "2.2.3",
         "topgg-autoposter": "2.0.0",
-        "utf-8-validate": "5.0.5",
         "twit": "2.2.11",
+        "utf-8-validate": "5.0.5",
         "zlib-sync": "0.1.7"
     },
     "devDependencies": {

@@ -1,7 +1,6 @@
 require('dotenv').config()
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
-const { MessageEmbed } = require('discord.js')
 module.exports = class AutoMix extends Command {
     constructor(client) {
         super(client, {

@@ -1,7 +1,6 @@
 const { MessageEmbed } = require('discord.js')
 const fetch = require('node-fetch')
 require('dotenv').config()
-const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
 module.exports = class Fishing extends Command {
