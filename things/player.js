@@ -7,7 +7,7 @@ module.exports = async client => {
             if (isNaN(duration) || typeof duration === 'undefined')
                 return '00:00'
             if (duration > 3_600_000_000) return 'En Directo'
-            return `<t:${Math.round(duration / 1_000)}:T>`
+            return `<t:${Math.round(duration / 1_000) + 21_600}:T>`
         }
 
         client.manager = new Manager({
