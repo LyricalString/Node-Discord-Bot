@@ -1,5 +1,4 @@
 const parserTimeStamp = require('../..//utils/parserTimeStamp.js')
-const fetch = require('node-fetch')
 
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')

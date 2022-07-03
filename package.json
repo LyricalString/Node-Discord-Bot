@@ -28,14 +28,11 @@
         "utf-8-validate": "5.0.5",
         "zlib-sync": "0.1.7"
     },
-    "devDependencies": {
-        "prettier": "2.3.1"
-    },
     "scripts": {
         "logs": "pm2 logs ",
         "stop": "pm2 stop",
         "restart": "pm2 stop index",
-        "start": "node .",
+        "start": "node --experimental-fetch index.js",
         "config": "node utils/generateEnvFile"
     },
     "repository": {
