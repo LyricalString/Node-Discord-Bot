@@ -1,4 +1,3 @@
-require('dotenv').config()
 const Event = require('../../structures/Event.js')
 const { WebhookClient } = require('discord.js')
 let guildAddWebhookID = process.env.guildAddWebhookID

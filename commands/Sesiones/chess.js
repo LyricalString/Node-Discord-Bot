@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js')
-require('dotenv').config()
+
 const Command = require('../../structures/Commandos.js')
 
 module.exports = class Chess extends Command {

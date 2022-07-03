@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { MessageEmbed, WebhookClient, Collection } = require('discord.js')
 const { readFileSync } = require('fs')
 const Event = require('../../structures/Event.js')
