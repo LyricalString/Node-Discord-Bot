@@ -1,6 +1,4 @@
-require('dotenv').config()
 const Command = require('../../structures/Commandos.js')
-require('discord-reply')
 const { MessageEmbed } = require('discord.js')
 
 module.exports = class Help extends Command {
@@ -20,25 +18,6 @@ module.exports = class Help extends Command {
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
             if (!args[0]) {
-                // let web = new MessageButton()
-                //   .setStyle("url")
-                //   .setLabel(client.language.HELP[1])
-                //   .setEmoji("🌐")
-                //   .setURL("https://nodebot.xyz");
-
-                // let invite = new MessageButton()
-                //   .setStyle("url")
-                //   .setLabel(client.language.HELP[2])
-                //   .setEmoji("💌")
-                //   .setURL("https://invite.nodebot.xyz");
-
-                // let support = new MessageButton()
-                //   .setStyle("url")
-                //   .setLabel(client.language.HELP[3])
-                //   .setEmoji("🛠️")
-                //   .setURL("https://support.nodebot.xyz");
-                // let ButtonArray = [web, invite, support];
-
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setDescription(

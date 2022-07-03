@@ -9,7 +9,6 @@
         "bottleneck": "2.19.5",
         "bufferutil": "4.0.3",
         "discord-menus": "1.0.8",
-        "discord-reply": "0.1.2",
         "discord-together": "1.2.0",
         "discord.js": "13.2.0-dev.1628813079.f1d5ffc",
         "dotenv": "10.0.0",
