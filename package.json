@@ -10,7 +10,7 @@
         "bufferutil": "4.0.3",
         "discord-menus": "1.0.8",
         "discord-together": "1.2.0",
-        "discord.js": "13.2.0-dev.1628813079.f1d5ffc",
+        "discord.js": "13.8.1",
         "dotenv": "10.0.0",
         "easyqrcodejs-nodejs": "4.3.2",
         "erela.js": "2.3.3",
