@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { MessageEmbed } = require('discord.js')
 const Event = require('../../structures/Event.js')
 const UserModel = require('../../models/user.js')

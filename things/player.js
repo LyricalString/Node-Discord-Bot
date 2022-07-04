@@ -1,13 +1,13 @@
 const { Manager } = require('erela.js')
 const { MessageEmbed } = require('discord.js')
-const prettyMilliseconds = require('pretty-ms')
+
 module.exports = async client => {
     try {
         function formatDuration(duration) {
             if (isNaN(duration) || typeof duration === 'undefined')
                 return '00:00'
-            if (duration > 3600000000) return 'En Directo'
-            return prettyMilliseconds(duration)
+            if (duration > 3_600_000_000) return 'En Directo'
+            return `<t:${Math.round(duration / 1_000) + 21_600}:T>`
         }
 
         client.manager = new Manager({

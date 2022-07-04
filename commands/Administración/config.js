@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
-require('dotenv').config()
+
 const guildSchema = require('../../models/guild.js')
 
 module.exports = class Config extends Command {

@@ -1,6 +1,6 @@
 const Event = require('../../structures/Event')
 const { MessageEmbed, WebhookClient } = require('discord.js')
-require('dotenv').config()
+
 const guildModel = require('../../models/guild.js')
 
 module.exports = class VoiceStateUpdate extends Event {

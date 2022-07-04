@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js')
-require('dotenv').config()
+
 const CommandsModel = require('../../models/command.js')
 const Command = require('../../structures/Commandos.js')
 

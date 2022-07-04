@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { MessageEmbed, WebhookClient, Collection } = require('discord.js')
 const { readFileSync } = require('fs')
 const Event = require('../../structures/Event.js')
@@ -1314,7 +1313,7 @@ module.exports = class messageCreate extends Event {
                         const getRolePremium = User.PREMIUM ? true : false
                         if (getRoleDev == false || getRolePremium == false) {
                             if (!cooldown.has(cmd.name)) {
-                                cooldown.set(cmd.name, new Discord.Collection())
+                                cooldown.set(cmd.name, new Collection())
                             }
                         }
                         if (getRoleDev == false || getRolePremium == false) {

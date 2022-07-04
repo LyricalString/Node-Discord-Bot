@@ -21,7 +21,7 @@ Node es un bot multifunción, multilenguaje, programado en [Discord.js](https://
 
 1. Token de Discord Developers **[Guía](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
 2. Java (para ejecutar Lavalink del módulo de música)
-3. Node.js v16.0.0 o una más reciente.
+3. Node.js `v16.15.0` o una más reciente.
 
 
 ## 🚀 Guía de Instalación

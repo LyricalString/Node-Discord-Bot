@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
-require('dotenv').config()
 
 module.exports = class Activity extends Command {
     constructor(client) {

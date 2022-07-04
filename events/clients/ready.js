@@ -1,6 +1,6 @@
 const Event = require('../../structures/Event.js')
 const mongoose = require('mongoose')
-require('dotenv').config()
+
 const CreateManager = require('../../things/player.js')
 const GuildSchema = require('../../models/guild.js')
 const clearcache = require('../../utils/clearcache.js')

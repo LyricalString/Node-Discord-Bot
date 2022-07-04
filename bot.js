@@ -1,7 +1,7 @@
 //------------------------------------------
 //         CONSTANTES Y VARIABLES
 //------------------------------------------
-require('dotenv').config()
+
 const { Collection } = require('discord.js')
 const Bot = require('./structures/Client.js')
 const client = new Bot()

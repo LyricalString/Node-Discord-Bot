@@ -1,8 +1,5 @@
-require('dotenv').config()
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
-require('discord-reply')
-let descripcion, usage
 let encendido = false
 
 module.exports = class Skin extends Command {
