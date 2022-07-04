@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed, MessageAttachment } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const QRCode = require('easyqrcodejs-nodejs')
 const { unlink } = require('fs')
@@ -125,9 +125,7 @@ module.exports = class qr extends Command {
                         path: './temp/qr.png' // file path
                     })
                     .then(() => {
-                        const cap = new Discord.MessageAttachment(
-                            './temp/qr.png'
-                        )
+                        const cap = new MessageAttachment('./temp/qr.png')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setImage('attachment://qr.png')
                         embed.setFooter(
@@ -173,9 +171,7 @@ module.exports = class qr extends Command {
                         path: './temp/qr.png' // file path
                     })
                     .then(() => {
-                        const cap = new Discord.MessageAttachment(
-                            './temp/qr.png'
-                        )
+                        const cap = new MessageAttachment('./temp/qr.png')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setImage('attachment://qr.png')
                         embed.setFooter(
