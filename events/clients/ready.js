@@ -18,11 +18,7 @@ module.exports = class Ready extends Event {
             'Shard number ' + this.client.shard.ids[0] + ' is now running.'
         )
 
-        mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useFindAndModify: false
-        })
+        await mongoose.connect(process.env.MONGO_URL)
 
         CreateManager(this.client)
         clearcache(this.client)
