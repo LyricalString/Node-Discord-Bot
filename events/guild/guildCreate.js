@@ -1,10 +1,7 @@
 const Event = require('../../structures/Event.js')
 const { WebhookClient } = require('discord.js')
-let guildAddWebhookID = process.env.guildAddWebhookID
-let guildAddWebhookToken = process.env.guildAddWebhookToken
 const webhookClient = new WebhookClient({
-    id: guildAddWebhookID,
-    token: guildAddWebhookToken
+    url: process.env.guildAddWebhookURL
 })
 
 module.exports = class guildCreate extends Event {

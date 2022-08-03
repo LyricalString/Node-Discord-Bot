@@ -10,11 +10,8 @@ let args
 let command
 let usage
 const SwitchThings = require('../../utils/SwitchThings')
-let errorWebhookID = process.env.errorWebhookID
-let errorWebhookToken = process.env.errorWebhookToken
 const webhookClient = new WebhookClient({
-    id: errorWebhookID,
-    token: errorWebhookToken
+    url: process.env.errorWebhookURL
 })
 const unshorten = require('../../utils/unshorten.js')
 const axios = require('axios')
@@ -32,8 +29,7 @@ module.exports = class messageCreate extends Event {
     async run(message, ipc) {
         if (!message.guild) return
         if (
-            (process.env.mode == 'maintenance' ||
-                process.env.mode == 'development') &&
+            (process.env.mode == 'maintenance' || process.env.mode == 'development') &&
             message.guild.id == '834440041010561074'
         )
             return
@@ -52,55 +48,31 @@ module.exports = class messageCreate extends Event {
             }
             if (guild.config) {
                 if (configs[variable]) {
-                    if (
-                        configs[variable] == guild.config.FloodDetection &&
-                        configs[variable].Enabled == true
-                    ) {
+                    if (configs[variable] == guild.config.FloodDetection && configs[variable].Enabled == true) {
                         let toDel = 0
                         let index = 0
                         for (index in datos2) {
                             index = parseInt(index)
-                            if (
-                                Date.now() - datos2[index].date <
-                                tiempo2 * 1000
-                            ) {
+                            if (Date.now() - datos2[index].date < tiempo2 * 1000) {
                                 toDel += 1
                             }
                         }
                         if (
                             (message2.author.bot && configs[variable].Bots) ||
-                            (message2.guild.members.cache.get(
-                                message2.author.id
-                            ) &&
-                                message2.guild.members.cache
-                                    .get(message2.author.id)
-                                    .permissions.has('ADMINISTRATOR') &&
+                            (message2.guild.members.cache.get(message2.author.id) &&
+                                message2.guild.members.cache.get(message2.author.id).permissions.has('ADMINISTRATOR') &&
                                 configs[variable].AdminBypass)
                         ) {
                             //nothing
                         } else {
-                            SwitchThings(
-                                client2,
-                                configs[variable],
-                                configs[variable].Action.Todo,
-                                message2,
-                                toDel
-                            )
+                            SwitchThings(client2, configs[variable], configs[variable].Action.Todo, message2, toDel)
                         }
                     } else if (
                         configs[variable] == guild.config.PhishingDetection &&
                         configs[variable].Enabled == true
                     ) {
-                        SwitchThings(
-                            client2,
-                            configs[variable],
-                            configs[variable].Action.Todo,
-                            message2,
-                            1
-                        )
-                    } else if (
-                        configs[variable] == guild.config.PhishingDetection
-                    ) {
+                        SwitchThings(client2, configs[variable], configs[variable].Action.Todo, message2, 1)
+                    } else if (configs[variable] == guild.config.PhishingDetection) {
                         message2.delete().catch(() => {})
                     }
                 }
@@ -114,15 +86,10 @@ module.exports = class messageCreate extends Event {
                 if (
                     Guild.config &&
                     Guild.config.FloodDetection.Filter &&
-                    Date.now() -
-                        this.client.messages.get(message.author.id)[index]
-                            .date >
-                        parseInt(Guild.config.FloodDetection.Filter.Seconds) *
-                            1000
+                    Date.now() - this.client.messages.get(message.author.id)[index].date >
+                        parseInt(Guild.config.FloodDetection.Filter.Seconds) * 1000
                 ) {
-                    this.client.messages
-                        .get(message.author.id)
-                        .splice(index, index + 1)
+                    this.client.messages.get(message.author.id).splice(index, index + 1)
                 }
             }
             let colamensajes = Guild.config?.FloodDetection.Filter?.Messages
@@ -137,28 +104,13 @@ module.exports = class messageCreate extends Event {
                 const datos = this.client.messages.get(message.author.id)
                 if (datos.length >= colamensajes) {
                     var diferencia =
-                        Math.abs(
-                            datos[datos.length - colamensajes].date -
-                                datos[datos.length - 1].date
-                        ) / 1000
+                        Math.abs(datos[datos.length - colamensajes].date - datos[datos.length - 1].date) / 1000
                     if (diferencia < tiempo) {
                         if (message.guild.isINDB) {
-                            doActions(
-                                this.client,
-                                message,
-                                datos,
-                                tiempo,
-                                'FloodDetection'
-                            )
+                            doActions(this.client, message, datos, tiempo, 'FloodDetection')
                         } else {
                             fetchGuild(this.client, message).then(() => {
-                                doActions(
-                                    this.client,
-                                    message,
-                                    datos,
-                                    tiempo,
-                                    'FloodDetection'
-                                )
+                                doActions(this.client, message, datos, tiempo, 'FloodDetection')
                             })
                         }
                     }
@@ -200,13 +152,8 @@ module.exports = class messageCreate extends Event {
             })
         }
 
-        async function CheckPredefinedBannedWords(
-            client,
-            message,
-            messageLower
-        ) {
-            var regexp =
-                /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+        async function CheckPredefinedBannedWords(client, message, messageLower) {
+            var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
             let args = message.content.split(' ')
             let bannedWords = require('../../predefinedBannedWords.json')
             if (message.embeds[0]) {
@@ -215,26 +162,11 @@ module.exports = class messageCreate extends Event {
                     for (let index2 in titulo) {
                         if (regexp.test(titulo[index2])) {
                             for (let index in bannedWords) {
-                                if (
-                                    titulo[index2].indexOf(
-                                        bannedWords[index]
-                                    ) !== -1
-                                ) {
-                                    doActions(
-                                        client,
-                                        message,
-                                        titulo[index2],
-                                        0,
-                                        'PhishingDetection'
-                                    )
+                                if (titulo[index2].indexOf(bannedWords[index]) !== -1) {
+                                    doActions(client, message, titulo[index2], 0, 'PhishingDetection')
                                 }
                             }
-                            unshortenBWRLinks(
-                                client,
-                                message,
-                                titulo[index2],
-                                0
-                            )
+                            unshortenBWRLinks(client, message, titulo[index2], 0)
                         }
                     }
                 }
@@ -243,43 +175,18 @@ module.exports = class messageCreate extends Event {
                     for (let index2 in description) {
                         if (regexp.test(description[index2])) {
                             for (let index in bannedWords) {
-                                if (
-                                    description[index2].indexOf(
-                                        bannedWords[index]
-                                    ) !== -1
-                                ) {
-                                    doActions(
-                                        client,
-                                        message,
-                                        description[index2],
-                                        0,
-                                        'PhishingDetection'
-                                    )
+                                if (description[index2].indexOf(bannedWords[index]) !== -1) {
+                                    doActions(client, message, description[index2], 0, 'PhishingDetection')
                                 }
                             }
-                            unshortenBWRLinks(
-                                client,
-                                message,
-                                description[index2],
-                                0
-                            )
+                            unshortenBWRLinks(client, message, description[index2], 0)
                         }
                     }
                 }
                 if (message.embeds[0].url) {
                     for (let index in bannedWords) {
-                        if (
-                            message.embeds[0].url.indexOf(
-                                bannedWords[index]
-                            ) !== -1
-                        ) {
-                            doActions(
-                                client,
-                                message,
-                                message.embeds[0].url,
-                                0,
-                                'PhishingDetection'
-                            )
+                        if (message.embeds[0].url.indexOf(bannedWords[index]) !== -1) {
+                            doActions(client, message, message.embeds[0].url, 0, 'PhishingDetection')
                         }
                     }
                     unshortenBWRLinks(client, message, message.embeds[0].url, 1)
@@ -289,83 +196,36 @@ module.exports = class messageCreate extends Event {
                     for (let index2 in footer) {
                         if (regexp.test(footer[index2])) {
                             for (let index in bannedWords) {
-                                if (
-                                    footer[index2].indexOf(
-                                        bannedWords[index]
-                                    ) !== -1
-                                ) {
-                                    doActions(
-                                        client,
-                                        message,
-                                        footer[index2],
-                                        0,
-                                        'PhishingDetection'
-                                    )
+                                if (footer[index2].indexOf(bannedWords[index]) !== -1) {
+                                    doActions(client, message, footer[index2], 0, 'PhishingDetection')
                                 }
                             }
-                            unshortenBWRLinks(
-                                client,
-                                message,
-                                footer[index2],
-                                0
-                            )
+                            unshortenBWRLinks(client, message, footer[index2], 0)
                         }
                     }
                 }
                 if (message.embeds[0].fields) {
                     for (let field in message.embeds[0].fields) {
-                        let field2 =
-                            message.embeds[0].fields[field].value.split(' ')
+                        let field2 = message.embeds[0].fields[field].value.split(' ')
                         for (let index2 in field2) {
                             if (regexp.test(field2[index2])) {
                                 for (let index in bannedWords) {
-                                    if (
-                                        field2[index2].indexOf(
-                                            bannedWords[index]
-                                        ) !== -1
-                                    ) {
-                                        doActions(
-                                            client,
-                                            message,
-                                            field2[index2],
-                                            0,
-                                            'PhishingDetection'
-                                        )
+                                    if (field2[index2].indexOf(bannedWords[index]) !== -1) {
+                                        doActions(client, message, field2[index2], 0, 'PhishingDetection')
                                     }
                                 }
-                                unshortenBWRLinks(
-                                    client,
-                                    message,
-                                    field2[index2],
-                                    0
-                                )
+                                unshortenBWRLinks(client, message, field2[index2], 0)
                             }
                         }
-                        let field3 =
-                            message.embeds[0].fields[field].name.split(' ')
+                        let field3 = message.embeds[0].fields[field].name.split(' ')
                         for (let index2 in field3) {
                             if (regexp.test(field3[index2])) {
                                 for (let index in bannedWords) {
-                                    if (
-                                        field3[index2].indexOf(
-                                            bannedWords[index]
-                                        ) !== -1
-                                    ) {
-                                        doActions(
-                                            client,
-                                            message,
-                                            field3[index2],
-                                            0,
-                                            'PhishingDetection'
-                                        )
+                                    if (field3[index2].indexOf(bannedWords[index]) !== -1) {
+                                        doActions(client, message, field3[index2], 0, 'PhishingDetection')
                                     }
                                 }
-                                unshortenBWRLinks(
-                                    client,
-                                    message,
-                                    field3[index2],
-                                    0
-                                )
+                                unshortenBWRLinks(client, message, field3[index2], 0)
                             }
                         }
                     }
@@ -375,13 +235,7 @@ module.exports = class messageCreate extends Event {
                 if (regexp.test(args[index2])) {
                     for (let index in bannedWords) {
                         if (args[index2].indexOf(bannedWords[index]) !== -1) {
-                            doActions(
-                                client,
-                                message,
-                                args[index2],
-                                0,
-                                'PhishingDetection'
-                            )
+                            doActions(client, message, args[index2], 0, 'PhishingDetection')
                         }
                     }
                     unshortenBWRLinks(client, message, args[index2], 0)
@@ -389,14 +243,8 @@ module.exports = class messageCreate extends Event {
             }
         }
 
-        async function CheckGuildBannedWords(
-            client,
-            message,
-            messageLower,
-            Guild
-        ) {
-            var regexp =
-                /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+        async function CheckGuildBannedWords(client, message, messageLower, Guild) {
+            var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
             let args = messageLower.split(' ')
             if (!Guild.config) return
             let bannedWords = Guild.config.PhishingDetection.BannedWords
@@ -406,27 +254,11 @@ module.exports = class messageCreate extends Event {
                     for (let index2 in titulo) {
                         if (regexp.test(titulo[index2])) {
                             for (let index in bannedWords) {
-                                if (
-                                    titulo[index2].indexOf(
-                                        bannedWords[index]
-                                    ) !== -1
-                                ) {
-                                    doActions(
-                                        client,
-                                        message,
-                                        titulo[index2],
-                                        0,
-                                        'PhishingDetection'
-                                    )
+                                if (titulo[index2].indexOf(bannedWords[index]) !== -1) {
+                                    doActions(client, message, titulo[index2], 0, 'PhishingDetection')
                                 }
                             }
-                            unshortenGuildLinks(
-                                client,
-                                message,
-                                titulo[index2],
-                                0,
-                                Guild
-                            )
+                            unshortenGuildLinks(client, message, titulo[index2], 0, Guild)
                         }
                     }
                 }
@@ -435,139 +267,57 @@ module.exports = class messageCreate extends Event {
                     for (let index2 in description) {
                         if (regexp.test(description[index2])) {
                             for (let index in bannedWords) {
-                                if (
-                                    description[index2].indexOf(
-                                        bannedWords[index]
-                                    ) !== -1
-                                ) {
-                                    doActions(
-                                        client,
-                                        message,
-                                        description[index2],
-                                        0,
-                                        'PhishingDetection'
-                                    )
+                                if (description[index2].indexOf(bannedWords[index]) !== -1) {
+                                    doActions(client, message, description[index2], 0, 'PhishingDetection')
                                 }
                             }
-                            unshortenGuildLinks(
-                                client,
-                                message,
-                                description[index2],
-                                0,
-                                Guild
-                            )
+                            unshortenGuildLinks(client, message, description[index2], 0, Guild)
                         }
                     }
                 }
                 if (message.embeds[0].url) {
                     for (let index in bannedWords) {
-                        if (
-                            message.embeds[0].url.indexOf(
-                                bannedWords[index]
-                            ) !== -1
-                        ) {
-                            doActions(
-                                client,
-                                message,
-                                message.embeds[0].url,
-                                0,
-                                'PhishingDetection'
-                            )
+                        if (message.embeds[0].url.indexOf(bannedWords[index]) !== -1) {
+                            doActions(client, message, message.embeds[0].url, 0, 'PhishingDetection')
                         }
                     }
-                    unshortenGuildLinks(
-                        client,
-                        message,
-                        message.embeds[0].url,
-                        0,
-                        Guild
-                    )
+                    unshortenGuildLinks(client, message, message.embeds[0].url, 0, Guild)
                 }
                 if (message.embeds[0].footer) {
                     let footer = message.embeds[0].footer.text.split(' ')
                     for (let index2 in footer) {
                         if (regexp.test(footer[index2])) {
                             for (let index in bannedWords) {
-                                if (
-                                    footer[index2].indexOf(
-                                        bannedWords[index]
-                                    ) !== -1
-                                ) {
-                                    doActions(
-                                        client,
-                                        message,
-                                        footer[index2],
-                                        0,
-                                        'PhishingDetection'
-                                    )
+                                if (footer[index2].indexOf(bannedWords[index]) !== -1) {
+                                    doActions(client, message, footer[index2], 0, 'PhishingDetection')
                                 }
                             }
-                            unshortenGuildLinks(
-                                client,
-                                message,
-                                footer[index2],
-                                0,
-                                Guild
-                            )
+                            unshortenGuildLinks(client, message, footer[index2], 0, Guild)
                         }
                     }
                 }
                 if (message.embeds[0].fields) {
                     for (let field in message.embeds[0].fields) {
-                        let field2 =
-                            message.embeds[0].fields[field].value.split(' ')
+                        let field2 = message.embeds[0].fields[field].value.split(' ')
                         for (let index2 in field2) {
                             if (regexp.test(field2[index2])) {
                                 for (let index in bannedWords) {
-                                    if (
-                                        field2[index2].indexOf(
-                                            bannedWords[index]
-                                        ) !== -1
-                                    ) {
-                                        doActions(
-                                            client,
-                                            message,
-                                            field2[index2],
-                                            0,
-                                            'PhishingDetection'
-                                        )
+                                    if (field2[index2].indexOf(bannedWords[index]) !== -1) {
+                                        doActions(client, message, field2[index2], 0, 'PhishingDetection')
                                     }
                                 }
-                                unshortenGuildLinks(
-                                    client,
-                                    message,
-                                    field2[index2],
-                                    0,
-                                    Guild
-                                )
+                                unshortenGuildLinks(client, message, field2[index2], 0, Guild)
                             }
                         }
-                        let field3 =
-                            message.embeds[0].fields[field].name.split(' ')
+                        let field3 = message.embeds[0].fields[field].name.split(' ')
                         for (let index2 in field3) {
                             if (regexp.test(field3[index2])) {
                                 for (let index in bannedWords) {
-                                    if (
-                                        field3[index2].indexOf(
-                                            bannedWords[index]
-                                        ) !== -1
-                                    ) {
-                                        doActions(
-                                            client,
-                                            message,
-                                            field3[index2],
-                                            0,
-                                            'PhishingDetection'
-                                        )
+                                    if (field3[index2].indexOf(bannedWords[index]) !== -1) {
+                                        doActions(client, message, field3[index2], 0, 'PhishingDetection')
                                     }
                                 }
-                                unshortenGuildLinks(
-                                    client,
-                                    message,
-                                    field3[index2],
-                                    0,
-                                    Guild
-                                )
+                                unshortenGuildLinks(client, message, field3[index2], 0, Guild)
                             }
                         }
                     }
@@ -576,32 +326,18 @@ module.exports = class messageCreate extends Event {
                 for (let index2 in args) {
                     if (regexp.test(args[index2])) {
                         for (let index in bannedWords) {
-                            if (
-                                args[index2].indexOf(bannedWords[index]) !== -1
-                            ) {
-                                doActions(
-                                    client,
-                                    message,
-                                    args[index2],
-                                    0,
-                                    'PhishingDetection'
-                                )
+                            if (args[index2].indexOf(bannedWords[index]) !== -1) {
+                                doActions(client, message, args[index2], 0, 'PhishingDetection')
                             }
                         }
-                        unshortenGuildLinks(
-                            client,
-                            message,
-                            args[index2],
-                            0,
-                            Guild
-                        )
+                        unshortenGuildLinks(client, message, args[index2], 0, Guild)
                     }
                 }
             }
         }
 
         async function fetchUser(client2, message) {
-            return await new Promise(resolve => {
+            return await new Promise((resolve) => {
                 client2.users.fetch(message.author.id).then(() => {
                     UserModel.findOne({
                         USERID: message.author.id.toString()
@@ -616,28 +352,18 @@ module.exports = class messageCreate extends Event {
                             User.ROLES = s.Roles
                             User.LANG = s.LANG
                             User.COMMANDS_EXECUTED = s.COMMANDS_EXECUTED
-                            User.PREMIUM = s.Roles
-                                ? s.Roles.Premium.Enabled
-                                : false
+                            User.PREMIUM = s.Roles ? s.Roles.Premium.Enabled : false
                             User.BANNED = s.BANNED
-                            User.DEV = s.Roles
-                                ? s.Roles.Developer.Enabled
-                                : false
-                            User.TESTER = s.Roles
-                                ? s.Roles.Tester.Enabled
-                                : false
+                            User.DEV = s.Roles ? s.Roles.Developer.Enabled : false
+                            User.TESTER = s.Roles ? s.Roles.Tester.Enabled : false
                             User.PREMIUM_COMMANDS = s.PREMIUM_COMMANDS
-                            User.INTERACCIONES = s.Interacciones
-                                ? s.Interacciones
-                                : 'none'
+                            User.INTERACCIONES = s.Interacciones ? s.Interacciones : 'none'
                             User.isINDB = true
                             User.OLDMODE = s.OLDMODE
                             if (
                                 !User.TESTER &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '835835433082028062'
-                                )
+                                message.member.roles.cache.has('835835433082028062')
                             ) {
                                 User.TESTER = true
                                 s.Roles.Tester = {
@@ -648,9 +374,7 @@ module.exports = class messageCreate extends Event {
                             if (
                                 !User.ROLES.Notifications.Enabled &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '845037268330741760'
-                                )
+                                message.member.roles.cache.has('845037268330741760')
                             ) {
                                 User.ROLES.Notifications.Enabled = true
                                 s.Roles.Notifications = {
@@ -661,9 +385,7 @@ module.exports = class messageCreate extends Event {
                             if (
                                 !User.ROLES.Booster.Enabled &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '850530981349687296'
-                                )
+                                message.member.roles.cache.has('850530981349687296')
                             ) {
                                 User.ROLES.Booster.Enabled = true
                                 s.Roles.Booster = {
@@ -674,9 +396,7 @@ module.exports = class messageCreate extends Event {
                             if (
                                 !User.ROLES.Support.Enabled &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '834461420165922817'
-                                )
+                                message.member.roles.cache.has('834461420165922817')
                             ) {
                                 User.ROLES.Support.Enabled = true
                                 s.Roles.Support = {
@@ -687,9 +407,7 @@ module.exports = class messageCreate extends Event {
                             if (
                                 !User.PREMIUM &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '834461423060123688'
-                                )
+                                message.member.roles.cache.has('834461423060123688')
                             ) {
                                 User.PREMIUM = true
                                 s.Roles.Premium = {
@@ -704,7 +422,7 @@ module.exports = class messageCreate extends Event {
                                     }
                                 }
                             }
-                            s.save().catch(err => s.update())
+                            s.save().catch((err) => s.update())
                             resolve(User)
                         } else {
                             User.COMMANDS_EXECUTED = 0
@@ -743,18 +461,14 @@ module.exports = class messageCreate extends Event {
                             if (
                                 !User.TESTER &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '835835433082028062'
-                                )
+                                message.member.roles.cache.has('835835433082028062')
                             ) {
                                 User.TESTER = true
                             }
                             if (
                                 !User.PREMIUM &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '834461423060123688'
-                                )
+                                message.member.roles.cache.has('834461423060123688')
                             ) {
                                 User.PREMIUM = true
                                 if (Date.now() < 1630447201000) {
@@ -764,27 +478,21 @@ module.exports = class messageCreate extends Event {
                             if (
                                 !User.ROLES.Notifications.Enabled &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '845037268330741760'
-                                )
+                                message.member.roles.cache.has('845037268330741760')
                             ) {
                                 User.ROLES.Notifications.Enabled = true
                             }
                             if (
                                 !User.ROLES.Booster.Enabled &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '850530981349687296'
-                                )
+                                message.member.roles.cache.has('850530981349687296')
                             ) {
                                 User.ROLES.Booster.Enabled = true
                             }
                             if (
                                 !User.ROLES.Support.Enabled &&
                                 message.member &&
-                                message.member.roles.cache.has(
-                                    '834461420165922817'
-                                )
+                                message.member.roles.cache.has('834461420165922817')
                             ) {
                                 User.ROLES.Support.Enabled = true
                             }
@@ -796,8 +504,8 @@ module.exports = class messageCreate extends Event {
         }
 
         async function fetchGuild(client2, message) {
-            return await new Promise(resolve => {
-                client2.guilds.fetch(message.guild.id).then(Guild2 => {
+            return await new Promise((resolve) => {
+                client2.guilds.fetch(message.guild.id).then((Guild2) => {
                     let Guild = Guild2
                     if (Guild2) {
                         //coge de la db el guild y lo mete con la config de la db
@@ -813,7 +521,7 @@ module.exports = class messageCreate extends Event {
                                 Guild.partner = s.Partner
                                 Guild.last_timestamp = s.LAST_TIMESTAMP
                                 s.LAST_TIMESTAMP = Date.now()
-                                s.save().catch(err => s.update())
+                                s.save().catch((err) => s.update())
                             } else {
                                 var guild3 = new GuildModel({
                                     guildID: message.guild.id,
@@ -831,8 +539,7 @@ module.exports = class messageCreate extends Event {
                                                     Reason: 'El usuario ha realizo un Spam de 3 mensajes seguidos en menos de 1 segundo',
                                                     Infinite: false,
                                                     Time: 3,
-                                                    Logs_Channel:
-                                                        '829044199113883718'
+                                                    Logs_Channel: '829044199113883718'
                                                 }
                                             },
                                             DeleteAllMsgs: true
@@ -847,8 +554,7 @@ module.exports = class messageCreate extends Event {
                                                     Reason: 'El usuario ha enviado un enlace de phishing.',
                                                     Infinite: false,
                                                     Time: 3,
-                                                    Logs_Channel:
-                                                        '829044199113883718'
+                                                    Logs_Channel: '829044199113883718'
                                                 }
                                             },
                                             DeleteMessage: true
@@ -861,7 +567,7 @@ module.exports = class messageCreate extends Event {
                                         MUSIC_CHANNELS: []
                                     }
                                 })
-                                guild3.save().catch(err => console.error(err))
+                                guild3.save().catch((err) => console.error(err))
                                 Guild.prefix = process.env.prefix
                                 Guild.isINDB = true
                                 Guild.refered = false
@@ -876,8 +582,7 @@ module.exports = class messageCreate extends Event {
                                                 Reason: 'El usuario ha realizo un Spam de 3 mensajes seguidos en menios de 1 segundo',
                                                 Infinite: true,
                                                 Time: 3,
-                                                Logs_Channel:
-                                                    '829044199113883718'
+                                                Logs_Channel: '829044199113883718'
                                             }
                                         }
                                     },
@@ -891,8 +596,7 @@ module.exports = class messageCreate extends Event {
                                                 Reason: 'El usuario ha enviado un enlace de phishing.',
                                                 Infinite: false,
                                                 Time: 3,
-                                                Logs_Channel:
-                                                    '829044199113883718'
+                                                Logs_Channel: '829044199113883718'
                                             }
                                         }
                                     },
@@ -918,36 +622,17 @@ module.exports = class messageCreate extends Event {
             if (!message.member) return
             message.member.user = User
             if (Guild) {
-                if (
-                    messageLower == `<@!${process.env.botID}>` ||
-                    messageLower == `<@${process.env.botID}>`
-                ) {
-                    if (
-                        !message.channel
-                            .permissionsFor(message.guild.me)
-                            .has('VIEW_CHANNEL')
-                    )
-                        return
-                    if (
-                        !message.channel
-                            .permissionsFor(message.guild.me)
-                            .has('SEND_MESSAGES')
-                    )
-                        return
-                    if (
-                        !message.channel
-                            .permissionsFor(message.guild.me)
-                            .has('EMBED_LINKS')
-                    ) {
+                if (messageLower == `<@!${process.env.botID}>` || messageLower == `<@${process.env.botID}>`) {
+                    if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                    if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                    if (!message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS')) {
                         return message.reply({
                             content: `${client.language.MESSAGE[1]} \`"EMBED_LINKS"\`.`
                         })
                     }
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
-                        .setDescription(
-                            `${client.language.MESSAGE[14]} \`${Guild.prefix}\``
-                        )
+                        .setDescription(`${client.language.MESSAGE[14]} \`${Guild.prefix}\``)
                     return message.channel.send({ embeds: [embed] })
                 }
                 if (messageLower.startsWith(Guild.prefix)) {
@@ -981,19 +666,12 @@ module.exports = class messageCreate extends Event {
             }
             //ejecutamos el comando
             if (client.commands.has(command) || client.aliases.has(command)) {
-                cmd =
-                    client.commands.get(command) || client.aliases.get(command)
+                cmd = client.commands.get(command) || client.aliases.get(command)
                 if (cmd) {
                     if (cmd.inactive) return
-                    if (
-                        cmd.production &&
-                        process.env.mode != 'development' &&
-                        process.env.mode != 'maintenance'
-                    )
-                        return
+                    if (cmd.production && process.env.mode != 'development' && process.env.mode != 'maintenance') return
                     if (cmd.usage) {
-                        usage =
-                            User.LANG == 'en_US' ? cmd.usage[0] : cmd.usage[1]
+                        usage = User.LANG == 'en_US' ? cmd.usage[0] : cmd.usage[1]
                     }
 
                     if (!Guild.config.tos && cmd.tos) return
@@ -1006,91 +684,46 @@ module.exports = class messageCreate extends Event {
                     }
                     if (message.member.user.LANG) {
                         client.language = JSON.parse(
-                            readFileSync(
-                                './lang/' +
-                                    archivo.find(
-                                        language => language.nombre == User.LANG
-                                    ).archivo
-                            )
+                            readFileSync('./lang/' + archivo.find((language) => language.nombre == User.LANG).archivo)
                         )
                     } else {
                         client.language = JSON.parse(
-                            readFileSync(
-                                './lang/' +
-                                    archivo.find(
-                                        language => language.nombre == 'es_ES'
-                                    ).archivo
-                            )
+                            readFileSync('./lang/' + archivo.find((language) => language.nombre == 'es_ES').archivo)
                         )
                     }
 
-                    if (
-                        !message.channel
-                            .permissionsFor(message.guild.me)
-                            .has('VIEW_CHANNEL')
-                    )
-                        return
-                    if (
-                        !message.channel
-                            .permissionsFor(message.guild.me)
-                            .has('SEND_MESSAGES')
-                    )
-                        return
-                    if (
-                        !message.channel
-                            .permissionsFor(message.guild.me)
-                            .has('EMBED_LINKS')
-                    ) {
+                    if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                    if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                    if (!message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS')) {
                         return message.reply({
                             content: `${client.language.MESSAGE[1]} \`"EMBED_LINKS"\`.`
                         })
                     }
-                    if (
-                        !message.channel
-                            .permissionsFor(message.guild.me)
-                            .has('USE_EXTERNAL_EMOJIS')
-                    ) {
+                    if (!message.channel.permissionsFor(message.guild.me).has('USE_EXTERNAL_EMOJIS')) {
                         return message.reply({
                             content: `${client.language.MESSAGE[1]} \`"USE_EXTERNAL_EMOJIS"\`.`
                         })
                     }
 
-                    if (
-                        process.env.mode != 'development' &&
-                        process.env.mode != 'maintenance'
-                    ) {
+                    if (process.env.mode != 'development' && process.env.mode != 'maintenance') {
                         if (Guild.config.CHANNELID) {
                             if (Guild.config.CHANNELID.length !== 0) {
                                 if (!cmd.moderation && !cmd.nochannel) {
-                                    if (
-                                        !Guild.config.CHANNELID.includes(
-                                            message.channel.id
-                                        )
-                                    )
-                                        return
+                                    if (!Guild.config.CHANNELID.includes(message.channel.id)) return
                                 }
                             }
                         }
                     }
                     if (
-                        (Guild.config.DISABLED_COMMANDS.includes(
-                            cmd.name.toLowerCase()
-                        ) ||
-                            Guild.config.DISABLED_CATEGORIES.includes(
-                                cmd.category.toLowerCase()
-                            )) &&
-                        !message.guild.members.cache
-                            .get(message.author.id)
-                            .permissions.has('ADMINISTRATOR')
+                        (Guild.config.DISABLED_COMMANDS.includes(cmd.name.toLowerCase()) ||
+                            Guild.config.DISABLED_CATEGORIES.includes(cmd.category.toLowerCase())) &&
+                        !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR')
                     ) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.MESSAGE[2])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter(message.author.username, message.author.avatarURL())
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -1102,62 +735,37 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[15])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
                         }
-                        if (
-                            (cmd.role === 'dev' || cmd.role === 'developer') &&
-                            !User.DEV
-                        ) {
+                        if ((cmd.role === 'dev' || cmd.role === 'developer') && !User.DEV) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
-                                .setDescription(
-                                    `${client.language.MESSAGE[3]} <a:pepeRiendose:835905480160444466>`
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setDescription(`${client.language.MESSAGE[3]} <a:pepeRiendose:835905480160444466>`)
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
                         }
-                        if (
-                            cmd.role === 'tester' &&
-                            !User.TESTER &&
-                            !Guild.partner
-                        ) {
+                        if (cmd.role === 'tester' && !User.TESTER && !Guild.partner) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[4])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
                         }
-                        if (
-                            cmd.role === 'premium' &&
-                            !User.PREMIUM &&
-                            !Guild.partner
-                        ) {
+                        if (cmd.role === 'premium' && !User.PREMIUM && !Guild.partner) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[5])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -1167,10 +775,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[6])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -1178,15 +783,11 @@ module.exports = class messageCreate extends Event {
 
                         if (
                             cmd.permissions &&
-                            !message.guild.members.cache
-                                .get(message.author.id)
-                                .permissions.has('ADMINISTRATOR')
+                            !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR')
                         ) {
                             for (let index2 in cmd.permissions) {
                                 if (
-                                    !message.channel
-                                        .permissionsFor(message.author)
-                                        .has(cmd.permissions[index2]) &&
+                                    !message.channel.permissionsFor(message.author).has(cmd.permissions[index2]) &&
                                     !User.DEV
                                 ) {
                                     const errorembed = new MessageEmbed()
@@ -1195,10 +796,7 @@ module.exports = class messageCreate extends Event {
                                         .setDescription(
                                             `${client.language.NOPERMS[1]} \`${cmd.permissions[index2]}\` ${client.language.NOPERMS[2]}`
                                         )
-                                        .setFooter(
-                                            message.author.username,
-                                            message.author.avatarURL()
-                                        )
+                                        .setFooter(message.author.username, message.author.avatarURL())
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -1208,26 +806,17 @@ module.exports = class messageCreate extends Event {
 
                         if (
                             cmd.botpermissions &&
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('ADMINISTRATOR')
+                            !message.channel.permissionsFor(message.guild.me).has('ADMINISTRATOR')
                         ) {
                             for (let index3 in cmd.botpermissions) {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has(cmd.botpermissions[index3])
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has(cmd.botpermissions[index3])) {
                                     const errorembed = new MessageEmbed()
                                         .setColor('RED')
                                         .setTitle(client.language.ERROREMBED)
                                         .setDescription(
                                             `${client.language.BOTNOPERMS[1]} \`${cmd.botpermissions[index3]}\` ${client.language.BOTNOPERMS[2]}`
                                         )
-                                        .setFooter(
-                                            message.author.username,
-                                            message.author.avatarURL()
-                                        )
+                                        .setFooter(message.author.username, message.author.avatarURL())
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -1236,11 +825,7 @@ module.exports = class messageCreate extends Event {
                         }
                         if (
                             cmd.subcommands &&
-                            (!args[0] ||
-                                args[0] !=
-                                    cmd.subcommands[
-                                        cmd.subcommands.indexOf(args[0])
-                                    ])
+                            (!args[0] || args[0] != cmd.subcommands[cmd.subcommands.indexOf(args[0])])
                         ) {
                             if (usage) {
                                 const errorembed = new MessageEmbed()
@@ -1249,10 +834,7 @@ module.exports = class messageCreate extends Event {
                                     .setDescription(
                                         `${client.language.MESSAGE[7]} \`${cmd.name}\`${client.language.MESSAGE[8]}\`${prefix}${cmd.name} ${usage}\`.`
                                     )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter(message.author.username, message.author.avatarURL())
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -1263,10 +845,7 @@ module.exports = class messageCreate extends Event {
                                     .setDescription(
                                         `${client.language.MESSAGE[7]} \`${cmd.name}\`${client.language.MESSAGE[8]} \`${prefix}help ${cmd.name}\`.`
                                     )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter(message.author.username, message.author.avatarURL())
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -1284,26 +863,17 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(reply)
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
                         }
-                        if (
-                            cmd.exclusive &&
-                            message.guild.id != '834440041010561074'
-                        ) {
+                        if (cmd.exclusive && message.guild.id != '834440041010561074') {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[13])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -1318,34 +888,24 @@ module.exports = class messageCreate extends Event {
                         }
                         if (getRoleDev == false || getRolePremium == false) {
                             const time = cooldown.get(cmd.name)
-                            const cooldownAmount =
-                                Math.floor(cmd.cooldown || 5) * 1000
+                            const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000
 
                             if (!time.has(message.author.id)) {
                                 time.set(message.author.id, Date.now())
-                                setTimeout(
-                                    () => time.delete(message.author.id),
-                                    cooldownAmount
-                                )
+                                setTimeout(() => time.delete(message.author.id), cooldownAmount)
                             } else {
-                                const expire =
-                                    time.get(message.author.id) + cooldownAmount
+                                const expire = time.get(message.author.id) + cooldownAmount
                                 const left = (expire - Date.now()) / 1000
                                 if (Date.now() < expire && left > 0.9) {
                                     const errorembed = new MessageEmbed()
                                         .setColor('RED')
                                         .setTitle(client.language.ERROREMBED)
                                         .setDescription(
-                                            `${
-                                                client.language.MESSAGE[10]
-                                            } \`${left.toFixed(1)}\` ${
+                                            `${client.language.MESSAGE[10]} \`${left.toFixed(1)}\` ${
                                                 client.language.MESSAGE[11]
                                             } ${cmd.name}.`
                                         )
-                                        .setFooter(
-                                            message.author.username,
-                                            message.author.avatarURL()
-                                        )
+                                        .setFooter(message.author.username, message.author.avatarURL())
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -1353,22 +913,14 @@ module.exports = class messageCreate extends Event {
                             }
                         }
                         try {
-                            console.debug(
-                                cmd.name +
-                                    ' [' +
-                                    User.id +
-                                    '] ' +
-                                    '[' +
-                                    Guild.id +
-                                    ']'
-                            )
+                            console.debug(cmd.name + ' [' + User.id + '] ' + '[' + Guild.id + ']')
                             limiter2.schedule(async () => {
                                 CommandModel.findOne({
                                     name: cmd.name
                                 }).then(async (s, err) => {
                                     if (s) {
                                         s.uses += 1
-                                        s.save().catch(e => console.error(e))
+                                        s.save().catch((e) => console.error(e))
                                     } else if (!s) {
                                         var command2 = new CommandModel({
                                             name: cmd.name,
@@ -1376,31 +928,18 @@ module.exports = class messageCreate extends Event {
                                             description: cmd.description,
                                             uses: 1
                                         })
-                                        command2
-                                            .save()
-                                            .catch(err => console.error(err))
+                                        command2.save().catch((err) => console.error(err))
                                     }
                                 })
                             })
-                            cmd.run(
-                                client,
-                                message,
-                                args,
-                                prefix,
-                                message.member.user.LANG,
-                                webhookClient,
-                                ipc
-                            )
+                            cmd.run(client, message, args, prefix, message.member.user.LANG, webhookClient, ipc)
                         } catch (e) {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[12])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -1422,22 +961,14 @@ function unshortenBWRLinks(client, message, url, notify) {
         .get(url, {
             timeout: 2 * 1000
         })
-        .then(res => {
+        .then((res) => {
             if (!res) return null
             if (res.status == 301) {
                 return unshorten(response.redirect_destination)
             } else if (res.status == 200) {
                 for (let index in bannedWords) {
-                    if (
-                        res.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1445,29 +976,17 @@ function unshortenBWRLinks(client, message, url, notify) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter(message.author.username, message.author.avatarURL())
                             try {
                                 if (!message.deleted)
-                                    message.delete().catch(e => {
+                                    message.delete().catch((e) => {
                                         const embed = new MessageEmbed()
                                             .setColor(process.env.EMBED_COLOR)
-                                            .setTitle(
-                                                `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                            )
-                                            .setDescription(
-                                                client.language.MESSAGE[17]
-                                            )
-                                            .setFooter(
-                                                message.author.username,
-                                                message.author.avatarURL()
-                                            )
+                                            .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
+                                            .setDescription(client.language.MESSAGE[17])
+                                            .setFooter(message.author.username, message.author.avatarURL())
                                         return message.channel.send({
                                             embeds: [embed]
                                         })
@@ -1475,22 +994,14 @@ function unshortenBWRLinks(client, message, url, notify) {
                             } catch (e) {
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTitle(
-                                        `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                    )
+                                    .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                     .setDescription(client.language.MESSAGE[17])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter(message.author.username, message.author.avatarURL())
                                 return message.channel.send({ embeds: [embed] })
                             }
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
@@ -1498,16 +1009,8 @@ function unshortenBWRLinks(client, message, url, notify) {
                 console.error('Error unshorten message.js')
             } else if (res.status == 499) {
                 for (let index in bannedWords) {
-                    if (
-                        res.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1515,22 +1018,13 @@ function unshortenBWRLinks(client, message, url, notify) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            if (!message.deleted)
-                                message.delete().catch(e => console.error(e))
+                                .setFooter(message.author.username, message.author.avatarURL())
+                            if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
@@ -1539,31 +1033,13 @@ function unshortenBWRLinks(client, message, url, notify) {
                 return
             }
         })
-        .catch(e => {
+        .catch((e) => {
             if (e.request && e.request.res && e.request.res.responseUrl) {
                 for (let index in bannedWords) {
-                    if (
-                        e.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('VIEW_CHANNEL')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('SEND_MESSAGES')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (e.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1571,52 +1047,22 @@ function unshortenBWRLinks(client, message, url, notify) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            if (!message.deleted)
-                                message.delete().catch(e => console.error(e))
+                                .setFooter(message.author.username, message.author.avatarURL())
+                            if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
-            } else if (
-                e.request &&
-                e.request._options &&
-                e.request._options.href
-            ) {
+            } else if (e.request && e.request._options && e.request._options.href) {
                 for (let index in bannedWords) {
-                    if (
-                        e.request._options.href.indexOf(bannedWords[index]) !==
-                        -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('VIEW_CHANNEL')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('SEND_MESSAGES')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (e.request._options.href.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1624,22 +1070,13 @@ function unshortenBWRLinks(client, message, url, notify) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            if (!message.deleted)
-                                message.delete().catch(e => console.error(e))
+                                .setFooter(message.author.username, message.author.avatarURL())
+                            if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
@@ -1653,34 +1090,16 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
         .get(url, {
             timeout: 2 * 1000
         })
-        .then(res => {
+        .then((res) => {
             if (!res) return null
             if (res.status == 301) {
                 return unshorten(response.redirect_destination)
             } else if (res.status == 200) {
                 for (let index in bannedWords) {
-                    if (
-                        res.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('VIEW_CHANNEL')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('SEND_MESSAGES')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1688,22 +1107,13 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            if (!message.deleted)
-                                message.delete().catch(e => console.error(e))
+                                .setFooter(message.author.username, message.author.avatarURL())
+                            if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
@@ -1711,28 +1121,10 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                 console.error('Error unshorten message.js')
             } else if (res.status == 499) {
                 for (let index in bannedWords) {
-                    if (
-                        res.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('VIEW_CHANNEL')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('SEND_MESSAGES')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1740,22 +1132,13 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            if (!message.deleted)
-                                message.delete().catch(e => console.error(e))
+                                .setFooter(message.author.username, message.author.avatarURL())
+                            if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
@@ -1764,31 +1147,13 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                 return
             }
         })
-        .catch(e => {
+        .catch((e) => {
             if (e.request && e.request.res && e.request.res.responseUrl) {
                 for (let index in bannedWords) {
-                    if (
-                        e.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('VIEW_CHANNEL')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('SEND_MESSAGES')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (e.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1796,52 +1161,22 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            if (!message.deleted)
-                                message.delete().catch(e => console.error(e))
+                                .setFooter(message.author.username, message.author.avatarURL())
+                            if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
-            } else if (
-                e.request &&
-                e.request._options &&
-                e.request._options.href
-            ) {
+            } else if (e.request && e.request._options && e.request._options.href) {
                 for (let index in bannedWords) {
-                    if (
-                        e.request._options.href.indexOf(bannedWords[index]) !==
-                        -1
-                    ) {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('VIEW_CHANNEL')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('SEND_MESSAGES')
-                        )
-                            return
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                    if (e.request._options.href.indexOf(bannedWords[index]) !== -1) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             return message.reply({
                                 content: `${client.language.MESSAGE[19]} \`"MANAGE_MESSAGES"\` ${client.language.MESSAGE[20]}`
                             })
@@ -1849,22 +1184,13 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                         if (notify == 1) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(
-                                    `${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`
-                                )
+                                .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            if (!message.deleted)
-                                message.delete().catch(e => console.error(e))
+                                .setFooter(message.author.username, message.author.avatarURL())
+                            if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
-                            if (!message.deleted)
-                                return message
-                                    .delete()
-                                    .catch(e => console.error(e))
+                            if (!message.deleted) return message.delete().catch((e) => console.error(e))
                         }
                     }
                 }
