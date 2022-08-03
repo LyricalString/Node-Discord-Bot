@@ -7,168 +7,57 @@ module.exports = class Poker extends Command {
         super(client, {
             name: 'poker',
             botpermissions: ['CREATE_INSTANT_INVITE'],
-            description: [
-                'Starts a poker session together.',
-                'Comienza una sesión de póker.'
-            ],
+            description: ['Starts a poker session together.', 'Comienza una sesión de póker.'],
             cooldown: 5,
             category: 'Sesiones'
         })
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            const { DiscordTogether } = require('discord-together')
-
-            client.discordTogether = new DiscordTogether(client)
-            const Guild = await client.guilds.fetch(message.guild.id) // Getting the guild.
-            await Guild.members.fetch(message.member.id).then(async Member => {
-                const channel = await Member.voice.channel
-                if (!Guild) return
-                if (!Member) return
-                if (!channel) {
-                    const errorembed = new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.BETRAYAL[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
-                    return message.channel.send({ embeds: [errorembed] })
-                }
-                if (args[0]) {
-                    if (args[0].toLowerCase() == '--unlimited') {
-                        client.discordTogether
-                            .createTogetherCode(channel.id, 'poker', 0)
-                            .then(async invite => {
-                                if (invite.code === 50013) {
-                                    const errorembed = new MessageEmbed()
-                                        .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(
-                                            client.language.CREATEINVITEPERMS
-                                        )
-                                        .setFooter(
-                                            message.author.username,
-                                            message.author.avatarURL()
-                                        )
-                                    return message.channel.send({
-                                        embeds: [errorembed]
-                                    })
-                                }
-                                const embed = new MessageEmbed()
-                                if (!invite.code) {
-                                    const errorembed = new MessageEmbed()
-                                        .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(
-                                            client.language.BETRAYAL[2]
-                                        )
-                                        .setFooter(
-                                            message.author.username,
-                                            message.author.avatarURL()
-                                        )
-                                    return message.channel.send({
-                                        embeds: [errorembed]
-                                    })
-                                }
-                                embed.setColor(process.env.EMBED_COLOR)
-                                embed.setDescription(
-                                    `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:flechaizquierda:836295936673579048>**`
-                                )
-                                return message.channel.send({ embeds: [embed] })
-                            })
-                            .catch(e => {
-                                if (
-                                    e ==
-                                    'Your bot lacks permissions to perform that action'
-                                ) {
-                                    const errorembed = new MessageEmbed()
-                                        .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(
-                                            client.language.YOUTUBE[5]
-                                        )
-                                        .setFooter(
-                                            message.author.username,
-                                            message.author.avatarURL()
-                                        )
-                                    return message.channel.send({
-                                        embeds: [errorembed]
-                                    })
-                                }
-                            })
-                    } else {
-                        const errorembed = new MessageEmbed()
+            // check if the user is in a voice channel
+            if (!message.member.voice.channel)
+                return message.reply({
+                    embeds: [
+                        new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                `${client.language.YOUTUBE[3]} ${prefix}${client.language.YOUTUBE[4]}`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
-                        return message.channel.send({ embeds: [errorembed] })
-                    }
-                    return
-                }
-                client.discordTogether
-                    .createTogetherCode(channel.id, 'poker', 900)
-                    .then(async invite => {
-                        if (invite.code === 50013) {
-                            const errorembed = new MessageEmbed()
-                                .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(
-                                    client.language.CREATEINVITEPERMS
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            return message.channel.send({
-                                embeds: [errorembed]
-                            })
-                        }
-                        const embed = new MessageEmbed()
-                        if (!invite.code) {
-                            const errorembed = new MessageEmbed()
-                                .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.BETRAYAL[2])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            return message.channel.send({
-                                embeds: [errorembed]
-                            })
-                        }
-                        embed.setColor(process.env.EMBED_COLOR)
-                        embed.setDescription(
-                            `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:flechaizquierda:836295936673579048>**`
+                            .setDescription(client.language.BETRAYAL[2])
+                            .setFooter(message.author.username, message.author.avatarURL())
+                    ]
+                })
+
+            // check if the bot has the permission to create instant invites
+            if (
+                !message.guild.me.permissions.has('CREATE_INSTANT_INVITE') ||
+                !message.member.voice.channel.permissionsFor(message.guild.me).has('CREATE_INSTANT_INVITE')
+            )
+                return message.reply({
+                    embeds: [
+                        new MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(client.language.ERROREMBED)
+                            .setDescription(client.language.YOUTUBE[5])
+                            .setFooter(message.author.username, message.author.avatarURL())
+                    ]
+                })
+
+            // create an invite to the voice channel
+            const maxAge = args[0]?.toLowerCase() === '--unlimited' ? 0 : 900
+            const invite = await message.member.voice.channel.createInvite({
+                targetApplication: '755827207812677713',
+                targetType: 2,
+                maxAge
+            })
+
+            // send the invite link to the user
+            return message.reply({
+                embeds: [
+                    new MessageEmbed()
+                        .setColor(process.env.EMBED_COLOR)
+                        .setDescription(
+                            `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.url} 'Enlace de Poker Night') <a:flechaizquierda:836295936673579048>**`
                         )
-                        return message.channel.send({ embeds: [embed] })
-                    })
-                    .catch(e => {
-                        if (
-                            e ==
-                            'Your bot lacks permissions to perform that action'
-                        ) {
-                            const errorembed = new MessageEmbed()
-                                .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.YOUTUBE[5])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            return message.channel.send({
-                                embeds: [errorembed]
-                            })
-                        }
-                    })
+                ]
             })
         } catch (e) {
             console.error(e)
@@ -178,10 +67,7 @@ module.exports = class Poker extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                 ]
             })
             webhookClient.send(
