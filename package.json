@@ -43,5 +43,8 @@
     "bugs": {
         "url": "https://github.com/LyricalString/Node/issues"
     },
-    "homepage": "https://github.com/LyricalString/Node#readme"
+    "homepage": "https://github.com/LyricalString/Node#readme",
+    "engines": {
+        "node": ">=16.15.0"
+    }
 }
