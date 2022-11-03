@@ -2,12 +2,13 @@ const { MessageEmbed } = require('discord.js')
 
 const Command = require('../../structures/Commandos.js')
 
-module.exports = class Chess extends Command {
+module.exports = class Youtube extends Command {
     constructor(client) {
         super(client, {
-            name: 'chess',
+            name: 'awkword',
             botpermissions: ['CREATE_INSTANT_INVITE'],
-            description: ['Starts a chess session together.', 'Comienza una sesión de ajedrez.'],
+            description: ['Starts a awkword session together.', 'Comienza una sesión de awkword.'],
+            cooldown: 5,
             category: 'Sesiones'
         })
     }
@@ -43,7 +44,7 @@ module.exports = class Chess extends Command {
             // create an invite to the voice channel
             const maxAge = args[0]?.toLowerCase() === '--unlimited' ? 0 : 900
             const invite = await message.member.voice.channel.createInvite({
-                targetApplication: '832012774040141894',
+                targetApplication: '879863881349087252',
                 targetType: 2,
                 maxAge
             })
@@ -54,7 +55,7 @@ module.exports = class Chess extends Command {
                     new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setDescription(
-                            `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.url} 'Enlace de Chess In The Park') <a:flechaizquierda:836295936673579048>**`
+                            `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.url} 'Enlace de Awkword') <a:flechaizquierda:836295936673579048>**`
                         )
                 ]
             })
