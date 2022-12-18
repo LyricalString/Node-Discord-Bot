@@ -77,7 +77,7 @@ module.exports = class Forceban extends Command {
                         .setDescription(
                             `<a:tick:836295873091862568> <@${user.id}> (**\`${user.tag}\`**) ${client.language.FORCEBAN[9]} **${message.guild.name}**`
                         )
-                        .addField(client.language.FORCEBAN[10], `**\`${reason != '' ? reason : '-'}\`**`, true)
+                        .addFields({name: client.language.FORCEBAN[10], `**\`${reason != '' ? reason : '-'}\`**`, value: true})
                         .addField(
                             client.language.FORCEBAN[11],
                             `<@${message.member.id}> (**\`${message.member.user.tag}\`**)`,

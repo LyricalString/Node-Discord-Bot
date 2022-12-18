@@ -109,7 +109,7 @@ module.exports = class qr extends Command {
                         embed.setImage('attachment://qr.png')
                         embed.setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
 
-                        if (argumentos[0]) embed.addField(argumentos.join(' '), '\u200b')
+                        if (argumentos[0]) embed.addFields({ name: argumentos.join(' '), value: '\u200b' })
                         message.channel.send({ embeds: [embed], files: [cap] }).then(() => {
                             // delete a file
                             unlink('./temp/qr.png', (err) => {
@@ -146,7 +146,7 @@ module.exports = class qr extends Command {
                         embed.setImage('attachment://qr.png')
                         embed.setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
 
-                        if (argumentos[0]) embed.addField(argumentos.join(' '), '\u200b')
+                        if (argumentos[0]) embed.addFields({ name: argumentos.join(' '), value: '\u200b' })
                         message.channel.send({ embeds: [embed], files: [cap] }).then(() => {
                             // delete a file
                             unlink('./temp/qr.png', (err) => {

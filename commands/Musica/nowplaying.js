@@ -55,8 +55,8 @@ module.exports = class NowPlaying extends Command {
                     `${client.language.NOWPLAYING[7]} \`[${parsedDuration}]\``,
                     `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)} ${parsedCurrentDuration}\`\`\``
                 )
-            if (author) embed.addField(client.language.NOWPLAYING[5], author, true)
-            if (user) embed.addField(client.language.NOWPLAYING[6], user, true)
+            if (author) embed.addFields({ name: client.language.NOWPLAYING[5], author, value: true })
+            if (user) embed.addFields({ name: client.language.NOWPLAYING[6], user, value: true })
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
             console.error(e)

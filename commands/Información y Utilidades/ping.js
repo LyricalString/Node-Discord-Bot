@@ -17,8 +17,8 @@ module.exports = class Ping extends Command {
 
                 .setTitle(`Ping:`)
                 .setColor(process.env.EMBED_COLOR)
-                .addField(`API: ${Math.round(client.ws.ping)} ms`, client.language.PING[1])
-                .addField(`Bot: ${ping} ms`, client.language.PING[2])
+                .addFields({ name: `API: ${Math.round(client.ws.ping)} ms`, value: client.language.PING[1] })
+                .addFields({ name: `Bot: ${ping} ms`, value: client.language.PING[2] })
                 .setTimestamp(' ')
 
             return message.channel.send({ embeds: [embed] })

@@ -45,7 +45,7 @@ module.exports = class RoleInfo extends Command {
                     '```' + `${Math.abs(role.rawPosition - message.guild.roles.cache.size)}` + '```',
                     true
                 ) //Su pocision en cuanto los otros roles
-                .addField(`🎩 ${client.language.ROLEINFO[5]}: `, '```' + `${role.hexColor}` + '```', true) //Su hexColor
+                .addFields({name: `🎩 ${client.language.ROLEINFO[5]}: `, '```' + `${role.hexColor}` + '```', value: true}) //Su hexColor
                 .addField(
                     `<:roles:864116470648930304> ${client.language.ROLEINFO[6]}: `,
                     role.mentionable

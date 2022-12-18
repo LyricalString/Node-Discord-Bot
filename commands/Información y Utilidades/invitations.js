@@ -61,12 +61,12 @@ module.exports = class Invitations extends Command {
                 else if (invite.channel.type === 'group') {
                     embed
                         .setThumbnail(invite.channel.iconURL({ dynamic: true }))
-                        .addField('Type', 'Group DM invite', true)
-                        .addField('Group name', invite.channel.name ? invite.channel.name.toString() : 'None', true)
+                        .addFields({name: 'Type', 'Group DM invite', value: true})
+                        .addFields({name: 'Group name', invite.channel.name ? invite.channel.name.toString() : 'None', value: true})
                 }
-                embed.addField('Member Count', invite.uses ? invite.uses.toString() : '0', true)
+                embed.addFields({name: 'Member Count', invite.uses ? invite.uses.toString() : '0', value: true})
                 if (invite.createdTimestamp)
-                    embed.addField('Created Timestamp', `<t:${Math.trunc(invite.createdTimestamp / 1000)}>`, true)
+                    embed.addFields({name: 'Created Timestamp', `<t:${Math.trunc(invite.createdTimestamp / 1000)}>`, value: true})
 
                 //Hay que ser ordenado en los fields
                 if (invite.guild) {
@@ -135,8 +135,8 @@ module.exports = class Invitations extends Command {
             //       user.avatarURL()
             //     )
             //     .setColor(process.env.EMBED_COLOR)
-            //     .addField(client.language.INVITATIONS[7], filtered.size, true)
-            //     .addField(client.language.INVITATIONS[8], uses, true)
+            //     .addFields({name: client.language.INVITATIONS[7], filtered.size, value: true})
+            //     .addFields({name: client.language.INVITATIONS[8], uses, value: true})
             //     .setTimestamp(" ");
             // }
             // const successEmbed = new MessageEmbed()
@@ -145,8 +145,8 @@ module.exports = class Invitations extends Command {
             //     user.avatarURL()
             //   )
             //   .setColor(process.env.EMBED_COLOR)
-            //   .addField(client.language.INVITATIONS[7], filtered.size, true)
-            //   .addField(client.language.INVITATIONS[8], uses, true)
+            //   .addFields({name: client.language.INVITATIONS[7], filtered.size, value: true})
+            //   .addFields({name: client.language.INVITATIONS[8], uses, value: true})
             //   .setTimestamp(" ");
 
             // let ButtonArray = [previousButton, nextButton];

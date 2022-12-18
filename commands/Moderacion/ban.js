@@ -115,8 +115,8 @@ module.exports = class Ban extends Command {
                 .setDescription(
                     `<a:tick:836295873091862568> <@${user.id}> (**\`${user.user.tag}\`**) ${client.language.BAN[10]} **${message.guild.name}**`
                 )
-                .addField(client.language.BAN[11], `**\`${reason != '' ? reason : '-'}\`**`, true)
-                .addField(client.language.BAN[12], `<@${message.member.id}> (**\`${message.member.user.tag}\`**)`, true)
+                .addFields({name: client.language.BAN[11], `**\`${reason != '' ? reason : '-'}\`**`, value: true})
+                .addFields({name: client.language.BAN[12], `<@${message.member.id}> (**\`${message.member.user.tag}\`**)`, value: true})
                 .setTimestamp(' ')
 
             await message.channel.send({ embeds: [embed] })

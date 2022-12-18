@@ -43,7 +43,7 @@ module.exports = class Snipe extends Command {
                 const main = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setAuthor(`${client.language.SNIPE[2]} ${msg.delete.tag}`, msg.delete.displayAvatarURL())
-                    .addField(client.language.SNIPE[3], `<#${msg.canal.id}>`)
+                    .addFields({name: client.language.SNIPE[3], value: `<#${msg.canal.id}>`})
                     .setTimestamp(' ')
                 if (msg.content) main.setDescription(msg.content)
                 if (msg.embed) {
@@ -55,7 +55,7 @@ module.exports = class Snipe extends Command {
                     if (msg.color) embed.setColor(msg.color)
                     if (msg.timestamp) embed.setTimestamp(msg.timestamp)
                     for (let field in msg.fields) {
-                        embed.addField(msg.fields[field].name, msg.fields[field].value, msg.fields[field].inline)
+                        embed.addFields({name: msg.fields[field].name, msg.fields[field].value, value: msg.fields[field].inline})
                     }
                     //if (msg.fields[0]) embed.addField(msg.fields)
                     if (msg.thumbnail) embed.setThumbnail(msg.thumbnail.url)

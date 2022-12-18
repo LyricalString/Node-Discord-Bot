@@ -92,7 +92,7 @@ module.exports = class Kick extends Command {
                 .setDescription(
                     `<a:tick:836295873091862568> <@${user.id}> (**\`${user.user.tag}\`**) ${client.language.KICK[10]} **${message.guild.name}**`
                 )
-                .addField(client.language.KICK[11], `**\`${reason != '' ? reason : '-'}\`**`, true)
+                .addFields({name: client.language.KICK[11], `**\`${reason != '' ? reason : '-'}\`**`, value: true})
                 .addField(
                     client.language.KICK[12],
                     `<@${message.member.id}> (**\`${message.member.user.tag}\`**)`,

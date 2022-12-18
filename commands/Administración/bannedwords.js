@@ -118,7 +118,7 @@ module.exports = class Ctegory extends Command {
                                     .setTimestamp(' ')
                                 for (let index in s.config.PhishingDetection.BannedWords) {
                                     let ListBannedWords = s.config.PhishingDetection.BannedWords[index]
-                                    embedadmins.addField('\u200B', '- ' + ListBannedWords)
+                                    embedadmins.addFields({ name: '\u200B', value: '- ' + ListBannedWords })
                                 }
 
                                 message.channel.send({

@@ -146,7 +146,7 @@ module.exports = class Ctegory extends Command {
                                     .setTimestamp(' ')
                                 for (var index = 0; index < s.config.DISABLED_CATEGORIES.length; index++) {
                                     let ListAdmin = s.config.DISABLED_CATEGORIES[index]
-                                    embedadmins.addField('\u200B', '- ' + ListAdmin)
+                                    embedadmins.addFields({ name: '\u200B', value: '- ' + ListAdmin })
                                 }
 
                                 message.channel.send({

@@ -90,7 +90,7 @@ module.exports = class Commands extends Command {
                 .setDescription(
                     `<a:828830816486293608:836296002893381682> ${client.language.COMMANDS[6]} \`${message.guild.prefix}help <${client.language.COMMANDS[7]}>\` ${client.language.COMMANDS[8]}.`
                 )
-                .addField(client.language.COMMANDS[9], client.language.COMMANDS[10])
+                .addFields({ name: client.language.COMMANDS[9], value: client.language.COMMANDS[10] })
                 .setFooter(
                     client.language.oldDiscord,
                     message.author.avatarURL({

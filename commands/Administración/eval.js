@@ -24,8 +24,8 @@ module.exports = class Channel extends Command {
                 const embed = new MessageEmbed()
                     .setAuthor('Eval | Node')
                     .setColor(process.env.EMBED_COLOR)
-                    .addField(':inbox_tray: Entrada', `\`\`\`js\n${args.join(' ')}\`\`\``)
-                    .addField(':outbox_tray: Salida', `\`\`\`js\n${inspect(evaled)}\n\`\`\``)
+                    .addFields({ name: ':inbox_tray: Entrada', value: `\`\`\`js\n${args.join(' ')}\`\`\`` })
+                    .addFields({ name: ':outbox_tray: Salida', value: `\`\`\`js\n${inspect(evaled)}\n\`\`\`` })
                     .setTimestamp(' ')
 
                 message.channel.send({ embeds: [embed] }).catch((e) => {

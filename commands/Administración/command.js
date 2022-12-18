@@ -131,7 +131,7 @@ module.exports = class Command2 extends Command {
                                     .setTimestamp(' ')
                                 for (var index = 0; index < s.config.DISABLED_COMMANDS.length; index++) {
                                     let ListAdmin = s.config.DISABLED_COMMANDS[index]
-                                    embedadmins.addField('\u200B', '- ' + ListAdmin)
+                                    embedadmins.addFields({ name: '\u200B', value: '- ' + ListAdmin })
                                 }
 
                                 message.channel.send({

@@ -53,9 +53,9 @@ module.exports = class McHistory extends Command {
                         NameMC = History_Info['name_history'][index]['name']
 
                         if (!Fecha) {
-                            embedhistory.addField(client.language.MCHISTORY[5], NameMC) // LENGUAJEEEEEEEEEEEEEEE
+                            embedhistory.addFields({ name: client.language.MCHISTORY[5], value: NameMC }) // LENGUAJEEEEEEEEEEEEEEE
                         } else {
-                            embedhistory.addField(parserTimeStamp(Fecha), NameMC)
+                            embedhistory.addFields({ name: parserTimeStamp(Fecha), value: NameMC })
                         }
                     }
                     message.channel.send({

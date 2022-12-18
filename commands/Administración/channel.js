@@ -219,7 +219,7 @@ module.exports = class Channel extends Command {
                                         .setTimestamp(' ')
                                     for (var index = 0; index < s.config.MUSIC_CHANNELS.length; index++) {
                                         let ChannelsList = s.config.MUSIC_CHANNELS[index]
-                                        embedadmins.addField('\u200B', '- <#' + ChannelsList + '>')
+                                        embedadmins.addFields({ name: '\u200B', value: '- <#' + ChannelsList + '>' })
                                     }
 
                                     message.channel.send({
@@ -255,7 +255,7 @@ module.exports = class Channel extends Command {
                                         .setTimestamp(' ')
                                     for (var index = 0; index < s.config.CHANNELID.length; index++) {
                                         let ChannelsList = s.config.CHANNELID[index]
-                                        embedadmins.addField('\u200B', '- <#' + ChannelsList + '>')
+                                        embedadmins.addFields({ name: '\u200B', value: '- <#' + ChannelsList + '>' })
                                     }
 
                                     message.channel.send({

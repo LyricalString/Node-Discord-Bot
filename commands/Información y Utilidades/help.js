@@ -24,7 +24,7 @@ module.exports = class Help extends Command {
                         client.language.HELP[7],
                         `${client.language.HELP[8]} \`${message.guild.prefix}commands\`.`
                     )
-                    .addField(client.language.HELP[9], client.language.HELP[10])
+                    .addFields({ name: client.language.HELP[9], value: client.language.HELP[10] })
                     .addField(
                         client.language.HELP[11],
                         client.language.HELP[12] +

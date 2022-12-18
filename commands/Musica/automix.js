@@ -123,9 +123,9 @@ module.exports = class AutoMix extends Command {
                     const e = new MessageEmbed()
                         .setTitle(client.language.AUTOMIX[4])
                         .setColor(process.env.EMBED_COLOR)
-                        .addField(client.language.AUTOMIX[5], `${result.playlist.name}`, true)
-                        .addField(client.language.AUTOMIX[6], `\`${result.tracks.length}\``, true)
-                        .addField(client.language.AUTOMIX[7], `${result.tracks[0].requester}`, true)
+                        .addFields({name: client.language.AUTOMIX[5], `${result.playlist.name}`, value: true})
+                        .addFields({name: client.language.AUTOMIX[6], `\`${result.tracks.length}\``, value: true})
+                        .addFields({name: client.language.AUTOMIX[7], `${result.tracks[0].requester}`, value: true})
                         .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`)
                     return msg.edit({ content: ' ', embeds: [e] })
                 }

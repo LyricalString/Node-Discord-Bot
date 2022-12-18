@@ -49,8 +49,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                            .addFields({ name: 'Resultado', value: `El link adjunto tiene un enlace malicioso.` })
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] }).then((msg) => {
                             setTimeout(function () {
@@ -62,8 +62,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
-                    .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField('Resultado', `\`\`\`${res.request.res.responseUrl}\`\`\``)
+                    .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                    .addFields({ name: 'Resultado', value: `\`\`\`${res.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] }).then((msg) => {
                     setTimeout(function () {
@@ -78,8 +78,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                            .addFields({ name: 'Resultado', value: `El link adjunto tiene un enlace malicioso.` })
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] }).then((msg) => {
                             setTimeout(function () {
@@ -91,8 +91,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
-                    .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField('Resultado', `\`\`\`${res.request.res.responseUrl}\`\`\``)
+                    .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                    .addFields({ name: 'Resultado', value: `\`\`\`${res.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] }).then((msg) => {
                     setTimeout(function () {
@@ -112,8 +112,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                            .addFields({ name: 'Resultado', value: `El link adjunto tiene un enlace malicioso.` })
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] }).then((msg) => {
                             setTimeout(function () {
@@ -125,8 +125,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
-                    .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField('Resultado', `\`\`\`${e.request.res.responseUrl}\`\`\``)
+                    .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                    .addFields({ name: 'Resultado', value: `\`\`\`${e.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] })
             } else if (e.request && e.request._options && e.request._options.href) {
@@ -135,8 +135,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                            .addFields({ name: 'Resultado', value: `El link adjunto tiene un enlace malicioso.` })
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] }).then((msg) => {
                             setTimeout(function () {
@@ -148,8 +148,8 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
-                    .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField('Resultado', `\`\`\`${e.request._options.href}\`\`\``)
+                    .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
+                    .addFields({ name: 'Resultado', value: `\`\`\`${e.request._options.href}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] }).then((msg) => {
                     setTimeout(function () {

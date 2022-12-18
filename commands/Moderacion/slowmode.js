@@ -52,8 +52,8 @@ module.exports = class Slowmode extends Command {
                 .setDescription(
                     `<a:tick:836295873091862568> ${client.language.SLOWMODE[5]} **\`${duration}\`** ${client.language.SLOWMODE[6]} **\`.slowmode 0\`**`
                 )
-                .addField(client.language.SLOWMODE[7], `<#${message.channel.id}>`, true)
-                .addField(client.language.SLOWMODE[8], `<@${message.author.id}>`, true)
+                .addFields({name: client.language.SLOWMODE[7], `<#${message.channel.id}>`, value: true})
+                .addFields({name: client.language.SLOWMODE[8], `<@${message.author.id}>`, value: true})
                 .setTimestamp(' ')
                 .setFooter(
                     `${client.language.SLOWMODE[9]} ${message.member.displayName}`,

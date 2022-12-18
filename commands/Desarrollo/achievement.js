@@ -20,7 +20,7 @@ module.exports = class Achievement extends Command {
             if (!args2[1] || !args2[2]) {
                 const error = new MessageEmbed()
                     .setTitle(client.language.ACHIEVEMENT)
-                    .addField('\u200b', `\`${client.language.ACHIEVEMENTEMBED}\``)
+                    .addFields({ name: '\u200b', value: `\`${client.language.ACHIEVEMENTEMBED}\`` })
                     .setColor(process.env.EMBED_COLOR)
                 message.channel.send({ embeds: [error] })
             }

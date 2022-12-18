@@ -81,7 +81,7 @@ module.exports = class ServerInfo extends Command {
                             `<:serverowner:863983092930183169> ${client.language.SERVERINFO[9]}`,
                             `<@${guild.ownerId}>`
                         )
-                        .addField(client.language.SERVERINFO[10], '```' + `${guild.id}` + '```', true)
+                        .addFields({name: client.language.SERVERINFO[10], '```' + `${guild.id}` + '```', value: true})
                         .addField(
                             `<:members:864107765050638367> ${client.language.SERVERINFO[11]}`,
                             '```' + `${guild.memberCount}` + '```',
@@ -112,7 +112,7 @@ module.exports = class ServerInfo extends Command {
                             }`,
                             true
                         )
-                        .addField(`📆 ${client.language.SERVERINFO[20]}`, '```' + `${create}` + '```', true)
+                        .addFields({name: `📆 ${client.language.SERVERINFO[20]}`, '```' + `${create}` + '```', value: true})
                         .addField(
                             `<:serverbooster:864102069728313354> ${client.language.SERVERINFO[21]}`,
                             '```' + `${boostcount}` + '```',
@@ -128,8 +128,8 @@ module.exports = class ServerInfo extends Command {
                             true,
                             true
                         )
-                        //.addField(`<:roles:864116470648930304> Roles [${role.length}]`, role.length < 10 ? role.join(', ') : role.length > 10 ? trimArray(role) : 'None')
-                        .addField(`**${client.language.SERVERINFO[25]}**`, `${verification[guild.verificationLevel]}`)
+                        //.addFields({name: `<:roles:864116470648930304> Roles [${role.length}]`, role.length < 10 ? role.join(', value: ') : role.length > 10 ? trimArray(role) : 'None'})
+                        .addFields({name: `**${client.language.SERVERINFO[25]}**`, value: `${verification[guild.verificationLevel]}`})
                         .addField(
                             `**${client.language.SERVERINFO[26]}**`,
                             '```' + `${explicitContent[guild.explicitContentFilter]}` + '```'

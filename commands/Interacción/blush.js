@@ -33,7 +33,7 @@ module.exports = class Blush extends Command {
                     if (args.length > 1) {
                         args.shift()
                         const reason = args.join(' ')
-                        embed.addField('\u200b', reason)
+                        embed.addFields({ name: '\u200b', value: reason })
                     }
                     return message.channel.send({ embeds: [embed] })
                 }
@@ -55,7 +55,7 @@ module.exports = class Blush extends Command {
                 if (args.length > 1) {
                     args.shift()
                     const reason = args.join(' ')
-                    embed.addField('\u200b', reason)
+                    embed.addFields({ name: '\u200b', value: reason })
                 }
                 return message.channel.send({ embeds: [embed] })
             }

@@ -55,7 +55,7 @@ module.exports = class Hug extends Command {
             if (args.length > 1) {
                 args.shift()
                 const reason = args.join(' ')
-                embed.addField('\u200b', reason)
+                embed.addFields({ name: '\u200b', value: reason })
             }
             message.channel.send({ embeds: [embed] })
         } catch (e) {
