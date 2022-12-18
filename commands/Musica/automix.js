@@ -23,10 +23,7 @@ module.exports = class AutoMix extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.AUTOMIX[8])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const { channel } = message.member.voice
@@ -47,18 +44,12 @@ module.exports = class AutoMix extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
 
-            if (
-                message.guild.config.MUSIC_CHANNELS[0] &&
-                !message.guild.config.MUSIC_CHANNELS.includes(channel.id)
-            ) {
+            if (message.guild.config.MUSIC_CHANNELS[0] && !message.guild.config.MUSIC_CHANNELS.includes(channel.id)) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[13])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -82,26 +73,16 @@ module.exports = class AutoMix extends Command {
                 playerCanal.id != channel.id &&
                 playerCanal.members.size == 1
             ) {
-                let member = await message.guild.members
-                    .fetch(process.env.botID)
-                    .catch(e => {
-                        return
-                    })
+                let member = await message.guild.members.fetch(process.env.botID).catch((e) => {
+                    return
+                })
                 member.voice.setChannel(channel.id)
-            } else if (
-                playerCanal &&
-                playerCanal.id &&
-                channel.id &&
-                playerCanal.id != channel.id
-            ) {
+            } else if (playerCanal && playerCanal.id && channel.id && playerCanal.id != channel.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[2])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -133,40 +114,19 @@ module.exports = class AutoMix extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.AUTOMIX[3])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 case 'PLAYLIST_LOADED': {
                     player.queue.add(result.tracks)
-                    if (
-                        !player.playing &&
-                        !player.paused &&
-                        player.queue.totalSize === result.tracks.length
-                    )
+                    if (!player.playing && !player.paused && player.queue.totalSize === result.tracks.length)
                         player.play()
                     const e = new MessageEmbed()
                         .setTitle(client.language.AUTOMIX[4])
                         .setColor(process.env.EMBED_COLOR)
-                        .addField(
-                            client.language.AUTOMIX[5],
-                            `${result.playlist.name}`,
-                            true
-                        )
-                        .addField(
-                            client.language.AUTOMIX[6],
-                            `\`${result.tracks.length}\``,
-                            true
-                        )
-                        .addField(
-                            client.language.AUTOMIX[7],
-                            `${result.tracks[0].requester}`,
-                            true
-                        )
-                        .setThumbnail(
-                            `https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`
-                        )
+                        .addField(client.language.AUTOMIX[5], `${result.playlist.name}`, true)
+                        .addField(client.language.AUTOMIX[6], `\`${result.tracks.length}\``, true)
+                        .addField(client.language.AUTOMIX[7], `${result.tracks[0].requester}`, true)
+                        .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`)
                     return msg.edit({ content: ' ', embeds: [e] })
                 }
                 case 'LOAD_FAILED':
@@ -174,10 +134,7 @@ module.exports = class AutoMix extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.AUTOMIX[3])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return msg.edit({ content: ' ', embeds: [errorembed2] })
             }
         } catch (e) {
@@ -188,10 +145,7 @@ module.exports = class AutoMix extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

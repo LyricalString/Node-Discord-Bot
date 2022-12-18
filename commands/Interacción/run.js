@@ -5,10 +5,7 @@ module.exports = class Run extends Command {
     constructor(client) {
         super(client, {
             name: 'run',
-            description: [
-                'Shows that you are running.',
-                'Muestra que estás corriendo.'
-            ],
+            description: ['Shows that you are running.', 'Muestra que estás corriendo.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Run extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

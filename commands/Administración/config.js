@@ -28,50 +28,39 @@ module.exports = class Config extends Command {
                             .findOne({
                                 guildID: message.guild.id
                             })
-                            .then(data => {
+                            .then((data) => {
                                 data.config.tos = true
-                                data.save().catch(err => console.error(err))
+                                data.save().catch((err) => console.error(err))
                             })
                         message.guild.config.tos = true
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
                             .setDescription(client.language.TOSMODE[1])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[1].toLowerCase() == 'disable') {
                         guildSchema
                             .findOne({
                                 guildID: message.guild.id
                             })
-                            .then(data => {
+                            .then((data) => {
                                 data.config.tos = false
-                                data.save().catch(err => console.error(err))
+                                data.save().catch((err) => console.error(err))
                             })
                         message.guild.config.tos = false
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
                             .setDescription(client.language.TOSMODE[2])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                'Las únicas opciones disponibles son enable/disable.'
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription('Las únicas opciones disponibles son enable/disable.')
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                 } else {
@@ -81,10 +70,7 @@ module.exports = class Config extends Command {
                         .setDescription(
                             `Debes de añadir una de las siguientes opciones al comando: \`enable/disable\`.`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             } else if (args[0].toLowerCase() == 'spammode') {
@@ -94,50 +80,39 @@ module.exports = class Config extends Command {
                             .findOne({
                                 guildID: message.guild.id
                             })
-                            .then(data => {
+                            .then((data) => {
                                 data.config.spam = true
-                                data.save().catch(err => console.error(err))
+                                data.save().catch((err) => console.error(err))
                             })
                         message.guild.config.spam = true
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
                             .setDescription(client.language.SPAMMODE[1])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[1].toLowerCase() == 'disable') {
                         guildSchema
                             .findOne({
                                 guildID: message.guild.id
                             })
-                            .then(data => {
+                            .then((data) => {
                                 data.config.spam = false
-                                data.save().catch(err => console.error(err))
+                                data.save().catch((err) => console.error(err))
                             })
                         message.guild.config.spam = false
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
                             .setDescription(client.language.SPAMMODE[2])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                'Las únicas opciones disponibles son enable/disable.'
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription('Las únicas opciones disponibles son enable/disable.')
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                 } else {
@@ -147,10 +122,7 @@ module.exports = class Config extends Command {
                         .setDescription(
                             `Debes de añadir una de las siguientes opciones al comando: \`enable/disable\`.`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             } else if (args[0].toLowerCase() == 'mutedrole') {
@@ -158,21 +130,14 @@ module.exports = class Config extends Command {
                     if (args[1].toLowerCase() == 'add') {
                         let role
                         if (args[2]) {
-                            role =
-                                (await message.guild.roles.fetch(args[2])) ||
-                                message.mentions.roles.first()
+                            role = (await message.guild.roles.fetch(args[2])) || message.mentions.roles.first()
                         }
                         if (!role) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
-                                .setDescription(
-                                    'No he podido encontrar el rol.'
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setDescription('No he podido encontrar el rol.')
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -181,54 +146,39 @@ module.exports = class Config extends Command {
                             .findOne({
                                 guildID: message.guild.id
                             })
-                            .then(data => {
+                            .then((data) => {
                                 data.config.MutedRole = role.id
-                                data.save().catch(err => console.error(err))
+                                data.save().catch((err) => console.error(err))
                             })
                         message.guild.config.MutedRole = role.id
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(
-                                `Has seleccionado <@&${role.id}> como el nuevo rol para los muteos.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription(`Has seleccionado <@&${role.id}> como el nuevo rol para los muteos.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[1].toLowerCase() == 'reset') {
                         guildSchema
                             .findOne({
                                 guildID: message.guild.id
                             })
-                            .then(data => {
+                            .then((data) => {
                                 data.config.MutedRole = ''
-                                data.save().catch(err => console.error(err))
+                                data.save().catch((err) => console.error(err))
                             })
                         message.guild.config.MutedRole = ''
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(
-                                `Has reseteado el rol para los muteos. Ahora no se asignará ningun rol.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription(`Has reseteado el rol para los muteos. Ahora no se asignará ningun rol.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                'Las únicas opciones disponibles son add <rol> o reset.'
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription('Las únicas opciones disponibles son add <rol> o reset.')
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                 } else {
@@ -238,10 +188,7 @@ module.exports = class Config extends Command {
                         .setDescription(
                             `Debes de seguir el siguiente esquema de comando: \`${prefix}config mutedrole <id/mención del rol>\`.`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             } else {
@@ -251,10 +198,7 @@ module.exports = class Config extends Command {
                     .setDescription(
                         `Esa configuración no existe. Revisa el comando escribiendo \`${prefix}help config\``
                     )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
@@ -265,10 +209,7 @@ module.exports = class Config extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

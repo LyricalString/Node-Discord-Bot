@@ -13,10 +13,7 @@ module.exports = class Code extends Command {
             ],
             subcommands: ['generate', 'redeem', 'stats'],
             args: true,
-            usage: [
-                '<generate> or <redeem/statsw> <code>',
-                '<generate> o <redeem/ststs> <código>'
-            ],
+            usage: ['<generate> or <redeem/statsw> <code>', '<generate> o <redeem/ststs> <código>'],
             category: 'Info'
         })
     }
@@ -32,13 +29,8 @@ module.exports = class Code extends Command {
                         if (s) {
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                                .setDescription(
-                                    client.language.CODE[1] + '`' + s.CODE + '`'
-                                )
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                                .setDescription(client.language.CODE[1] + '`' + s.CODE + '`')
                             return message.channel.send({ embeds: [embed] })
                         } else {
                             let code = makeid(8)
@@ -48,158 +40,111 @@ module.exports = class Code extends Command {
                                 SERVERS: '0',
                                 USERS: '0'
                             })
-                            usercode.save().catch(e => console.error(e))
+                            usercode.save().catch((e) => console.error(e))
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(client.language.SUCCESSEMBED)
-                                .setDescription(
-                                    `${client.language.CODE[2]} \`${code}\`!`
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setDescription(`${client.language.CODE[2]} \`${code}\`!`)
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({ embeds: [embed] })
                         }
                     })
             } else if (args[0].toLowerCase() == 'redeem') {
                 let old
-                await guildModel
-                    .findOne({ guildID: message.guild.id.toString() })
-                    .then((s, err) => {
-                        if (err) return
-                        if (s.Creado < 1629381609000) {
-                            const errorembed = new MessageEmbed()
-                                .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.CODE[9])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            return message.channel.send({
-                                embeds: [errorembed]
-                            })
-                        }
-                        if (s.REFERED) {
-                            const errorembed = new MessageEmbed()
-                                .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(
-                                    'Este servidor ya ha sido referido.'
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            return message.channel.send({
-                                embeds: [errorembed]
-                            })
-                        }
-                        if (
-                            !message.channel
-                                .permissionsFor(message.author)
-                                .has('ADMINISTRATOR')
-                        ) {
-                            const errorembed = new MessageEmbed()
-                                .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.CODE[3])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            return message.channel.send({
-                                embeds: [errorembed]
-                            })
-                        }
-                        if (!args[1]) {
-                            const errorembed = new MessageEmbed()
-                                .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(
-                                    `${client.language.CODE[4]} \`${prefix}${client.language.CODE[5]}\`.`
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
-                            return message.channel.send({
-                                embeds: [errorembed]
-                            })
-                        }
+                await guildModel.findOne({ guildID: message.guild.id.toString() }).then((s, err) => {
+                    if (err) return
+                    if (s.Creado < 1629381609000) {
+                        const errorembed = new MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(client.language.ERROREMBED)
+                            .setDescription(client.language.CODE[9])
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({
+                            embeds: [errorembed]
+                        })
+                    }
+                    if (s.REFERED) {
+                        const errorembed = new MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(client.language.ERROREMBED)
+                            .setDescription('Este servidor ya ha sido referido.')
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({
+                            embeds: [errorembed]
+                        })
+                    }
+                    if (!message.channel.permissionsFor(message.author).has('ADMINISTRATOR')) {
+                        const errorembed = new MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(client.language.ERROREMBED)
+                            .setDescription(client.language.CODE[3])
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({
+                            embeds: [errorembed]
+                        })
+                    }
+                    if (!args[1]) {
+                        const errorembed = new MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(client.language.ERROREMBED)
+                            .setDescription(`${client.language.CODE[4]} \`${prefix}${client.language.CODE[5]}\`.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({
+                            embeds: [errorembed]
+                        })
+                    }
 
-                        if (args[1].length != 8) {
+                    if (args[1].length != 8) {
+                        const errorembed = new MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(client.language.ERROREMBED)
+                            .setDescription(client.language.CODE[6])
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({
+                            embeds: [errorembed]
+                        })
+                    }
+                    codeModel.findOne({ CODE: args[1] }).then(async (s2, err) => {
+                        if (!s2) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.CODE[6])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setDescription('Ese código de referidos no existe.')
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
                         }
-                        codeModel
-                            .findOne({ CODE: args[1] })
-                            .then(async (s2, err) => {
-                                if (!s2) {
-                                    const errorembed = new MessageEmbed()
-                                        .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(
-                                            'Ese código de referidos no existe.'
-                                        )
-                                        .setFooter(
-                                            message.author.username,
-                                            message.author.avatarURL()
-                                        )
-                                    return message.channel.send({
-                                        embeds: [errorembed]
-                                    })
-                                }
-                                let serverCount = parseInt(s2.SERVERS) + 1
-                                let userCount =
-                                    parseInt(s2.USERS) +
-                                    message.guild.memberCount
-                                s2.USERS = userCount.toString()
-                                s2.SERVERS = serverCount.toString()
-                                s2.save().catch(e => {
-                                    console.log(e)
-                                })
-                                message.guild.refered = true
-                                s.REFERED = true
-                                s.save().catch(e => {})
-                                const embed = new MessageEmbed()
-                                    .setColor(process.env.EMBED_COLOR)
-                                    .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(
-                                        client.language.CODE[8] +
-                                            '\n\n' +
-                                            `${client.language.CODE[10]} \`${s2.USERS} ${client.language.CODE[11]}\` ${client.language.CODE[12]} \`${s2.SERVERS} ${client.language.CODE[13]}\` ${client.language.CODE[14]}`
-                                    )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
-                                return message.channel.send({ embeds: [embed] })
-                            })
+                        let serverCount = parseInt(s2.SERVERS) + 1
+                        let userCount = parseInt(s2.USERS) + message.guild.memberCount
+                        s2.USERS = userCount.toString()
+                        s2.SERVERS = serverCount.toString()
+                        s2.save().catch((e) => {
+                            console.log(e)
+                        })
+                        message.guild.refered = true
+                        s.REFERED = true
+                        s.save().catch((e) => {})
+                        const embed = new MessageEmbed()
+                            .setColor(process.env.EMBED_COLOR)
+                            .setTitle(client.language.SUCCESSEMBED)
+                            .setDescription(
+                                client.language.CODE[8] +
+                                    '\n\n' +
+                                    `${client.language.CODE[10]} \`${s2.USERS} ${client.language.CODE[11]}\` ${client.language.CODE[12]} \`${s2.SERVERS} ${client.language.CODE[13]}\` ${client.language.CODE[14]}`
+                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({ embeds: [embed] })
                     })
+                })
             } else if (args[0].toLowerCase() == 'stats') {
                 codeModel.findOne({ CODE: args[1] }).then(async (s2, err) => {
                     if (!s2) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                'Ese código de referidos no existe.'
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription('Ese código de referidos no existe.')
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                     const embed = new MessageEmbed()
@@ -207,10 +152,7 @@ module.exports = class Code extends Command {
                         .setDescription(
                             `${client.language.CODE[10]} \`${s2.USERS} ${client.language.CODE[11]}\` ${client.language.CODE[12]} \`${s2.SERVERS} ${client.language.CODE[13]}\` ${client.language.CODE[14]}`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 })
             } else {
@@ -218,10 +160,7 @@ module.exports = class Code extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CODE[6])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
@@ -232,10 +171,7 @@ module.exports = class Code extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(
@@ -254,13 +190,10 @@ module.exports = class Code extends Command {
 
 function makeid(length) {
     var result = ''
-    var characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     var charactersLength = characters.length
     for (var i = 0; i < length; i++) {
-        result += characters.charAt(
-            Math.floor(Math.random() * charactersLength)
-        )
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
     }
     codeModel
         .findOne({

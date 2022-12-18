@@ -5,10 +5,7 @@ module.exports = class Seek extends Command {
     constructor(client) {
         super(client, {
             name: 'seek',
-            description: [
-                'Skips to a timestamp in the song.',
-                'Avanza hasta cierto segundo en la cancion.'
-            ],
+            description: ['Skips to a timestamp in the song.', 'Avanza hasta cierto segundo en la cancion.'],
             usage: [],
             category: 'musica',
             args: true,
@@ -21,13 +18,8 @@ module.exports = class Seek extends Command {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
-                    .setDescription(
-                        `${client.language.SEEK[1]} ${prefix}seek <${client.language.SEEK[2]}>`
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setDescription(`${client.language.SEEK[1]} ${prefix}seek <${client.language.SEEK[2]}>`)
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const player = client.manager.players.get(message.guild.id)
@@ -36,19 +28,14 @@ module.exports = class Seek extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.SEEK[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             player.seek(args[0] * 1000)
             const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setTitle(client.language.SUCCESSEMBED)
-                .setDescription(
-                    `${client.language.SEEK[4]} ${args[0]}${client.language.SEEK[5]}`
-                )
+                .setDescription(`${client.language.SEEK[4]} ${args[0]}${client.language.SEEK[5]}`)
                 .setFooter(message.author.username, message.author.avatarURL())
             return message.channel.send({ embeds: [embed] })
         } catch (e) {

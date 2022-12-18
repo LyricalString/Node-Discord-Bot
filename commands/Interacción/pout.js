@@ -5,10 +5,7 @@ module.exports = class Pout extends Command {
     constructor(client) {
         super(client, {
             name: 'pout',
-            description: [
-                'Shows that you are pouting.',
-                'Muestra que estás haciendo pucheros.'
-            ],
+            description: ['Shows that you are pouting.', 'Muestra que estás haciendo pucheros.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Pout extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

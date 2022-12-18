@@ -7,10 +7,7 @@ module.exports = class Shards extends Command {
     constructor(client) {
         super(client, {
             name: 'shards',
-            description: [
-                'Displays the current shard info.',
-                'Muestra información de las shards.'
-            ],
+            description: ['Displays the current shard info.', 'Muestra información de las shards.'],
             category: 'Administracion',
             alias: ['shard'],
             inactive: true
@@ -20,9 +17,7 @@ module.exports = class Shards extends Command {
         try {
             delete require.cache[require.resolve(`../../estadisticas.json`)]
             let data = require('../../estadisticas.json')
-            const embed = new MessageEmbed()
-                .setColor('GREEN')
-                .setAuthor('Información de Node')
+            const embed = new MessageEmbed().setColor('GREEN').setAuthor('Información de Node')
 
             for (let index2 in data.clusters) {
                 let cluster = data.clusters[index2]
@@ -38,15 +33,11 @@ module.exports = class Shards extends Command {
                 let averagePing = Math.trunc(ping / cluster.shardsStats.length)
                 embed.addField(
                     `${client.language.SHARDS[1]} ${index}`,
-                    `\`\`\`js\n${client.language.SHARDS[2]}: ${shards}\n${
-                        client.language.SHARDS[3]
-                    }: ${guilds}\n${client.language.SHARDS[4]}: ${Math.trunc(
-                        parseInt(ram)
-                    )} MB\n${client.language.SHARDS[5]}: ${moment
+                    `\`\`\`js\n${client.language.SHARDS[2]}: ${shards}\n${client.language.SHARDS[3]}: ${guilds}\n${
+                        client.language.SHARDS[4]
+                    }: ${Math.trunc(parseInt(ram))} MB\n${client.language.SHARDS[5]}: ${moment
                         .duration(client.uptime)
-                        .format(`DD:HH:mm:ss`)}\n${
-                        client.language.SHARDS[6]
-                    }: ${exclusiveGuilds}\n${
+                        .format(`DD:HH:mm:ss`)}\n${client.language.SHARDS[6]}: ${exclusiveGuilds}\n${
                         client.language.SHARDS[7]
                     }: ${averagePing} ms\`\`\``,
                     true
@@ -61,10 +52,7 @@ module.exports = class Shards extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

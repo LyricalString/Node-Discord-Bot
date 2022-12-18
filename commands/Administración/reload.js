@@ -7,10 +7,7 @@ module.exports = class Reload extends Command {
     constructor(client) {
         super(client, {
             name: 'reload',
-            description: [
-                'Reload all commands.',
-                'Vuelve a cargar todos los comandos.'
-            ],
+            description: ['Reload all commands.', 'Vuelve a cargar todos los comandos.'],
             alias: ['rl', 'rld'],
             permissions: ['ADMINISTRATOR'],
             role: 'dev',
@@ -19,38 +16,21 @@ module.exports = class Reload extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            categories.forEach(async category => {
-                readdir(`./commands/${category}`, err => {
+            categories.forEach(async (category) => {
+                readdir(`./commands/${category}`, (err) => {
                     if (err) return console.error(err)
                     const iniciar = async () => {
-                        const commands = readdirSync(
-                            `./commands/${category}`
-                        ).filter(archivo => archivo.endsWith('.js'))
+                        const commands = readdirSync(`./commands/${category}`).filter((archivo) =>
+                            archivo.endsWith('.js')
+                        )
                         for (const archivo of commands) {
                             const a = require(`../../commands/${category}/${archivo}`)
-                            delete require.cache[
-                                require.resolve(
-                                    `../../commands/${category}/${archivo}`
-                                )
-                            ]
+                            delete require.cache[require.resolve(`../../commands/${category}/${archivo}`)]
                             const command = new a(client)
-                            client.commands.set(
-                                command.name.toLowerCase(),
-                                command
-                            )
-                            if (
-                                command.aliases &&
-                                Array.isArray(command.aliases)
-                            ) {
-                                for (
-                                    let i = 0;
-                                    i < command.aliases.length;
-                                    i++
-                                ) {
-                                    client.aliases.set(
-                                        command.aliases[i],
-                                        command
-                                    )
+                            client.commands.set(command.name.toLowerCase(), command)
+                            if (command.aliases && Array.isArray(command.aliases)) {
+                                for (let i = 0; i < command.aliases.length; i++) {
+                                    client.aliases.set(command.aliases[i], command)
                                 }
                             }
                         }
@@ -71,10 +51,7 @@ module.exports = class Reload extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.fatal_error)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
             )
             webhookClient.send(
                 `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`

@@ -22,17 +22,11 @@ module.exports = class Role extends Command {
         super(client, {
             name: 'role',
             category: 'Moderacion',
-            description: [
-                'Adds a role to the user!',
-                '¡Agrega un rol a un usuario!'
-            ],
+            description: ['Adds a role to the user!', '¡Agrega un rol a un usuario!'],
             cooldown: 5,
             permissions: ['MANAGE_ROLES'],
             botpermissions: ['MANAGE_ROLES'],
-            usage: [
-                'add/del <role id/@role> <user id/@role>',
-                'add/del <id del rol/@role> <id del usuario/@usuario>'
-            ],
+            usage: ['add/del <role id/@role> <user id/@role>', 'add/del <id del rol/@role> <id del usuario/@usuario>'],
             subcommands: ['add', 'del'],
             args: true,
             moderation: true,
@@ -41,17 +35,12 @@ module.exports = class Role extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_MESSAGES')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
-                if (!message.deleted)
-                    message.delete().catch(e => console.log(e))
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
             }
             if (args[0].toLowerCase() == 'add') {
                 if (!args[2]) {
@@ -59,10 +48,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (!args[1]) {
@@ -70,25 +56,18 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 role =
                     message.mentions.roles.first() ||
-                    message.guild.roles.cache.find(
-                        r => r.id == args[1].replace('<@&', '').replace('>', '')
-                    )
+                    message.guild.roles.cache.find((r) => r.id == args[1].replace('<@&', '').replace('>', ''))
 
                 user =
                     message.mentions.members.first() ||
-                    (await message.guild.members
-                        .fetch(args[2].replace('<@', '').replace('>', ''))
-                        .catch(e => {
-                            return
-                        }))
+                    (await message.guild.members.fetch(args[2].replace('<@', '').replace('>', '')).catch((e) => {
+                        return
+                    }))
                 let owner = message.guild.ownerId
 
                 if (message.author.id == owner) {
@@ -99,10 +78,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[3])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -111,10 +87,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[4])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -123,10 +96,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[12])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -134,13 +104,8 @@ module.exports = class Role extends Command {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                `${client.language.ROLE[5]} ${user} ${client.language.ROLE[6]} ${role}.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription(`${client.language.ROLE[5]} ${user} ${client.language.ROLE[6]} ${role}.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -151,10 +116,7 @@ module.exports = class Role extends Command {
                         .setDescription(
                             `${client.language.ROLE[7]} ${role} ${client.language.ROLE[8]} ${user} ${client.language.ROLE[9]}`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 }
 
@@ -163,10 +125,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -175,10 +134,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[3])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -187,10 +143,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[10])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -202,10 +155,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[2])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                     if (!role) {
@@ -213,25 +163,16 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[4])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
-                    if (
-                        role.comparePositionTo(message.member.roles.highest) >=
-                        0
-                    ) {
+                    if (role.comparePositionTo(message.member.roles.highest) >= 0) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[11])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -240,10 +181,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[12])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -251,13 +189,8 @@ module.exports = class Role extends Command {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                `${client.language.ROLE[13]} ${role}.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription(`${client.language.ROLE[13]} ${role}.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -265,29 +198,17 @@ module.exports = class Role extends Command {
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setTitle(client.language.SUCCESSEMBED)
-                        .setDescription(
-                            `${user} ${client.language.ROLE[14]} ${role} ${client.language.ROLE[15]}`
-                        )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setDescription(`${user} ${client.language.ROLE[14]} ${role} ${client.language.ROLE[15]}`)
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 }
 
-                if (
-                    message.member.roles.highest.comparePositionTo(
-                        user.roles.highest
-                    ) <= 0
-                ) {
+                if (message.member.roles.highest.comparePositionTo(user.roles.highest) <= 0) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[16])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -296,10 +217,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (!role) {
@@ -307,10 +225,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[4])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (role.comparePositionTo(message.member.roles.highest) >= 0) {
@@ -318,10 +233,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[17])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -330,10 +242,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[12])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -342,10 +251,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(`${client.language.ROLE[18]} ${role}`)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -356,10 +262,7 @@ module.exports = class Role extends Command {
                     .setDescription(
                         `${client.language.ROLE[7]} ${role} ${client.language.ROLE[8]} ${user} ${client.language.ROLE[9]}`
                     )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] })
             } else if (args[0].toLowerCase() == 'del') {
                 if (!args[2]) {
@@ -367,10 +270,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (!args[1]) {
@@ -378,24 +278,15 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 role =
                     message.mentions.roles.first() ||
-                    message.guild.roles.cache.find(
-                        r => r.id == args[1].replace('<@&', '').replace('>', '')
-                    )
+                    message.guild.roles.cache.find((r) => r.id == args[1].replace('<@&', '').replace('>', ''))
                 user =
                     message.mentions.members.first() ||
-                    (
-                        await message.guild.members.fetch(
-                            args[2].replace('<@', '').replace('>', '')
-                        )
-                    ).catch(e => {
+                    (await message.guild.members.fetch(args[2].replace('<@', '').replace('>', ''))).catch((e) => {
                         return
                     })
                 let owner = message.guild.ownerId
@@ -408,10 +299,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[3])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -420,10 +308,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[4])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -432,10 +317,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[12])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -446,10 +328,7 @@ module.exports = class Role extends Command {
                         .setDescription(
                             `${client.language.ROLE[7]} ${role} ${client.language.ROLE[23]} ${user} ${client.language.ROLE[9]}`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 }
 
@@ -458,10 +337,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (!user) {
@@ -469,10 +345,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (user.id == owner) {
@@ -480,10 +353,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[22])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -495,10 +365,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[2])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                     if (!role) {
@@ -506,25 +373,16 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[4])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
-                    if (
-                        role.comparePositionTo(message.member.roles.highest) >=
-                        0
-                    ) {
+                    if (role.comparePositionTo(message.member.roles.highest) >= 0) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[17])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -533,10 +391,7 @@ module.exports = class Role extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.ROLE[12])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -547,26 +402,16 @@ module.exports = class Role extends Command {
                         .setDescription(
                             `${client.language.ROLE[7]} ${role} ${client.language.ROLE[23]} ${user} ${client.language.ROLE[9]}`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 }
 
-                if (
-                    message.member.roles.highest.comparePositionTo(
-                        user.roles.highest
-                    ) <= 0
-                ) {
+                if (message.member.roles.highest.comparePositionTo(user.roles.highest) <= 0) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[16])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -575,10 +420,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (!role) {
@@ -586,10 +428,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[4])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 if (role.comparePositionTo(message.member.roles.highest) >= 0) {
@@ -597,10 +436,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[17])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -609,10 +445,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.ROLE[12])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
@@ -623,10 +456,7 @@ module.exports = class Role extends Command {
                     .setDescription(
                         `${client.language.ROLE[7]} ${role} ${client.language.ROLE[23]} ${user} ${client.language.ROLE[9]}`
                     )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
         } catch (e) {
@@ -637,10 +467,7 @@ module.exports = class Role extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

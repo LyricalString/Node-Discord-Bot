@@ -6,10 +6,7 @@ module.exports = class Skin extends Command {
     constructor(client) {
         super(client, {
             name: 'skin',
-            description: [
-                'Shows a menu with the skins.',
-                'Muestra un menú con las skins.'
-            ],
+            description: ['Shows a menu with the skins.', 'Muestra un menú con las skins.'],
             usage: ['<@user>', '<@usuario>'],
             args: true,
             category: 'Utils',
@@ -120,10 +117,7 @@ module.exports = class Skin extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

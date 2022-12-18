@@ -5,10 +5,7 @@ module.exports = class Clear extends Command {
     constructor(client) {
         super(client, {
             name: 'clear',
-            description: [
-                'Advanced system for message deletion.',
-                'Sistema avanzado para el borrado de mensajes.'
-            ],
+            description: ['Advanced system for message deletion.', 'Sistema avanzado para el borrado de mensajes.'],
             alias: ['clear', 'delete', 'prune', 'purge'],
             permissions: ['MANAGE_MESSAGES'],
             botpermissions: ['MANAGE_MESSAGES'],
@@ -39,71 +36,55 @@ module.exports = class Clear extends Command {
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.CLEAR[29])
                     .setDescription(
-                        `\`${prefix}${client.language.CLEAR[32]}\`${
-                            client.language.CLEAR[33]
-                        }\`${prefix}${client.language.CLEAR[34]}${commands.join(
-                            `\n\`${prefix}${client.language.CLEAR[34]}`
-                        )}`
+                        `\`${prefix}${client.language.CLEAR[32]}\`${client.language.CLEAR[33]}\`${prefix}${
+                            client.language.CLEAR[34]
+                        }${commands.join(`\n\`${prefix}${client.language.CLEAR[34]}`)}`
                     )
                     .setFooter(`${client.language.CLEAR[30]}`)
 
-                if (!args[0] || !args.length)
-                    return message.channel.send({ embeds: [embd] })
+                if (!args[0] || !args.length) return message.channel.send({ embeds: [embd] })
                 let amount = Number(args[0], 10) || parseInt(args[0])
                 if (isNaN(amount) || !Number.isInteger(amount)) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.CLEAR[39])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 // if (!amount || amount < 2 || amount > 100) return message.channel.send(client.language.CLEAR[40])
 
                 if (!args[1]) {
                     try {
-                        if (
-                            !message.channel
-                                .permissionsFor(message.guild.me)
-                                .has('MANAGE_MESSAGES')
-                        ) {
+                        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             message.reply({
                                 content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                             })
                         } else {
-                            if (!message.deleted)
-                                message.delete().catch(e => console.log(e))
+                            if (!message.deleted) message.delete().catch((e) => console.log(e))
                         }
-                        await message.channel
-                            .bulkDelete(amount)
-                            .then(async m => {
-                                let embed = new MessageEmbed()
-                                    .setColor(process.env.EMBED_COLOR)
-                                    .setDescription(
-                                        `${client.language.CLEAR[41]}${m.size}**/**${amount}${client.language.CLEAR[42]}`
-                                    )
+                        await message.channel.bulkDelete(amount).then(async (m) => {
+                            let embed = new MessageEmbed()
+                                .setColor(process.env.EMBED_COLOR)
+                                .setDescription(
+                                    `${client.language.CLEAR[41]}${m.size}**/**${amount}${client.language.CLEAR[42]}`
+                                )
 
-                                message.channel
-                                    .send({ embeds: [embed] })
-                                    .then(msg => {
-                                        if (!msg.deleted) {
-                                            setTimeout(() => msg.delete(), 5000)
-                                        }
-                                    })
-                                    .catch(err => {})
-                            })
+                            message.channel
+                                .send({ embeds: [embed] })
+                                .then((msg) => {
+                                    if (!msg.deleted) {
+                                        setTimeout(() => msg.delete(), 5000)
+                                    }
+                                })
+                                .catch((err) => {})
+                        })
                     } catch (e) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.CLEAR[43])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                 } else if (args[1]) {
@@ -116,55 +97,40 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (ms.author.bot && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[44]}${m.size}**/**${amount}${client.language.CLEAR[45]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[44]}${m.size}**/**${amount}${client.language.CLEAR[45]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -176,55 +142,40 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (!ms.author.bot && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -272,56 +223,40 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
-                                if (ms.embeds.length && !ms.pinned)
-                                    data.push(ms)
+                            msg.map((m) => m).forEach((ms) => {
+                                if (ms.embeds.length && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -333,56 +268,40 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
-                                if (ms.attachments.first() && !ms.pinned)
-                                    data.push(ms)
+                            msg.map((m) => m).forEach((ms) => {
+                                if (ms.attachments.first() && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -394,60 +313,40 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
-                                if (
-                                    !ms.attachments.first() &&
-                                    !ms.embeds.length &&
-                                    !ms.pinned
-                                )
-                                    data.push(ms)
+                            msg.map((m) => m).forEach((ms) => {
+                                if (!ms.attachments.first() && !ms.embeds.length && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -459,7 +358,7 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (
                                     (ms.mentions.users.first() ||
                                         ms.mentions.members.first() ||
@@ -471,50 +370,35 @@ module.exports = class Clear extends Command {
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -526,55 +410,40 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -586,65 +455,44 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (!args[2])
                                     return message.channel.send({
                                         embeds: [embd]
                                     })
-                                if (
-                                    ms.content.includes(
-                                        args.slice(2).join(' ')
-                                    ) &&
-                                    !ms.pinned
-                                )
-                                    data.push(ms)
+                                if (ms.content.includes(args.slice(2).join(' ')) && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -656,65 +504,44 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (!args[2])
                                     return message.channel.send({
                                         embeds: [embd]
                                     })
-                                if (
-                                    !ms.content.includes(
-                                        args.slice(2).join(' ')
-                                    ) &&
-                                    !ms.pinned
-                                )
-                                    data.push(ms)
+                                if (!ms.content.includes(args.slice(2).join(' ')) && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -726,65 +553,44 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (!args[2])
                                     return message.channel.send({
                                         embeds: [embd]
                                     })
-                                if (
-                                    ms.content.startsWith(
-                                        args.slice(2).join(' ')
-                                    ) &&
-                                    !ms.pinned
-                                )
-                                    data.push(ms)
+                                if (ms.content.startsWith(args.slice(2).join(' ')) && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -796,65 +602,44 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (!args[2])
                                     return message.channel.send({
                                         embeds: [embd]
                                     })
-                                if (
-                                    ms.content.endsWith(
-                                        args.slice(2).join(' ')
-                                    ) &&
-                                    !ms.pinned
-                                )
-                                    data.push(ms)
+                                if (ms.content.endsWith(args.slice(2).join(' ')) && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -866,65 +651,44 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (!args[2])
                                     return message.channel.send({
                                         embeds: [embd]
                                     })
-                                if (
-                                    ms.content.startsWith(
-                                        args.slice(2).join(' ')
-                                    ) &&
-                                    !ms.pinned
-                                )
-                                    data.push(ms)
+                                if (ms.content.startsWith(args.slice(2).join(' ')) && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -936,65 +700,44 @@ module.exports = class Clear extends Command {
                                 limit: amount
                             })
                             data = []
-                            msg.map(m => m).forEach(ms => {
+                            msg.map((m) => m).forEach((ms) => {
                                 if (!args[2])
                                     return message.channel.send({
                                         embeds: [embd]
                                     })
-                                if (
-                                    ms.content.endsWith(
-                                        args.slice(2).join(' ')
-                                    ) &&
-                                    !ms.pinned
-                                )
-                                    data.push(ms)
+                                if (ms.content.endsWith(args.slice(2).join(' ')) && !ms.pinned) data.push(ms)
                             })
 
                             try {
-                                if (
-                                    !message.channel
-                                        .permissionsFor(message.guild.me)
-                                        .has('MANAGE_MESSAGES')
-                                ) {
+                                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
                                         content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
-                                    if (!message.deleted)
-                                        message
-                                            .delete()
-                                            .catch(e => console.log(e))
+                                    if (!message.deleted) message.delete().catch((e) => console.log(e))
                                 }
-                                await message.channel
-                                    .bulkDelete(data.length ? data : 1, true)
-                                    .then(async m => {
-                                        embed = new MessageEmbed()
-                                            .setColor(process.env.EMBED_COLOR)
-                                            .setDescription(
-                                                `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
-                                            )
+                                await message.channel.bulkDelete(data.length ? data : 1, true).then(async (m) => {
+                                    embed = new MessageEmbed()
+                                        .setColor(process.env.EMBED_COLOR)
+                                        .setDescription(
+                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                        )
 
-                                        message.channel
-                                            .send({ embeds: [embed] })
-                                            .then(msg => {
-                                                if (!msg.deleted) {
-                                                    setTimeout(
-                                                        () => msg.delete(),
-                                                        5000
-                                                    )
-                                                }
-                                            })
-                                            .catch(err => {})
-                                    })
+                                    message.channel
+                                        .send({ embeds: [embed] })
+                                        .then((msg) => {
+                                            if (!msg.deleted) {
+                                                setTimeout(() => msg.delete(), 5000)
+                                            }
+                                        })
+                                        .catch((err) => {})
+                                })
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CLEAR[46])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -1009,10 +752,7 @@ module.exports = class Clear extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.CLEAR[49])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             } catch (error) {
@@ -1020,10 +760,7 @@ module.exports = class Clear extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.CLEAR[50]}\`${error}\``)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
@@ -1034,10 +771,7 @@ module.exports = class Clear extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

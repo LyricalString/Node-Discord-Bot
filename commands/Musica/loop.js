@@ -5,10 +5,7 @@ module.exports = class Loop extends Command {
     constructor(client) {
         super(client, {
             name: 'loop',
-            description: [
-                'Loop your song or queue!',
-                '¡Haz un bucle con tu canción o cola!'
-            ],
+            description: ['Loop your song or queue!', '¡Haz un bucle con tu canción o cola!'],
             usage: ['<song/queue>', '<song/queue>'],
             alias: ['lp'],
             subcommands: ['song', 'queue'],
@@ -25,17 +22,12 @@ module.exports = class Loop extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.LOOP[5])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (player.voiceChannel) {
                 if (
-                    !message.guild.members.cache
-                        .get(message.author.id)
-                        .permissions.has('ADMINISTRATOR') &&
+                    !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR') &&
                     player.voiceChannel != message.member.voice.channelId
                 )
                     return
@@ -81,10 +73,7 @@ module.exports = class Loop extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -5,10 +5,7 @@ module.exports = class MineSweeper extends Command {
     constructor(client) {
         super(client, {
             name: 'minesweeper',
-            description: [
-                'Time to play the minesweeper.',
-                'Es hora de jugar al buscaminas.'
-            ],
+            description: ['Time to play the minesweeper.', 'Es hora de jugar al buscaminas.'],
             cooldown: 150,
             alias: ['buscaminas'],
             category: 'Diversion',
@@ -69,10 +66,7 @@ module.exports = class MineSweeper extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -27,38 +27,32 @@ module.exports = class ToSMode extends Command {
                         .findOne({
                             guildID: message.guild.id
                         })
-                        .then(data => {
+                        .then((data) => {
                             data.config.tos = true
-                            data.save().catch(err => console.error(err))
+                            data.save().catch((err) => console.error(err))
                         })
                     message.guild.config.tos = true
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setTitle(client.language.SUCCESSEMBED)
                         .setDescription(client.language.TOSMODE[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 } else if (args[0].toLowerCase() == 'disable') {
                     guildSchema
                         .findOne({
                             guildID: message.guild.id
                         })
-                        .then(data => {
+                        .then((data) => {
                             data.config.tos = false
-                            data.save().catch(err => console.error(err))
+                            data.save().catch((err) => console.error(err))
                         })
                     message.guild.config.tos = false
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setTitle(client.language.SUCCESSEMBED)
                         .setDescription(client.language.TOSMODE[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 }
             }
@@ -70,10 +64,7 @@ module.exports = class ToSMode extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

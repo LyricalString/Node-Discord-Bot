@@ -5,10 +5,7 @@ module.exports = class EightBall extends Command {
     constructor(client) {
         super(client, {
             name: '8ball',
-            description: [
-                'Ask your question to 8ball.',
-                'Hazle tu pregunta a 8ball.'
-            ],
+            description: ['Ask your question to 8ball.', 'Hazle tu pregunta a 8ball.'],
             usage: ['<question>', '<pregunta>'],
             category: 'diversion',
             args: true
@@ -23,10 +20,7 @@ module.exports = class EightBall extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.QUESTIONBALL[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             var random = respuesta[Math.floor(Math.random() * respuesta.length)] //aqui decimos que va a elegir una respuesta random de el let respuesta
@@ -43,10 +37,7 @@ module.exports = class EightBall extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

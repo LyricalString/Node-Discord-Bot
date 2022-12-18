@@ -52,10 +52,7 @@ module.exports = class Ctegory extends Command {
                         .setDescription(
                             `**${args[1]}** ${client.language.CATEGORY[1]}${prefix}${client.language.CATEGORY[13]}`
                         )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 guildSchema
@@ -64,34 +61,22 @@ module.exports = class Ctegory extends Command {
                     })
                     .then((s, err) => {
                         if (s && s.config.DISABLED_CATEGORIES) {
-                            if (
-                                !s.config.DISABLED_CATEGORIES.includes(category)
-                            ) {
+                            if (!s.config.DISABLED_CATEGORIES.includes(category)) {
                                 s.config.DISABLED_CATEGORIES.push(category)
-                                message.guild.config.DISABLED_CATEGORIES.push(
-                                    category
-                                )
-                                s.save().catch(err => s.update())
+                                message.guild.config.DISABLED_CATEGORIES.push(category)
+                                s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(
-                                        client.language.CATEGORY[2] + category
-                                    )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setDescription(client.language.CATEGORY[2] + category)
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             } else {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CATEGORY[3])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -106,32 +91,22 @@ module.exports = class Ctegory extends Command {
                     })
                     .then((s, err) => {
                         if (s) {
-                            if (
-                                s.config.DISABLED_CATEGORIES.includes(category)
-                            ) {
+                            if (s.config.DISABLED_CATEGORIES.includes(category)) {
                                 s.config.DISABLED_CATEGORIES.splice(
-                                    s.config.DISABLED_CATEGORIES.indexOf(
-                                        category
-                                    ),
-                                    s.config.DISABLED_CATEGORIES.indexOf(
-                                        category
-                                    ) + 1
+                                    s.config.DISABLED_CATEGORIES.indexOf(category),
+                                    s.config.DISABLED_CATEGORIES.indexOf(category) + 1
                                 )
                                 message.guild.config.DISABLED_CATEGORIES.splice(
-                                    message.guild.config.DISABLED_CATEGORIES.indexOf(
-                                        category
-                                    ),
-                                    message.guild.config.DISABLED_CATEGORIES.indexOf(
-                                        category
-                                    ) + 1
+                                    message.guild.config.DISABLED_CATEGORIES.indexOf(category),
+                                    message.guild.config.DISABLED_CATEGORIES.indexOf(category) + 1
                                 )
-                                s.save().catch(err => s.update())
+                                s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setFooter(
-                                        client.language.CATEGORY[5] + category,
-                                        message.author.displayAvatarURL()
-                                    )
+                                    .setFooter({
+                                        text: client.language.CATEGORY[5] + category,
+                                        iconURL: message.author.displayAvatarURL()
+                                    })
                                     .setTimestamp(' ')
                                 message.channel.send({ embeds: [embed] })
                             } else {
@@ -139,10 +114,7 @@ module.exports = class Ctegory extends Command {
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CATEGORY[6])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -161,32 +133,20 @@ module.exports = class Ctegory extends Command {
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
                                     .setDescription(client.language.CATEGORY[7])
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
                             } else {
                                 const embedadmins = new MessageEmbed()
                                     .setTitle(
-                                        '<:IconPrivateThreadIcon:859608405497217044>' +
-                                            client.language.CATEGORY[2]
+                                        '<:IconPrivateThreadIcon:859608405497217044>' + client.language.CATEGORY[2]
                                     )
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTimestamp(' ')
-                                for (
-                                    var index = 0;
-                                    index < s.config.DISABLED_CATEGORIES.length;
-                                    index++
-                                ) {
-                                    let ListAdmin =
-                                        s.config.DISABLED_CATEGORIES[index]
-                                    embedadmins.addField(
-                                        '\u200B',
-                                        '- ' + ListAdmin
-                                    )
+                                for (var index = 0; index < s.config.DISABLED_CATEGORIES.length; index++) {
+                                    let ListAdmin = s.config.DISABLED_CATEGORIES[index]
+                                    embedadmins.addField('\u200B', '- ' + ListAdmin)
                                 }
 
                                 message.channel.send({
@@ -208,18 +168,13 @@ module.exports = class Ctegory extends Command {
                                 s.config.DISABLED_CATEGORIES.splice(index)
                             }
                         }
-                        s.save().catch(err => s.update())
+                        s.save().catch((err) => s.update())
                         message.guild.config.DISABLED_CATEGORIES = []
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(
-                                client.language.SHOWLISTENINGCHANNEL[5]
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription(client.language.SHOWLISTENINGCHANNEL[5])
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     })
             } else if (args[0].toLowerCase() === 'list') {
@@ -227,26 +182,14 @@ module.exports = class Ctegory extends Command {
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.CATEGORY[14])
                     .setDescription(client.language.CATEGORY[15])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] })
             } else {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
-                    .setDescription(
-                        client.language.CATEGORY[9] +
-                            '`' +
-                            prefix +
-                            'category' +
-                            '`'
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setDescription(client.language.CATEGORY[9] + '`' + prefix + 'category' + '`')
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
@@ -257,10 +200,7 @@ module.exports = class Ctegory extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -23,27 +23,19 @@ module.exports = class qr extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_MESSAGES')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
-                if (!message.deleted)
-                    message.delete().catch(e => console.log(e))
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
             }
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.QR[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             for (let index in args) {
@@ -52,10 +44,7 @@ module.exports = class qr extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.VOICEKICK[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }
@@ -94,25 +83,15 @@ module.exports = class qr extends Command {
                 if (isUrl(args[index])) {
                     count += 1
                     options.text = args[index]
-                } else if (
-                    (args[index] == '--transparent' ||
-                        args[index] == '--logotransparent') &&
-                    count2 < 1
-                ) {
+                } else if ((args[index] == '--transparent' || args[index] == '--logotransparent') && count2 < 1) {
                     count2 += 1
-                } else if (
-                    args[index].startsWith('#') &&
-                    args[index].length == 7
-                ) {
+                } else if (args[index].startsWith('#') && args[index].length == 7) {
                     options.colorDark = args[index]
                 } else {
                     argumentos.push(args[index])
                 }
             }
-            if (count > 1)
-                return message.channel.send(
-                    'Solo puedes insertar un URL para el código QR.'
-                )
+            if (count > 1) return message.channel.send('Solo puedes insertar un URL para el código QR.')
             if (count == 0) {
                 options.text = args.join(' ')
                 argumentos = []
@@ -128,23 +107,17 @@ module.exports = class qr extends Command {
                         const cap = new MessageAttachment('./temp/qr.png')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setImage('attachment://qr.png')
-                        embed.setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        embed.setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
 
-                        if (argumentos[0])
-                            embed.addField(argumentos.join(' '), '\u200b')
-                        message.channel
-                            .send({ embeds: [embed], files: [cap] })
-                            .then(() => {
-                                // delete a file
-                                unlink('./temp/qr.png', err => {
-                                    if (err) {
-                                        throw err
-                                    }
-                                })
+                        if (argumentos[0]) embed.addField(argumentos.join(' '), '\u200b')
+                        message.channel.send({ embeds: [embed], files: [cap] }).then(() => {
+                            // delete a file
+                            unlink('./temp/qr.png', (err) => {
+                                if (err) {
+                                    throw err
+                                }
                             })
+                        })
                     })
             }
             Array.from(message.attachments, ([key, value]) => {
@@ -157,10 +130,7 @@ module.exports = class qr extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.QR[5])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                 }
@@ -174,23 +144,17 @@ module.exports = class qr extends Command {
                         const cap = new MessageAttachment('./temp/qr.png')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setImage('attachment://qr.png')
-                        embed.setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        embed.setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
 
-                        if (argumentos[0])
-                            embed.addField(argumentos.join(' '), '\u200b')
-                        message.channel
-                            .send({ embeds: [embed], files: [cap] })
-                            .then(() => {
-                                // delete a file
-                                unlink('./temp/qr.png', err => {
-                                    if (err) {
-                                        throw err
-                                    }
-                                })
+                        if (argumentos[0]) embed.addField(argumentos.join(' '), '\u200b')
+                        message.channel.send({ embeds: [embed], files: [cap] }).then(() => {
+                            // delete a file
+                            unlink('./temp/qr.png', (err) => {
+                                if (err) {
+                                    throw err
+                                }
                             })
+                        })
                     })
             })
         } catch (e) {
@@ -201,10 +165,7 @@ module.exports = class qr extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(
@@ -222,7 +183,6 @@ module.exports = class qr extends Command {
 }
 
 function isUrl(s) {
-    var regexp =
-        /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
     return regexp.test(s)
 }

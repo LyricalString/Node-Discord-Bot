@@ -5,10 +5,7 @@ module.exports = class stop extends Command {
     constructor(client) {
         super(client, {
             name: 'stop',
-            description: [
-                'Stops and deletes the current song.',
-                'Detiene y elimina la cola de reproducción.'
-            ],
+            description: ['Stops and deletes the current song.', 'Detiene y elimina la cola de reproducción.'],
             category: 'musica',
             botpermissions: ['ADD_REACTIONS'],
             alias: ['leave', 'l']
@@ -22,17 +19,12 @@ module.exports = class stop extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.STOP)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (player.voiceChannel) {
                 if (
-                    !message.guild.members.cache
-                        .get(message.author.id)
-                        .permissions.has('ADMINISTRATOR') &&
+                    !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR') &&
                     player.voiceChannel != message.member.voice.channelId
                 )
                     return
@@ -47,10 +39,7 @@ module.exports = class stop extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

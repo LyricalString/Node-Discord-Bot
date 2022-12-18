@@ -6,10 +6,7 @@ module.exports = class Reset extends Command {
         super(client, {
             name: 'reset',
             alias: ['r', 'musicreset'],
-            description: [
-                "Resets Node's music functions.",
-                'Resetea las funciones de música de Node'
-            ],
+            description: ["Resets Node's music functions.", 'Resetea las funciones de música de Node'],
             permissions: ['ADMINISTRATOR'],
             category: 'musica'
         })
@@ -22,10 +19,7 @@ module.exports = class Reset extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RESET)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             player.destroy()
@@ -37,10 +31,7 @@ module.exports = class Reset extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

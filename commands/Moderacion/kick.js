@@ -17,21 +17,16 @@ module.exports = class Kick extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_MESSAGES')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
-                if (!message.deleted)
-                    message.delete().catch(e => console.log(e))
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
             }
             const user =
                 message.mentions.members.first() ||
-                (await message.guild.members.fetch(args[0]).catch(e => {
+                (await message.guild.members.fetch(args[0]).catch((e) => {
                     return
                 }))
 
@@ -42,10 +37,7 @@ module.exports = class Kick extends Command {
                     .setDescription(
                         `${client.language.KICK[3]} **\`${process.env.prefix}${client.language.KICK[4]}\`**`
                     )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -54,10 +46,7 @@ module.exports = class Kick extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.KICK[5]}`)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -66,25 +55,16 @@ module.exports = class Kick extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.KICK[6]}`)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
-            if (
-                user.roles.highest.position >
-                message.member.roles.highest.position
-            ) {
+            if (user.roles.highest.position > message.member.roles.highest.position) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.KICK[7]}`)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -93,10 +73,7 @@ module.exports = class Kick extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.KICK[8]}`)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -115,11 +92,7 @@ module.exports = class Kick extends Command {
                 .setDescription(
                     `<a:tick:836295873091862568> <@${user.id}> (**\`${user.user.tag}\`**) ${client.language.KICK[10]} **${message.guild.name}**`
                 )
-                .addField(
-                    client.language.KICK[11],
-                    `**\`${reason != '' ? reason : '-'}\`**`,
-                    true
-                )
+                .addField(client.language.KICK[11], `**\`${reason != '' ? reason : '-'}\`**`, true)
                 .addField(
                     client.language.KICK[12],
                     `<@${message.member.id}> (**\`${message.member.user.tag}\`**)`,
@@ -135,10 +108,7 @@ module.exports = class Kick extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -5,19 +5,14 @@ module.exports = class Invite extends Command {
     constructor(client) {
         super(client, {
             name: 'vote',
-            description: [
-                'Gives the votation link to vote the bot.',
-                'Te da el enlace para votar al bot.'
-            ],
+            description: ['Gives the votation link to vote the bot.', 'Te da el enlace para votar al bot.'],
             cooldown: 3,
             category: 'Info'
         })
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            let embed = new MessageEmbed()
-                .setColor(process.env.EMBED_COLOR)
-                .setDescription(client.language.VOTE)
+            let embed = new MessageEmbed().setColor(process.env.EMBED_COLOR).setDescription(client.language.VOTE)
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
             console.error(e)
@@ -27,10 +22,7 @@ module.exports = class Invite extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

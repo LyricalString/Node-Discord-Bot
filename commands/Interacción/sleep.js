@@ -5,10 +5,7 @@ module.exports = class Sleep extends Command {
     constructor(client) {
         super(client, {
             name: 'sleep',
-            description: [
-                'Shows that you are sleep.',
-                'Muestra que estás durmiendo.'
-            ],
+            description: ['Shows that you are sleep.', 'Muestra que estás durmiendo.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Sleep extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

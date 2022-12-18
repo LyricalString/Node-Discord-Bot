@@ -5,15 +5,9 @@ module.exports = class Achievement extends Command {
     constructor(client) {
         super(client, {
             name: 'achievement',
-            description: [
-                'Returns a custom Minecraft achievement!',
-                '¡Devuelve un logro personalizado de Minecraft!'
-            ],
+            description: ['Returns a custom Minecraft achievement!', '¡Devuelve un logro personalizado de Minecraft!'],
             alias: ['mcachievement', 'logro', 'mclogro'],
-            usage: [
-                '<block>, <title>, <message>, <message2>',
-                '<bloque>, <titulo>, <mensaje>, <mensaje2>'
-            ],
+            usage: ['<block>, <title>, <message>, <message2>', '<bloque>, <titulo>, <mensaje>, <mensaje2>'],
             category: 'Diversion',
             //role: "tester",
             production: true
@@ -26,10 +20,7 @@ module.exports = class Achievement extends Command {
             if (!args2[1] || !args2[2]) {
                 const error = new MessageEmbed()
                     .setTitle(client.language.ACHIEVEMENT)
-                    .addField(
-                        '\u200b',
-                        `\`${client.language.ACHIEVEMENTEMBED}\``
-                    )
+                    .addField('\u200b', `\`${client.language.ACHIEVEMENTEMBED}\``)
                     .setColor(process.env.EMBED_COLOR)
                 message.channel.send({ embeds: [error] })
             }
@@ -42,9 +33,7 @@ module.exports = class Achievement extends Command {
                 )
                 return
             }
-            message.channel.send(
-                `https://minecraft-api.com/api/achivements/${args2[0]}/${title}/${message2}/`
-            )
+            message.channel.send(`https://minecraft-api.com/api/achivements/${args2[0]}/${title}/${message2}/`)
         } catch (e) {
             console.error(e)
             message.channel.send({
@@ -53,10 +42,7 @@ module.exports = class Achievement extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

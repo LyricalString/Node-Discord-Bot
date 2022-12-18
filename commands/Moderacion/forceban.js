@@ -26,10 +26,7 @@ module.exports = class Forceban extends Command {
                     .setDescription(
                         `${client.language.FORCEBAN[3]} **\`${process.env.prefix}${client.language.FORCEBAN[4]}\`**`
                     )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -38,10 +35,7 @@ module.exports = class Forceban extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.FORCEBAN[5]}`)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -50,10 +44,7 @@ module.exports = class Forceban extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.FORCEBAN[6]}`)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -62,10 +53,7 @@ module.exports = class Forceban extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(`${client.language.FORCEBAN[7]}`)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -77,7 +65,7 @@ module.exports = class Forceban extends Command {
 
             client.users
                 .fetch(user)
-                .then(async user => {
+                .then(async (user) => {
                     await message.guild.members.ban(user.id, {
                         days: 1,
                         reason: reason
@@ -89,11 +77,7 @@ module.exports = class Forceban extends Command {
                         .setDescription(
                             `<a:tick:836295873091862568> <@${user.id}> (**\`${user.tag}\`**) ${client.language.FORCEBAN[9]} **${message.guild.name}**`
                         )
-                        .addField(
-                            client.language.FORCEBAN[10],
-                            `**\`${reason != '' ? reason : '-'}\`**`,
-                            true
-                        )
+                        .addField(client.language.FORCEBAN[10], `**\`${reason != '' ? reason : '-'}\`**`, true)
                         .addField(
                             client.language.FORCEBAN[11],
                             `<@${message.member.id}> (**\`${message.member.user.tag}\`**)`,
@@ -103,17 +87,12 @@ module.exports = class Forceban extends Command {
 
                     return message.channel.send({ embeds: [embed] })
                 })
-                .catch(error => {
+                .catch((error) => {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
-                        .setDescription(
-                            `${client.language.FORCEBAN[12]}\n\`\`\`${error}\`\`\``
-                        )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setDescription(`${client.language.FORCEBAN[12]}\n\`\`\`${error}\`\`\``)
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 })
         } catch (e) {
@@ -124,10 +103,7 @@ module.exports = class Forceban extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

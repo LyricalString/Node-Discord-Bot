@@ -5,10 +5,7 @@ module.exports = class Triggered extends Command {
     constructor(client) {
         super(client, {
             name: 'wag',
-            description: [
-                'Shows that you are wagging your tail.',
-                'Muestra que estás moviendo tu cola.'
-            ],
+            description: ['Shows that you are wagging your tail.', 'Muestra que estás moviendo tu cola.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Triggered extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

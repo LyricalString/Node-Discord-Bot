@@ -5,10 +5,7 @@ module.exports = class Say extends Command {
     constructor(client) {
         super(client, {
             name: 'say',
-            description: [
-                'Says the message you type!',
-                '¡Dice el mensaje que escribiste!'
-            ],
+            description: ['Says the message you type!', '¡Dice el mensaje que escribiste!'],
             cooldown: 5,
             usage: ['<message>', '<mensaje>'],
             args: true,
@@ -20,27 +17,19 @@ module.exports = class Say extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_MESSAGES')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
-                if (!message.deleted)
-                    message.delete().catch(e => console.log(e))
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
             }
             if (args[0].toLowerCase() === 'colors') {
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
                     .setImage('https://i.postimg.cc/gj8NSLsy/embed-colors.png')
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
             let color = process.env.EMBED_COLOR
@@ -79,21 +68,11 @@ module.exports = class Say extends Command {
             if (color != process.env.EMBED_COLOR) {
                 args.shift()
                 return message.channel.send({
-                    embeds: [
-                        new MessageEmbed()
-                            .setColor(color)
-                            .setDescription(args.join(' '))
-                            .setTimestamp(' ')
-                    ]
+                    embeds: [new MessageEmbed().setColor(color).setDescription(args.join(' ')).setTimestamp(' ')]
                 })
             } else {
                 return message.channel.send({
-                    embeds: [
-                        new MessageEmbed()
-                            .setColor(color)
-                            .setDescription(args.join(' '))
-                            .setTimestamp(' ')
-                    ]
+                    embeds: [new MessageEmbed().setColor(color).setDescription(args.join(' ')).setTimestamp(' ')]
                 })
             }
         } catch (e) {
@@ -104,10 +83,7 @@ module.exports = class Say extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

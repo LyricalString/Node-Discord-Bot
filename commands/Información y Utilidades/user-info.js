@@ -24,10 +24,7 @@ module.exports = class UserInfo extends Command {
     constructor(client) {
         super(client, {
             name: 'user-info',
-            description: [
-                'Display info about a user.',
-                'Muestra información sobre un usuario.'
-            ],
+            description: ['Display info about a user.', 'Muestra información sobre un usuario.'],
             alias: ['whois', 'userinfo', 'profile'],
             usage: ['<@user/id>', '<@usuario/id>'],
             category: 'Info'
@@ -47,7 +44,7 @@ module.exports = class UserInfo extends Command {
             if (args[0]) {
                 member =
                     message.mentions.members.last() ||
-                    (await message.guild.members.fetch(args[0]).catch(e => {
+                    (await message.guild.members.fetch(args[0]).catch((e) => {
                         return
                     }))
             } else {
@@ -58,21 +55,16 @@ module.exports = class UserInfo extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.USERINFO[17])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return sentMessage.edit({ embeds: [errorembed] })
             }
             let emblemas = member.user.ROLES
             let badges = []
             const roles = member.roles.cache
                 .sort((a, b) => b.position - a.position)
-                .map(role => role.toString())
+                .map((role) => role.toString())
                 .slice(0, -1)
-            const userFlags = member.user.flags
-                ? member.user.flags.toArray()
-                : ' '
+            const userFlags = member.user.flags ? member.user.flags.toArray() : ' '
             const guild = message.guild
             const embed = new MessageEmbed().setTimestamp(' ')
             if (member.user.displayAvatarURL())
@@ -106,8 +98,7 @@ module.exports = class UserInfo extends Command {
                 )
             if (member.user && member.user.discriminator)
                 embed.addField(
-                    '<:textchannelblurple:863983092893220885> ' +
-                        client.language.USERINFO[2],
+                    '<:textchannelblurple:863983092893220885> ' + client.language.USERINFO[2],
                     '```' + `${member.user.discriminator}` + '```',
                     true
                 )
@@ -123,7 +114,7 @@ module.exports = class UserInfo extends Command {
                     '```' +
                         `${
                             userFlags.length
-                                ? userFlags.map(flag => flags[flag]).join(', ')
+                                ? userFlags.map((flag) => flags[flag]).join(', ')
                                 : client.language.USERINFO[8]
                         }` +
                         '```',
@@ -133,34 +124,19 @@ module.exports = class UserInfo extends Command {
                 embed.addField(
                     `📆 ${client.language.USERINFO[5]}`,
                     '```' +
-                        `${moment(member.user.createdTimestamp).format(
-                            'LT'
-                        )}\n${moment(member.user.createdTimestamp).format(
-                            'LL'
-                        )}\n${moment(member.user.createdTimestamp).fromNow()}` +
+                        `${moment(member.user.createdTimestamp).format('LT')}\n${moment(
+                            member.user.createdTimestamp
+                        ).format('LL')}\n${moment(member.user.createdTimestamp).fromNow()}` +
                         '```',
                     true
                 )
-            if (
-                member.user &&
-                member.user.presence &&
-                member.user.presence.game
-            )
+            if (member.user && member.user.presence && member.user.presence.game)
                 embed.addField(
                     `<:screenshare:864126217941942353> ${client.language.USERINFO[12]}`,
-                    '```' +
-                        `${
-                            member.user.presence.game ||
-                            client.language.USERINFO[16]
-                        }` +
-                        '```',
+                    '```' + `${member.user.presence.game || client.language.USERINFO[16]}` + '```',
                     true
                 )
-            if (
-                member.roles &&
-                member.roles.highest.id &&
-                member.roles.highest.name
-            )
+            if (member.roles && member.roles.highest.id && member.roles.highest.name)
                 embed.addField(
                     `<:upvote:864107632411541514> ${client.language.USERINFO[13]}`,
                     '```' +
@@ -175,120 +151,91 @@ module.exports = class UserInfo extends Command {
             if (member.joinedAt)
                 embed.addField(
                     '<:join:864104115076595762>' + client.language.USERINFO[4],
-                    '```' +
-                        `${moment(member.joinedAt).format('LL LTS')}` +
-                        '```',
+                    '```' + `${moment(member.joinedAt).format('LL LTS')}` + '```',
                     true
                 )
             if (member.roles)
                 embed.addField(
                     `<:lupablurple:863983093030060062>${client.language.USERINFO[14]}`,
-                    `${
-                        member.roles.hoist
-                            ? member.roles.hoist
-                            : client.language.USERINFO[8]
-                    }`,
+                    `${member.roles.hoist ? member.roles.hoist : client.language.USERINFO[8]}`,
                     true
                 )
             if (member.user.displayAvatarURL())
                 embed.addField(
                     '<:linkblurple:863983092711817247> Avatar',
-                    `[${
-                        client.language.USERINFO[15]
-                    }](${member.user.displayAvatarURL({
+                    `[${client.language.USERINFO[15]}](${member.user.displayAvatarURL({
                         dynamic: true
                     })})`,
                     true
                 )
-            if (emblemas && emblemas.Premium.Enabled)
-                badges.push('<a:premium:866135287258939393>')
-            if (emblemas && emblemas.EarlyPremium.Enabled)
-                badges.push('<a:earlypremium:866135322886012978>')
-            if (emblemas && emblemas.Tester.Enabled)
-                badges.push('<:tester:871395085017813002>')
-            if (emblemas && emblemas.Notifications.Enabled)
-                badges.push('<:notifications:864103839266897951>')
-            if (emblemas && emblemas.Developer.Enabled)
-                badges.push('<:developer:866134938185367552>')
-            if (emblemas && emblemas.Booster.Enabled)
-                badges.push('<:serverbooster:864102069728313354>')
-            if (emblemas && emblemas.Support.Enabled)
-                badges.push('<:support:863983092702904350>')
-            CodeModel.findOne({ USERID: message.author.id.toString() }).then(
-                (s, err) => {
-                    if (err) {
+            if (emblemas && emblemas.Premium.Enabled) badges.push('<a:premium:866135287258939393>')
+            if (emblemas && emblemas.EarlyPremium.Enabled) badges.push('<a:earlypremium:866135322886012978>')
+            if (emblemas && emblemas.Tester.Enabled) badges.push('<:tester:871395085017813002>')
+            if (emblemas && emblemas.Notifications.Enabled) badges.push('<:notifications:864103839266897951>')
+            if (emblemas && emblemas.Developer.Enabled) badges.push('<:developer:866134938185367552>')
+            if (emblemas && emblemas.Booster.Enabled) badges.push('<:serverbooster:864102069728313354>')
+            if (emblemas && emblemas.Support.Enabled) badges.push('<:support:863983092702904350>')
+            CodeModel.findOne({ USERID: message.author.id.toString() }).then((s, err) => {
+                if (err) {
+                    embed.addField(
+                        client.language.USERINFO[18],
+                        `${badges.length > 0 ? badges.join(' ') : client.language.USERINFO[8]}`,
+                        true
+                    )
+                    if (roles[0])
                         embed.addField(
-                            client.language.USERINFO[18],
+                            `<:star:864103299900243970> Roles [${roles.length}]`,
                             `${
-                                badges.length > 0
-                                    ? badges.join(' ')
+                                roles.length < 10
+                                    ? roles.join(' ')
+                                    : roles.length > 10
+                                    ? trimArray(roles)
                                     : client.language.USERINFO[8]
-                            }`,
-                            true
+                            }`
                         )
-                        if (roles[0])
-                            embed.addField(
-                                `<:star:864103299900243970> Roles [${roles.length}]`,
-                                `${
-                                    roles.length < 10
-                                        ? roles.join(' ')
-                                        : roles.length > 10
-                                        ? trimArray(roles)
-                                        : client.language.USERINFO[8]
-                                }`
-                            )
-                        return sentMessage.edit({ embeds: [embed] })
-                    }
-                    if (s) {
-                        if (s.SERVERS >= 1) {
-                            badges.push('<:25kEvent:877189363157585990>')
-                        }
-                        embed.addField(
-                            client.language.USERINFO[18],
-                            `${
-                                badges.length > 0
-                                    ? badges.join(' ')
-                                    : client.language.USERINFO[8]
-                            }`,
-                            true
-                        )
-                        if (roles[0])
-                            embed.addField(
-                                `<:star:864103299900243970> Roles [${roles.length}]`,
-                                `${
-                                    roles.length < 10
-                                        ? roles.join(' ')
-                                        : roles.length >= 10
-                                        ? trimArray(roles)
-                                        : client.language.USERINFO[8]
-                                }`
-                            )
-                        return sentMessage.edit({ embeds: [embed] })
-                    } else {
-                        embed.addField(
-                            client.language.USERINFO[18],
-                            `${
-                                badges.length > 0
-                                    ? badges.join(' ')
-                                    : client.language.USERINFO[8]
-                            }`,
-                            true
-                        )
-                        if (roles[0])
-                            embed.addField(
-                                `<:star:864103299900243970> Roles [${roles.length}]`,
-                                `${
-                                    roles.length < 10
-                                        ? roles.join(' ')
-                                        : roles.length > 10
-                                        ? trimArray(roles)
-                                        : client.language.USERINFO[8]
-                                }`
-                            )
-                        return sentMessage.edit({ embeds: [embed] })
-                    }
+                    return sentMessage.edit({ embeds: [embed] })
                 }
-            )
+                if (s) {
+                    if (s.SERVERS >= 1) {
+                        badges.push('<:25kEvent:877189363157585990>')
+                    }
+                    embed.addField(
+                        client.language.USERINFO[18],
+                        `${badges.length > 0 ? badges.join(' ') : client.language.USERINFO[8]}`,
+                        true
+                    )
+                    if (roles[0])
+                        embed.addField(
+                            `<:star:864103299900243970> Roles [${roles.length}]`,
+                            `${
+                                roles.length < 10
+                                    ? roles.join(' ')
+                                    : roles.length >= 10
+                                    ? trimArray(roles)
+                                    : client.language.USERINFO[8]
+                            }`
+                        )
+                    return sentMessage.edit({ embeds: [embed] })
+                } else {
+                    embed.addField(
+                        client.language.USERINFO[18],
+                        `${badges.length > 0 ? badges.join(' ') : client.language.USERINFO[8]}`,
+                        true
+                    )
+                    if (roles[0])
+                        embed.addField(
+                            `<:star:864103299900243970> Roles [${roles.length}]`,
+                            `${
+                                roles.length < 10
+                                    ? roles.join(' ')
+                                    : roles.length > 10
+                                    ? trimArray(roles)
+                                    : client.language.USERINFO[8]
+                            }`
+                        )
+                    return sentMessage.edit({ embeds: [embed] })
+                }
+            })
         } catch (e) {
             console.error(e)
             message.channel.send({
@@ -297,10 +244,7 @@ module.exports = class UserInfo extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -5,10 +5,7 @@ module.exports = class Cringe extends Command {
     constructor(client) {
         super(client, {
             name: 'cringe',
-            description: [
-                'Shows that something is giving you cringe.',
-                'Muestra que alguien te está dando cringe.'
-            ],
+            description: ['Shows that something is giving you cringe.', 'Muestra que alguien te está dando cringe.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Cringe extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

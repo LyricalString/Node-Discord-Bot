@@ -5,10 +5,7 @@ module.exports = class Shuffle extends Command {
     constructor(client) {
         super(client, {
             name: 'shuffle',
-            description: [
-                'Shuffles the queue.',
-                'Revuelve la cola de reproducción.'
-            ],
+            description: ['Shuffles the queue.', 'Revuelve la cola de reproducción.'],
             category: 'musica',
             botpermissions: ['ADD_REACTIONS'],
             alias: ['sh']
@@ -21,9 +18,7 @@ module.exports = class Shuffle extends Command {
 
             if (player && player.voiceChannel) {
                 if (
-                    !message.guild.members.cache
-                        .get(message.author.id)
-                        .permissions.has('ADMINISTRATOR') &&
+                    !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR') &&
                     player.voiceChannel != message.member.voice.channelId
                 )
                     return
@@ -42,10 +37,7 @@ module.exports = class Shuffle extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

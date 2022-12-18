@@ -6,10 +6,7 @@ module.exports = class Spam extends Command {
     constructor(client) {
         super(client, {
             name: 'spammode',
-            description: [
-                'Enables or disables the spam commands.',
-                'Habilita o deshabilita los comandos de spam.'
-            ],
+            description: ['Enables or disables the spam commands.', 'Habilita o deshabilita los comandos de spam.'],
             permissions: ['ADMINISTRATOR'],
             subcommands: ['enable', 'disable'],
             cooldown: 1,
@@ -27,38 +24,32 @@ module.exports = class Spam extends Command {
                         .findOne({
                             guildID: message.guild.id
                         })
-                        .then(data => {
+                        .then((data) => {
                             data.config.spam = true
-                            data.save().catch(err => console.error(err))
+                            data.save().catch((err) => console.error(err))
                         })
                     message.guild.config.spam = true
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setTitle(client.language.SUCCESSEMBED)
                         .setDescription(client.language.SPAMMODE[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 } else if (args[0].toLowerCase() == 'disable') {
                     guildSchema
                         .findOne({
                             guildID: message.guild.id
                         })
-                        .then(data => {
+                        .then((data) => {
                             data.config.spam = false
-                            data.save().catch(err => console.error(err))
+                            data.save().catch((err) => console.error(err))
                         })
                     message.guild.config.spam = false
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setTitle(client.language.SUCCESSEMBED)
                         .setDescription(client.language.SPAMMODE[2])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 }
             }
@@ -70,10 +61,7 @@ module.exports = class Spam extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

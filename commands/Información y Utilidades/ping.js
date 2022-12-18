@@ -5,10 +5,7 @@ module.exports = class Ping extends Command {
     constructor(client) {
         super(client, {
             name: 'ping',
-            description: [
-                'Shows the real-time ping of the bot.',
-                'Muestra el ping en tiempo real del bot.'
-            ],
+            description: ['Shows the real-time ping of the bot.', 'Muestra el ping en tiempo real del bot.'],
             cooldown: 5,
             category: 'Info'
         })
@@ -20,10 +17,7 @@ module.exports = class Ping extends Command {
 
                 .setTitle(`Ping:`)
                 .setColor(process.env.EMBED_COLOR)
-                .addField(
-                    `API: ${Math.round(client.ws.ping)} ms`,
-                    client.language.PING[1]
-                )
+                .addField(`API: ${Math.round(client.ws.ping)} ms`, client.language.PING[1])
                 .addField(`Bot: ${ping} ms`, client.language.PING[2])
                 .setTimestamp(' ')
 
@@ -36,10 +30,7 @@ module.exports = class Ping extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

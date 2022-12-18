@@ -5,10 +5,7 @@ module.exports = class GD extends Command {
     constructor(client) {
         super(client, {
             name: 'gd',
-            description: [
-                'Shows an embed with the text input.',
-                'Muestra un embed con la entrada de texto.'
-            ],
+            description: ['Shows an embed with the text input.', 'Muestra un embed con la entrada de texto.'],
             usage: ['<text>', '<texto>'],
             category: 'diversion',
             args: true
@@ -22,10 +19,7 @@ module.exports = class GD extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.GD[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const exampleEmbed = new MessageEmbed()
@@ -40,10 +34,7 @@ module.exports = class GD extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

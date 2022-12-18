@@ -5,10 +5,7 @@ module.exports = class Invite extends Command {
     constructor(client) {
         super(client, {
             name: 'invite',
-            description: [
-                'Give the invite link for Node Bot.',
-                'Te da el enlace de invitación para Node Bot.'
-            ],
+            description: ['Give the invite link for Node Bot.', 'Te da el enlace de invitación para Node Bot.'],
             alias: ['invitacion', 'invitación', 'invitation', 'inv'],
             cooldown: 3,
             category: 'Info'
@@ -16,9 +13,7 @@ module.exports = class Invite extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            let embed = new MessageEmbed()
-                .setColor(process.env.EMBED_COLOR)
-                .setDescription(client.language.INVITE)
+            let embed = new MessageEmbed().setColor(process.env.EMBED_COLOR).setDescription(client.language.INVITE)
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
             console.error(e)
@@ -28,10 +23,7 @@ module.exports = class Invite extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

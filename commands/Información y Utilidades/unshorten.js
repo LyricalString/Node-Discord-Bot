@@ -8,25 +8,18 @@ module.exports = class BannedWordsRefresh extends Command {
     constructor(client) {
         super(client, {
             name: 'unshorten',
-            description: [
-                'Analyzes a shortened link.',
-                'Analiza un link acortado.'
-            ],
+            description: ['Analyzes a shortened link.', 'Analiza un link acortado.'],
             category: 'Administracion',
             args: true
         })
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
-        if (
-            !message.channel
-                .permissionsFor(message.guild.me)
-                .has('MANAGE_MESSAGES')
-        ) {
+        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
             message.reply({
                 content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
             })
         } else {
-            if (!message.deleted) message.delete().catch(e => console.log(e))
+            if (!message.deleted) message.delete().catch((e) => console.log(e))
         }
         if (!isUrl(args[0])) {
             const errorembed = new MessageEmbed()
@@ -46,106 +39,64 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
         url: args[0],
         timeout: 5000
     })
-        .then(res => {
+        .then((res) => {
             if (!res) return null
             if (res.status == 301) {
                 return unshorten(response.redirect_destination)
             } else if (res.status == 200) {
                 for (let index in bannedWords) {
-                    if (
-                        res.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
+                    if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField(
-                                'Link Adjuntado',
-                                `\`\`\`${args[0]}\`\`\``
-                            )
-                            .addField(
-                                'Resultado',
-                                `El link adjunto tiene un enlace malicioso.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
-                        return message.channel
-                            .send({ embeds: [embed] })
-                            .then(msg => {
-                                setTimeout(function () {
-                                    msg.delete().catch(e => {})
-                                }, 5000)
-                            })
+                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
+                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({ embeds: [embed] }).then((msg) => {
+                            setTimeout(function () {
+                                msg.delete().catch((e) => {})
+                            }, 5000)
+                        })
                     }
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
                     .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField(
-                        'Resultado',
-                        `\`\`\`${res.request.res.responseUrl}\`\`\``
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
-                return message.channel.send({ embeds: [embed] }).then(msg => {
+                    .addField('Resultado', `\`\`\`${res.request.res.responseUrl}\`\`\``)
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                return message.channel.send({ embeds: [embed] }).then((msg) => {
                     setTimeout(function () {
-                        msg.delete().catch(e => {})
+                        msg.delete().catch((e) => {})
                     }, 5000)
                 })
             } else if (res.status == 404) {
                 console.warn('Error unshorten.')
             } else if (res.status == 499) {
                 for (let index in bannedWords) {
-                    if (
-                        res.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
+                    if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField(
-                                'Link Adjuntado',
-                                `\`\`\`${args[0]}\`\`\``
-                            )
-                            .addField(
-                                'Resultado',
-                                `El link adjunto tiene un enlace malicioso.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
-                        return message.channel
-                            .send({ embeds: [embed] })
-                            .then(msg => {
-                                setTimeout(function () {
-                                    msg.delete().catch(e => {})
-                                }, 5000)
-                            })
+                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
+                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({ embeds: [embed] }).then((msg) => {
+                            setTimeout(function () {
+                                msg.delete().catch((e) => {})
+                            }, 5000)
+                        })
                     }
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
                     .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField(
-                        'Resultado',
-                        `\`\`\`${res.request.res.responseUrl}\`\`\``
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
-                return message.channel.send({ embeds: [embed] }).then(msg => {
+                    .addField('Resultado', `\`\`\`${res.request.res.responseUrl}\`\`\``)
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                return message.channel.send({ embeds: [embed] }).then((msg) => {
                     setTimeout(function () {
-                        msg.delete().catch(e => {})
+                        msg.delete().catch((e) => {})
                     }, 5000)
                 })
             } else {
@@ -153,101 +104,56 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 return
             }
         })
-        .catch(e => {
+        .catch((e) => {
             console.log(e)
             if (e.request && e.request.res && e.request.res.responseUrl) {
                 for (let index in bannedWords) {
-                    if (
-                        e.request.res.responseUrl.indexOf(
-                            bannedWords[index]
-                        ) !== -1
-                    ) {
+                    if (e.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField(
-                                'Link Adjuntado',
-                                `\`\`\`${args[0]}\`\`\``
-                            )
-                            .addField(
-                                'Resultado',
-                                `El link adjunto tiene un enlace malicioso.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
-                        return message.channel
-                            .send({ embeds: [embed] })
-                            .then(msg => {
-                                setTimeout(function () {
-                                    msg.delete().catch(e => {})
-                                }, 5000)
-                            })
+                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
+                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({ embeds: [embed] }).then((msg) => {
+                            setTimeout(function () {
+                                msg.delete().catch((e) => {})
+                            }, 5000)
+                        })
                     }
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
                     .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField(
-                        'Resultado',
-                        `\`\`\`${e.request.res.responseUrl}\`\`\``
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .addField('Resultado', `\`\`\`${e.request.res.responseUrl}\`\`\``)
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] })
-            } else if (
-                e.request &&
-                e.request._options &&
-                e.request._options.href
-            ) {
+            } else if (e.request && e.request._options && e.request._options.href) {
                 for (let index in bannedWords) {
-                    if (
-                        e.request._options.href.indexOf(bannedWords[index]) !==
-                        -1
-                    ) {
+                    if (e.request._options.href.indexOf(bannedWords[index]) !== -1) {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle('Aviso <:notcheck:864102874983825428>')
-                            .addField(
-                                'Link Adjuntado',
-                                `\`\`\`${args[0]}\`\`\``
-                            )
-                            .addField(
-                                'Resultado',
-                                `El link adjunto tiene un enlace malicioso.`
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
-                        return message.channel
-                            .send({ embeds: [embed] })
-                            .then(msg => {
-                                setTimeout(function () {
-                                    msg.delete().catch(e => {})
-                                }, 5000)
-                            })
+                            .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
+                            .addField('Resultado', `El link adjunto tiene un enlace malicioso.`)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                        return message.channel.send({ embeds: [embed] }).then((msg) => {
+                            setTimeout(function () {
+                                msg.delete().catch((e) => {})
+                            }, 5000)
+                        })
                     }
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(client.language.SUCCESSEMBED)
                     .addField('Link Adjuntado', `\`\`\`${args[0]}\`\`\``)
-                    .addField(
-                        'Resultado',
-                        `\`\`\`${e.request._options.href}\`\`\``
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
-                return message.channel.send({ embeds: [embed] }).then(msg => {
+                    .addField('Resultado', `\`\`\`${e.request._options.href}\`\`\``)
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                return message.channel.send({ embeds: [embed] }).then((msg) => {
                     setTimeout(function () {
-                        msg.delete().catch(e => {})
+                        msg.delete().catch((e) => {})
                     }, 5000)
                 })
             }

@@ -11,14 +11,7 @@ module.exports = class McServer extends Command {
                 'Gets information about a Minecraft Server!',
                 '¡Obtiene información sobre un servidor de Minecraft!'
             ],
-            alias: [
-                'minecraftserver',
-                'ms',
-                'mcstatus',
-                'mcserverstatus',
-                'mstatus',
-                'mcservers'
-            ],
+            alias: ['minecraftserver', 'ms', 'mcstatus', 'mcserverstatus', 'mstatus', 'mcservers'],
             usage: ['<server ip>', '<ip del servidor>'],
             spam: true,
             cooldown: 5,
@@ -38,12 +31,9 @@ module.exports = class McServer extends Command {
                 .get(url, {
                     responseType: 'arraybuffer'
                 })
-                .then(image => {
+                .then((image) => {
                     let returnedB64 = Buffer.from(image.data).toString('base64')
-                    const sfattach = new Discord.MessageAttachment(
-                        image.data,
-                        'output.png'
-                    )
+                    const sfattach = new Discord.MessageAttachment(image.data, 'output.png')
                     message.channel.send({ files: [sfattach] })
                 })
                 .catch(() => {
@@ -51,10 +41,7 @@ module.exports = class McServer extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.MCSERVER[12])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 })
         } catch (e) {
@@ -65,10 +52,7 @@ module.exports = class McServer extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(
