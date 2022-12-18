@@ -1,6 +1,5 @@
 require('dotenv').config()
 const { ShardingManager, DiscordAPIError } = require('discord.js')
-const { RadioBrowserApi, StationSearchType } = require('radio-browser-api')
 
 //Hago esto para solo ejecutar una vez el código de TopGG
 const { readFile, writeFile } = require('fs')
