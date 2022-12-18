@@ -7,7 +7,7 @@
 
 [![⭐ GitHub](https://img.shields.io/github/stars/LyricalString/Node-Discord-Bot.svg?style=social&label=Stars&style=flat)](https://github.com/LyricalString/Node-Discord-Bot/stargazers)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=LyricalString_probando&metric=ncloc)](https://sonarcloud.io/dashboard?id=LyricalString_probando)
-[![](https://img.shields.io/badge/discord.js-v13.0.0--dev-blue.svg?logo=npm)](https://github.com/discordjs)
+[![](https://img.shields.io/badge/discord.js-v13.12.0-blue.svg?logo=npm)](https://github.com/discordjs)
 [![DevServer](https://discordapp.com/api/guilds/834440041010561074/widget.png?style=shield)](https://discord.gg/SbsFVV5dNG)
 [![](https://img.shields.io/github/languages/top/LyricalString/Node-Discord-Bot)]()
 
@@ -20,7 +20,7 @@ Node es un bot multifunción, multilenguaje, programado en [Discord.js](https://
 
 1. Token de Discord Developers **[Guía](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
 2. Java (para ejecutar Lavalink del módulo de música)
-3. Node.js `v16.15.0` o una más reciente.
+3. Node.js `v18.12.0` o una más reciente version 18.
 
 ## 🚀 Guía de Instalación
 
