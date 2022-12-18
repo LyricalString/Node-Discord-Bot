@@ -1,20 +1,17 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { soyultro } = require('soyultro')
 
 module.exports = class Panic extends Command {
     constructor(client) {
         super(client, {
             name: 'panic',
-            description: [
-                'Shows that you are panicking.',
-                'Muestra que estás en pánico.'
-            ],
+            description: ['Shows that you are panicking.', 'Muestra que estás en pánico.'],
             category: 'Interaccion'
         })
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            const { soyultro } = require('soyultro')
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
                 .setTitle(`${author} ${client.language.PANIC[1]}`)
@@ -30,10 +27,7 @@ module.exports = class Panic extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                 ]
             })
             webhookClient.send(

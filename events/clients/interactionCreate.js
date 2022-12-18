@@ -5,6 +5,7 @@ const GuildModel = require('../../models/guild.js')
 const axios = require('axios')
 const moment = require('moment')
 const Bottleneck = require('bottleneck')
+const { soyultro } = require('soyultro')
 const limiter = new Bottleneck({
     maxConcurrent: 2,
     minTime: 1000
@@ -44,11 +45,9 @@ module.exports = class Interaction extends Event {
             if (interaction.commandName == 'Avatar') {
                 limiter2.schedule(async () => {
                     if (!guild) return
-                    let member = await guild.members
-                        .fetch(interaction.targetId)
-                        .catch(e => {
-                            return
-                        })
+                    let member = await guild.members.fetch(interaction.targetId).catch((e) => {
+                        return
+                    })
                     let embed = new MessageEmbed()
                     embed.setColor('00ff00')
                     embed.setImage(
@@ -57,92 +56,75 @@ module.exports = class Interaction extends Event {
                             size: 4096
                         })
                     )
-                    return this.client.api
-                        .interactions(interaction.id, interaction.token)
-                        .callback.post({
+                    return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                        data: {
+                            type: 4,
                             data: {
-                                type: 4,
-                                data: {
-                                    content: '',
-                                    embeds: [embed]
-                                }
+                                content: '',
+                                embeds: [embed]
                             }
-                        })
+                        }
+                    })
                 })
             } else if (interaction.commandName == 'Hi') {
                 limiter2.schedule(async () => {
                     if (!guild) return
                     let member = await guild.members.fetch(interaction.targetId)
                     if (!member) {
-                        const { soyultro } = require('soyultro')
                         let author = interaction.member.user.username
                         let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                            .setTitle(
-                                `${author} ${
-                                    this.client.language.HI[3]
-                                } ${args.join(' ')}`
-                            )
+                            .setTitle(`${author} ${this.client.language.HI[3]} ${args.join(' ')}`)
                             .setColor(process.env.EMBED_COLOR)
                             .setImage(soyultro('hi'))
-                        return this.client.api
-                            .interactions(interaction.id, interaction.token)
-                            .callback.post({
+                        return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                            data: {
+                                type: 4,
                                 data: {
-                                    type: 4,
-                                    data: {
-                                        content: '',
-                                        embeds: [embed],
-                                        falgs: 64
-                                    }
+                                    content: '',
+                                    embeds: [embed],
+                                    falgs: 64
                                 }
-                            })
+                            }
+                        })
                     }
                     if (member.id == interaction.member.user.id) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(this.client.language.ERROREMBED)
                             .setDescription(this.client.language.HI[1])
-                        return this.client.api
-                            .interactions(interaction.id, interaction.token)
-                            .callback.post({
-                                data: {
-                                    type: 4,
-                                    data: {
-                                        content: '',
-                                        embeds: [errorembed],
-                                        falgs: 64
-                                    }
-                                }
-                            })
-                    }
-                    const { soyultro } = require('soyultro')
-                    let author = interaction.member.user.username
-                    let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                        .setTitle(
-                            `${author} ${this.client.language.HI[3]} ${member.user.username}`
-                        )
-                        .setColor(process.env.EMBED_COLOR)
-                        .setImage(soyultro('hi'))
-                    return this.client.api
-                        .interactions(interaction.id, interaction.token)
-                        .callback.post({
+                        return this.client.api.interactions(interaction.id, interaction.token).callback.post({
                             data: {
                                 type: 4,
                                 data: {
                                     content: '',
-                                    embeds: [embed]
+                                    embeds: [errorembed],
+                                    falgs: 64
                                 }
                             }
                         })
+                    }
+
+                    let author = interaction.member.user.username
+                    let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
+                        .setTitle(`${author} ${this.client.language.HI[3]} ${member.user.username}`)
+                        .setColor(process.env.EMBED_COLOR)
+                        .setImage(soyultro('hi'))
+                    return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                        data: {
+                            type: 4,
+                            data: {
+                                content: '',
+                                embeds: [embed]
+                            }
+                        }
+                    })
                 })
             } else if (interaction.commandName == 'Kiss') {
                 limiter2.schedule(async () => {
                     if (!guild) return
-                    let member = await guild.members
-                        .fetch(interaction.targetId)
-                        .catch(e => {
-                            return
-                        })
+                    let member = await guild.members.fetch(interaction.targetId).catch((e) => {
+                        return
+                    })
 
                     if (!member) return
                     if (member.id == interaction.member.user.id) {
@@ -150,95 +132,83 @@ module.exports = class Interaction extends Event {
                             .setColor('RED')
                             .setTitle(this.client.language.ERROREMBED)
                             .setDescription(this.client.language.KISS[1])
-                        return this.client.api
-                            .interactions(interaction.id, interaction.token)
-                            .callback.post({
+                        return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                            data: {
+                                type: 4,
                                 data: {
-                                    type: 4,
-                                    data: {
-                                        content: '',
-                                        embeds: [errorembed],
-                                        falgs: 64
-                                    }
+                                    content: '',
+                                    embeds: [errorembed],
+                                    falgs: 64
                                 }
-                            })
+                            }
+                        })
                     }
-                    const { soyultro } = require('soyultro')
+
                     let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
                         .setTitle(
                             `${interaction.member.user.username} ${this.client.language.KISS[3]} ${member.user.username}`
                         )
                         .setColor(process.env.EMBED_COLOR)
                         .setImage(soyultro('kiss'))
-                    return this.client.api
-                        .interactions(interaction.id, interaction.token)
-                        .callback.post({
+                    return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                        data: {
+                            type: 4,
                             data: {
-                                type: 4,
-                                data: {
-                                    content: '',
-                                    embeds: [embed]
-                                }
+                                content: '',
+                                embeds: [embed]
                             }
-                        })
+                        }
+                    })
                 })
             } else if (interaction.commandName == 'Love') {
                 limiter2.schedule(async () => {
                     if (!guild) return
-                    let member = await guild.members
-                        .fetch(interaction.targetId)
-                        .catch(e => {
-                            return
-                        })
+                    let member = await guild.members.fetch(interaction.targetId).catch((e) => {
+                        return
+                    })
                     if (member.user.id == interaction.member.user.id) {
                         let embed = new MessageEmbed()
                             .setTimestamp(' ')
                             .setColor('RED')
                             .setFooter(this.client.language.LOVE[2])
-                        return this.client.api
-                            .interactions(interaction.id, interaction.token)
-                            .callback.post({
+                        return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                            data: {
+                                type: 4,
                                 data: {
-                                    type: 4,
-                                    data: {
-                                        content: '',
-                                        embeds: [embed],
-                                        falgs: 64
-                                    }
+                                    content: '',
+                                    embeds: [embed],
+                                    falgs: 64
                                 }
-                            })
+                            }
+                        })
                     }
                     if (member.user.id == this.client.user.id) {
                         let embed = new MessageEmbed()
                             .setTimestamp(' ')
                             .setColor('RED')
                             .setFooter(this.client.language.LOVE[3])
-                        return this.client.api
-                            .interactions(interaction.id, interaction.token)
-                            .callback.post({
+                        return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                            data: {
+                                type: 4,
                                 data: {
-                                    type: 4,
-                                    data: {
-                                        content: '',
-                                        embeds: [embed],
-                                        falgs: 64
-                                    }
+                                    content: '',
+                                    embeds: [embed],
+                                    falgs: 64
                                 }
-                            })
+                            }
+                        })
                     }
 
                     const random = Math.floor(Math.random() * 100)
                     let emoji = ''
                     if (random < 50) {
-                        emoji =
-                            '<a:331263527c8547b29dc5d4c1ccca311b:835912709605949541>'
+                        emoji = '<a:331263527c8547b29dc5d4c1ccca311b:835912709605949541>'
                     } else if (random < 80) {
-                        emoji =
-                            '<a:239cb599aefe44e38294b04b3d86aec5:835912603528069132> ' // Un pequeño Match.Floor para hacerlo random y no de el mismo resultado!
+                        emoji = '<a:239cb599aefe44e38294b04b3d86aec5:835912603528069132> ' // Un pequeño Match.Floor para hacerlo random y no de el mismo resultado!
                     } else if (random < 101) {
                         emoji = '<a:pog:835912234201907220>'
                     }
-                    const { soyultro } = require('soyultro')
+
                     let resp = [
                         this.client.language.LOVE[4] +
                             `${interaction.member.user.username} & ${member.user.username}` +
@@ -253,26 +223,22 @@ module.exports = class Interaction extends Event {
                         .setDescription(`${emoji} ${random}% ${emoji}`) //Resultado aleatorio de lo anterior estructurado
                         .setColor(process.env.EMBED_COLOR)
                         .setImage(soyultro('love'))
-                    return this.client.api
-                        .interactions(interaction.id, interaction.token)
-                        .callback.post({
+                    return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                        data: {
+                            type: 4,
                             data: {
-                                type: 4,
-                                data: {
-                                    content: '',
-                                    embeds: [embed]
-                                }
+                                content: '',
+                                embeds: [embed]
                             }
-                        })
+                        }
+                    })
                 })
             } else if (interaction.commandName == 'UserInfo') {
                 limiter2.schedule(async () => {
                     if (!guild) return
-                    let member = await guild.members
-                        .fetch(interaction.targetId)
-                        .catch(e => {
-                            return
-                        })
+                    let member = await guild.members.fetch(interaction.targetId).catch((e) => {
+                        return
+                    })
                     let User = member.user
                     UserModel.findOne({
                         USERID: interaction.targetId.toString()
@@ -287,66 +253,43 @@ module.exports = class Interaction extends Event {
                             User.ROLES = s.Roles
                             User.LANG = s.LANG
                             User.COMMANDS_EXECUTED = s.COMMANDS_EXECUTED
-                            User.PREMIUM = s.Roles
-                                ? s.Roles.Premium.Enabled
-                                : false
+                            User.PREMIUM = s.Roles ? s.Roles.Premium.Enabled : false
                             User.BANNED = s.BANNED
-                            User.DEV = s.Roles
-                                ? s.Roles.Developer.Enabled
-                                : false
-                            User.TESTER = s.Roles
-                                ? s.Roles.Tester.Enabled
-                                : false
+                            User.DEV = s.Roles ? s.Roles.Developer.Enabled : false
+                            User.TESTER = s.Roles ? s.Roles.Tester.Enabled : false
                             User.PREMIUM_COMMANDS = s.PREMIUM_COMMANDS
-                            User.INTERACCIONES = s.Interacciones
-                                ? s.Interacciones
-                                : 'none'
+                            User.INTERACCIONES = s.Interacciones ? s.Interacciones : 'none'
                             User.isINDB = true
                             User.OLDMODE = s.OLDMODE
-                            if (
-                                !User.TESTER &&
-                                member.roles.cache.has('835835433082028062')
-                            ) {
+                            if (!User.TESTER && member.roles.cache.has('835835433082028062')) {
                                 User.TESTER = true
                                 s.Roles.Tester = {
                                     Enabled: true,
                                     Date: Date.now()
                                 }
                             }
-                            if (
-                                !User.ROLES.Notifications.Enabled &&
-                                member.roles.cache.has('845037268330741760')
-                            ) {
+                            if (!User.ROLES.Notifications.Enabled && member.roles.cache.has('845037268330741760')) {
                                 User.ROLES.Notifications.Enabled = true
                                 s.Roles.Notifications = {
                                     Enabled: true,
                                     Date: Date.now()
                                 }
                             }
-                            if (
-                                !User.ROLES.Booster.Enabled &&
-                                member.roles.cache.has('850530981349687296')
-                            ) {
+                            if (!User.ROLES.Booster.Enabled && member.roles.cache.has('850530981349687296')) {
                                 User.ROLES.Booster.Enabled = true
                                 s.Roles.Booster = {
                                     Enabled: true,
                                     Date: Date.now()
                                 }
                             }
-                            if (
-                                !User.ROLES.Support.Enabled &&
-                                member.roles.cache.has('834461420165922817')
-                            ) {
+                            if (!User.ROLES.Support.Enabled && member.roles.cache.has('834461420165922817')) {
                                 User.ROLES.Support.Enabled = true
                                 s.Roles.Support = {
                                     Enabled: true,
                                     Date: Date.now()
                                 }
                             }
-                            if (
-                                !User.PREMIUM &&
-                                member.roles.cache.has('834461423060123688')
-                            ) {
+                            if (!User.PREMIUM && member.roles.cache.has('834461423060123688')) {
                                 User.PREMIUM = true
                                 s.Roles.Premium = {
                                     Enabled: true,
@@ -360,7 +303,7 @@ module.exports = class Interaction extends Event {
                                     }
                                 }
                             }
-                            s.save().catch(err => s.update())
+                            s.save().catch((err) => s.update())
                         } else {
                             User.COMMANDS_EXECUTED = 0
                             User.VOTED = false
@@ -395,37 +338,22 @@ module.exports = class Interaction extends Event {
                             User.PREMIUM_COMMANDS = []
                             User.isINDB = true
                             User.OLDMODE = false
-                            if (
-                                !User.TESTER &&
-                                member.roles.cache.has('835835433082028062')
-                            ) {
+                            if (!User.TESTER && member.roles.cache.has('835835433082028062')) {
                                 User.TESTER = true
                             }
-                            if (
-                                !User.PREMIUM &&
-                                member.roles.cache.has('834461423060123688')
-                            ) {
+                            if (!User.PREMIUM && member.roles.cache.has('834461423060123688')) {
                                 User.PREMIUM = true
                                 if (Date.now() < 1630447201000) {
                                     User.ROLES.EarlyPremium.Enabled = true
                                 }
                             }
-                            if (
-                                !User.ROLES.Notifications.Enabled &&
-                                member.roles.cache.has('845037268330741760')
-                            ) {
+                            if (!User.ROLES.Notifications.Enabled && member.roles.cache.has('845037268330741760')) {
                                 User.ROLES.Notifications.Enabled = true
                             }
-                            if (
-                                !User.ROLES.Booster.Enabled &&
-                                member.roles.cache.has('850530981349687296')
-                            ) {
+                            if (!User.ROLES.Booster.Enabled && member.roles.cache.has('850530981349687296')) {
                                 User.ROLES.Booster.Enabled = true
                             }
-                            if (
-                                !User.ROLES.Support.Enabled &&
-                                member.roles.cache.has('834461420165922817')
-                            ) {
+                            if (!User.ROLES.Support.Enabled && member.roles.cache.has('834461420165922817')) {
                                 User.ROLES.Support.Enabled = true
                             }
                         }
@@ -433,7 +361,7 @@ module.exports = class Interaction extends Event {
                         let badges = []
                         const roles = member.roles.cache
                             .sort((a, b) => b.position - a.position)
-                            .map(role => role.toString())
+                            .map((role) => role.toString())
                             .slice(0, -1)
                         const userFlags = member.user.flags.toArray()
                         const embed = new MessageEmbed().setTimestamp(' ')
@@ -456,10 +384,7 @@ module.exports = class Interaction extends Event {
                                     dynamic: true
                                 })
                             )
-                        if (
-                            member.displayHexColor &&
-                            member.displayHexColor != '#000000'
-                        ) {
+                        if (member.displayHexColor && member.displayHexColor != '#000000') {
                             embed.setColor(member.displayHexColor)
                         } else {
                             embed.setColor(process.env.EMBED_COLOR)
@@ -471,8 +396,7 @@ module.exports = class Interaction extends Event {
                             )
                         if (member.user && member.user.discriminator)
                             embed.addField(
-                                '<:textchannelblurple:863983092893220885> ' +
-                                    this.client.language.USERINFO[2],
+                                '<:textchannelblurple:863983092893220885> ' + this.client.language.USERINFO[2],
                                 '```' + `${member.user.discriminator}` + '```',
                                 true
                             )
@@ -488,9 +412,7 @@ module.exports = class Interaction extends Event {
                                 '```' +
                                     `${
                                         userFlags.length
-                                            ? userFlags
-                                                  .map(flag => flags[flag])
-                                                  .join(', ')
+                                            ? userFlags.map((flag) => flags[flag]).join(', ')
                                             : this.client.language.USERINFO[8]
                                     }` +
                                     '```',
@@ -500,36 +422,19 @@ module.exports = class Interaction extends Event {
                             embed.addField(
                                 `📆 ${this.client.language.USERINFO[5]}`,
                                 '```' +
-                                    `${moment(
+                                    `${moment(member.user.createdTimestamp).format('LT')}\n${moment(
                                         member.user.createdTimestamp
-                                    ).format('LT')}\n${moment(
-                                        member.user.createdTimestamp
-                                    ).format('LL')}\n${moment(
-                                        member.user.createdTimestamp
-                                    ).fromNow()}` +
+                                    ).format('LL')}\n${moment(member.user.createdTimestamp).fromNow()}` +
                                     '```',
                                 true
                             )
-                        if (
-                            member.user &&
-                            member.user.presence &&
-                            member.user.presence.game
-                        )
+                        if (member.user && member.user.presence && member.user.presence.game)
                             embed.addField(
                                 `<:screenshare:864126217941942353> ${this.client.language.USERINFO[12]}`,
-                                '```' +
-                                    `${
-                                        member.user.presence.game ||
-                                        this.client.language.USERINFO[16]
-                                    }` +
-                                    '```',
+                                '```' + `${member.user.presence.game || this.client.language.USERINFO[16]}` + '```',
                                 true
                             )
-                        if (
-                            member.roles &&
-                            member.roles.highest.id &&
-                            member.roles.highest.name
-                        )
+                        if (member.roles && member.roles.highest.id && member.roles.highest.name)
                             embed.addField(
                                 `<:upvote:864107632411541514> ${this.client.language.USERINFO[13]}`,
                                 '```' +
@@ -543,56 +448,36 @@ module.exports = class Interaction extends Event {
                             )
                         if (member.joinedAt)
                             embed.addField(
-                                '<:join:864104115076595762>' +
-                                    this.client.language.USERINFO[4],
-                                '```' +
-                                    `${moment(member.joinedAt).format(
-                                        'LL LTS'
-                                    )}` +
-                                    '```',
+                                '<:join:864104115076595762>' + this.client.language.USERINFO[4],
+                                '```' + `${moment(member.joinedAt).format('LL LTS')}` + '```',
                                 true
                             )
                         if (member.roles)
                             embed.addField(
                                 `<:lupablurple:863983093030060062>${this.client.language.USERINFO[14]}`,
-                                `${
-                                    member.roles.hoist
-                                        ? member.roles.hoist
-                                        : this.client.language.USERINFO[8]
-                                }`,
+                                `${member.roles.hoist ? member.roles.hoist : this.client.language.USERINFO[8]}`,
                                 true
                             )
                         if (member.user.displayAvatarURL())
                             embed.addField(
                                 '<:linkblurple:863983092711817247> Avatar',
-                                `[${
-                                    this.client.language.USERINFO[15]
-                                }](${member.user.displayAvatarURL({
+                                `[${this.client.language.USERINFO[15]}](${member.user.displayAvatarURL({
                                     dynamic: true
                                 })})`,
                                 true
                             )
-                        if (emblemas && emblemas.Premium.Enabled)
-                            badges.push('<a:premium:866135287258939393>')
+                        if (emblemas && emblemas.Premium.Enabled) badges.push('<a:premium:866135287258939393>')
                         if (emblemas && emblemas.EarlyPremium.Enabled)
                             badges.push('<a:earlypremium:866135322886012978>')
-                        if (emblemas && emblemas.Tester.Enabled)
-                            badges.push('<:tester:871395085017813002>')
+                        if (emblemas && emblemas.Tester.Enabled) badges.push('<:tester:871395085017813002>')
                         if (emblemas && emblemas.Notifications.Enabled)
                             badges.push('<:notifications:864103839266897951>')
-                        if (emblemas && emblemas.Developer.Enabled)
-                            badges.push('<:developer:866134938185367552>')
-                        if (emblemas && emblemas.Booster.Enabled)
-                            badges.push('<:serverbooster:864102069728313354>')
-                        if (emblemas && emblemas.Support.Enabled)
-                            badges.push('<:support:863983092702904350>')
+                        if (emblemas && emblemas.Developer.Enabled) badges.push('<:developer:866134938185367552>')
+                        if (emblemas && emblemas.Booster.Enabled) badges.push('<:serverbooster:864102069728313354>')
+                        if (emblemas && emblemas.Support.Enabled) badges.push('<:support:863983092702904350>')
                         embed.addField(
                             this.client.language.USERINFO[18],
-                            `${
-                                badges.length > 0
-                                    ? badges.join(' ')
-                                    : this.client.language.USERINFO[8]
-                            }`,
+                            `${badges.length > 0 ? badges.join(' ') : this.client.language.USERINFO[8]}`,
                             true
                         )
                         if (roles[0])
@@ -607,17 +492,15 @@ module.exports = class Interaction extends Event {
                                 }`
                             )
 
-                        return this.client.api
-                            .interactions(interaction.id, interaction.token)
-                            .callback.post({
+                        return this.client.api.interactions(interaction.id, interaction.token).callback.post({
+                            data: {
+                                type: 4,
                                 data: {
-                                    type: 4,
-                                    data: {
-                                        content: '',
-                                        embeds: [embed]
-                                    }
+                                    content: '',
+                                    embeds: [embed]
                                 }
-                            })
+                            }
+                        })
                     })
                 })
             } else if (interaction.commandName == 'config') {
@@ -628,13 +511,11 @@ module.exports = class Interaction extends Event {
                         case 'automod':
                             switch (interaction.options._subcommand) {
                                 case 'mutedrole':
-                                    let role =
-                                        interaction.options._hoistedOptions[0]
-                                            .value
+                                    let role = interaction.options._hoistedOptions[0].value
                                     s.config.MutedRole = role
                                     guild.config.MutedRole = role
                                     s.save()
-                                        .catch(e => console.log(e))
+                                        .catch((e) => console.log(e))
                                         .then(() => {
                                             interaction.reply({
                                                 content:
@@ -648,23 +529,15 @@ module.exports = class Interaction extends Event {
                                 case 'antiflood':
                                     if (!s.config.FloodDetection.Filter) {
                                         s.config.FloodDetection.Filter = {
-                                            Messages:
-                                                interaction.options
-                                                    ._hoistedOptions[0].value,
-                                            Seconds:
-                                                interaction.options
-                                                    ._hoistedOptions[1].value
+                                            Messages: interaction.options._hoistedOptions[0].value,
+                                            Seconds: interaction.options._hoistedOptions[1].value
                                         }
                                         guild.config.FloodDetection.Filter = {
-                                            Messages:
-                                                interaction.options
-                                                    ._hoistedOptions[0].value,
-                                            Seconds:
-                                                interaction.options
-                                                    ._hoistedOptions[1].value
+                                            Messages: interaction.options._hoistedOptions[0].value,
+                                            Seconds: interaction.options._hoistedOptions[1].value
                                         }
                                         s.save()
-                                            .catch(e => console.log(e))
+                                            .catch((e) => console.log(e))
                                             .then(() => {
                                                 interaction.reply({
                                                     content: `Se ha ajustado el filtro tal que no se podrán enviar más de ${interaction.options._hoistedOptions[0].value} mensajes en ${interaction.options._hoistedOptions[1].value} segundos.`,
@@ -682,7 +555,7 @@ module.exports = class Interaction extends Event {
                                     guild.config.FloodDetection.Filter.Seconds =
                                         interaction.options._hoistedOptions[1].value
                                     s.save()
-                                        .catch(e => console.log(e))
+                                        .catch((e) => console.log(e))
                                         .then(() => {
                                             interaction.reply({
                                                 content: `Se ha ajustado el filtro tal que no se podrán enviar más de ${interaction.options._hoistedOptions[0].value} mensajes en ${interaction.options._hoistedOptions[1].value} segundos.`,
@@ -691,379 +564,169 @@ module.exports = class Interaction extends Event {
                                         })
                                     break
                                 case 'action':
-                                    switch (
-                                        interaction.options._hoistedOptions[0]
-                                            .value
-                                    ) {
+                                    switch (interaction.options._hoistedOptions[0].value) {
                                         case 'antiphishing':
                                             s.config.PhishingDetection.Action.Todo =
                                                 interaction.options._hoistedOptions[1].value
                                             guild.config.PhishingDetection.Action.Todo =
                                                 interaction.options._hoistedOptions[1].value
-                                            for (let index in interaction
-                                                .options._hoistedOptions) {
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'notify'
-                                                ) {
+                                            for (let index in interaction.options._hoistedOptions) {
+                                                if (interaction.options._hoistedOptions[index].name == 'notify') {
                                                     s.config.PhishingDetection.Action.NotifyOnChat =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.PhishingDetection.Action.NotifyOnChat =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'adminbypass'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'adminbypass') {
                                                     s.config.PhishingDetection.AdminBypass =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.PhishingDetection.AdminBypass =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'botsbypass'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'botsbypass') {
                                                     s.config.PhishingDetection.Bots =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.PhishingDetection.Bots =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'time'
-                                                ) {
-                                                    if (
-                                                        s.config
-                                                            .PhishingDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'time') {
+                                                    if (s.config.PhishingDetection.Action.Mute) {
                                                         s.config.PhishingDetection.Action.Mute.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.PhishingDetection.Action.Mute =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.PhishingDetection.Action.Mute = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        s.config
-                                                            .PhishingDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (s.config.PhishingDetection.Action.Ban) {
                                                         s.config.PhishingDetection.Action.Ban.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.PhishingDetection.Action.Ban =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.PhishingDetection.Action.Ban = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        guild.config
-                                                            .PhishingDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                    if (guild.config.PhishingDetection.Action.Mute) {
                                                         guild.config.PhishingDetection.Action.Mute.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.PhishingDetection.Action.Mute =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        guild.config.PhishingDetection.Action.Mute = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        guild.config
-                                                            .PhishingDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (guild.config.PhishingDetection.Action.Ban) {
                                                         guild.config.PhishingDetection.Action.Ban.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.PhishingDetection.Action.Ban =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        guild.config.PhishingDetection.Action.Ban = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'infinite'
-                                                ) {
-                                                    if (
-                                                        s.config
-                                                            .PhishingDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'infinite') {
+                                                    if (s.config.PhishingDetection.Action.Mute) {
                                                         s.config.PhishingDetection.Action.Mute.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.PhishingDetection.Action.Mute =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        s.config.PhishingDetection.Action.Mute = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        s.config
-                                                            .PhishingDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (s.config.PhishingDetection.Action.Ban) {
                                                         s.config.PhishingDetection.Action.Ban.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.PhishingDetection.Action.Ban =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        s.config.PhishingDetection.Action.Ban = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    if (
-                                                        guild.config
-                                                            .PhishingDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                    if (guild.config.PhishingDetection.Action.Mute) {
                                                         guild.config.PhishingDetection.Action.Mute.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.PhishingDetection.Action.Mute =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        guild.config.PhishingDetection.Action.Mute = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        guild.config
-                                                            .PhishingDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (guild.config.PhishingDetection.Action.Ban) {
                                                         guild.config.PhishingDetection.Action.Ban.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.PhishingDetection.Action.Ban =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        guild.config.PhishingDetection.Action.Ban = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'logs'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'logs') {
                                                     s.config.PhishingDetection.Logs =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.PhishingDetection.Logs =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'status'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'status') {
                                                     s.config.PhishingDetection.Enabled =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.PhishingDetection.Enabled =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'reason'
-                                                ) {
-                                                    if (
-                                                        s.config
-                                                            .PhishingDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'reason') {
+                                                    if (s.config.PhishingDetection.Action.Mute) {
                                                         s.config.PhishingDetection.Action.Mute.Reason =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.PhishingDetection.Action.Mute =
-                                                            {
-                                                                Reason: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.PhishingDetection.Action.Mute = {
+                                                            Reason: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    if (
-                                                        s.config
-                                                            .PhishingDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (s.config.PhishingDetection.Action.Ban) {
                                                         s.config.PhishingDetection.Action.Ban.Reason =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.PhishingDetection.Action.Ban =
-                                                            {
-                                                                Reason: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.PhishingDetection.Action.Ban = {
+                                                            Reason: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    if (
-                                                        s.config
-                                                            .PhishingDetection
-                                                            .Action.Kick
-                                                    ) {
+                                                    if (s.config.PhishingDetection.Action.Kick) {
                                                         s.config.PhishingDetection.Action.Kick.Reason =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.PhishingDetection.Action.Kick =
-                                                            {
-                                                                Reason: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.PhishingDetection.Action.Kick = {
+                                                            Reason: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    guild.config
-                                                        .PhishingDetection
-                                                        .Action.Mute
+                                                    guild.config.PhishingDetection.Action.Mute
                                                         ? (guild.config.PhishingDetection.Action.Mute.Reason =
-                                                              interaction.options._hoistedOptions[
-                                                                  index
-                                                              ].value)
-                                                        : (guild.config.PhishingDetection.Action.Mute =
-                                                              {
-                                                                  Reason: interaction
-                                                                      .options
-                                                                      ._hoistedOptions[
-                                                                      index
-                                                                  ].value
-                                                              })
+                                                              interaction.options._hoistedOptions[index].value)
+                                                        : (guild.config.PhishingDetection.Action.Mute = {
+                                                              Reason: interaction.options._hoistedOptions[index].value
+                                                          })
 
-                                                    guild.config
-                                                        .PhishingDetection
-                                                        .Action.Ban
+                                                    guild.config.PhishingDetection.Action.Ban
                                                         ? (guild.config.PhishingDetection.Action.Ban.Reason =
-                                                              interaction.options._hoistedOptions[
-                                                                  index
-                                                              ].value)
-                                                        : (guild.config.PhishingDetection.Action.Ban =
-                                                              {
-                                                                  Reason: interaction
-                                                                      .options
-                                                                      ._hoistedOptions[
-                                                                      index
-                                                                  ].value
-                                                              })
-                                                    guild.config
-                                                        .PhishingDetection
-                                                        .Action.Kick
+                                                              interaction.options._hoistedOptions[index].value)
+                                                        : (guild.config.PhishingDetection.Action.Ban = {
+                                                              Reason: interaction.options._hoistedOptions[index].value
+                                                          })
+                                                    guild.config.PhishingDetection.Action.Kick
                                                         ? (guild.config.PhishingDetection.Action.Kick.Reason =
-                                                              interaction.options._hoistedOptions[
-                                                                  index
-                                                              ].value)
-                                                        : (guild.config.PhishingDetection.Action.Kick =
-                                                              {
-                                                                  Reason: interaction
-                                                                      .options
-                                                                      ._hoistedOptions[
-                                                                      index
-                                                                  ].value
-                                                              })
+                                                              interaction.options._hoistedOptions[index].value)
+                                                        : (guild.config.PhishingDetection.Action.Kick = {
+                                                              Reason: interaction.options._hoistedOptions[index].value
+                                                          })
                                                 }
                                             }
 
                                             s.save()
-                                                .catch(e => console.log(e))
+                                                .catch((e) => console.log(e))
                                                 .then(() => {
                                                     interaction.reply({
                                                         content:
                                                             'Se ejecutará la acción ' +
-                                                            interaction.options
-                                                                ._hoistedOptions[1]
-                                                                .value +
+                                                            interaction.options._hoistedOptions[1].value +
                                                             ' cuando se supere el límite del filtro de AntiFlood.',
                                                         ephemeral: true
                                                     })
@@ -1080,360 +743,163 @@ module.exports = class Interaction extends Event {
                                                 interaction.options._hoistedOptions[1].value
                                             guild.config.FloodDetection.Action.Todo =
                                                 interaction.options._hoistedOptions[1].value
-                                            for (let index in interaction
-                                                .options._hoistedOptions) {
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'notify'
-                                                ) {
+                                            for (let index in interaction.options._hoistedOptions) {
+                                                if (interaction.options._hoistedOptions[index].name == 'notify') {
                                                     s.config.FloodDetection.Action.NotifyOnChat =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.FloodDetection.Action.NotifyOnChat =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'adminbypass'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'adminbypass') {
                                                     s.config.FloodDetection.AdminBypass =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.FloodDetection.AdminBypass =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'botsbypass'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'botsbypass') {
                                                     s.config.FloodDetection.Bots =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.FloodDetection.Bots =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'time'
-                                                ) {
-                                                    if (
-                                                        s.config.FloodDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'time') {
+                                                    if (s.config.FloodDetection.Action.Mute) {
                                                         s.config.FloodDetection.Action.Mute.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.FloodDetection.Action.Mute =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.FloodDetection.Action.Mute = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        s.config.FloodDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (s.config.FloodDetection.Action.Ban) {
                                                         s.config.FloodDetection.Action.Ban.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.FloodDetection.Action.Ban =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.FloodDetection.Action.Ban = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        guild.config
-                                                            .FloodDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                    if (guild.config.FloodDetection.Action.Mute) {
                                                         guild.config.FloodDetection.Action.Mute.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.FloodDetection.Action.Mute =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        guild.config.FloodDetection.Action.Mute = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        guild.config
-                                                            .FloodDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (guild.config.FloodDetection.Action.Ban) {
                                                         guild.config.FloodDetection.Action.Ban.Time =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.FloodDetection.Action.Ban =
-                                                            {
-                                                                Time: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        guild.config.FloodDetection.Action.Ban = {
+                                                            Time: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'infinite'
-                                                ) {
-                                                    if (
-                                                        s.config.FloodDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'infinite') {
+                                                    if (s.config.FloodDetection.Action.Mute) {
                                                         s.config.FloodDetection.Action.Mute.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.FloodDetection.Action.Mute =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        s.config.FloodDetection.Action.Mute = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        s.config.FloodDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (s.config.FloodDetection.Action.Ban) {
                                                         s.config.FloodDetection.Action.Ban.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.FloodDetection.Action.Ban =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        s.config.FloodDetection.Action.Ban = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    if (
-                                                        guild.config
-                                                            .FloodDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                    if (guild.config.FloodDetection.Action.Mute) {
                                                         guild.config.FloodDetection.Action.Mute.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.FloodDetection.Action.Mute =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        guild.config.FloodDetection.Action.Mute = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
-                                                    if (
-                                                        guild.config
-                                                            .FloodDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (guild.config.FloodDetection.Action.Ban) {
                                                         guild.config.FloodDetection.Action.Ban.Infinite =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        guild.config.FloodDetection.Action.Ban =
-                                                            {
-                                                                Infinite:
-                                                                    interaction
-                                                                        .options
-                                                                        ._hoistedOptions[
-                                                                        index
-                                                                    ].value
-                                                            }
+                                                        guild.config.FloodDetection.Action.Ban = {
+                                                            Infinite: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'logs'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'logs') {
                                                     s.config.FloodDetection.Logs =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.FloodDetection.Logs =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'status'
-                                                ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'status') {
                                                     s.config.FloodDetection.Enabled =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                     guild.config.FloodDetection.Enabled =
-                                                        interaction.options._hoistedOptions[
-                                                            index
-                                                        ].value
+                                                        interaction.options._hoistedOptions[index].value
                                                 }
-                                                if (
-                                                    interaction.options
-                                                        ._hoistedOptions[index]
-                                                        .name == 'reason'
-                                                ) {
-                                                    if (
-                                                        s.config.FloodDetection
-                                                            .Action.Mute
-                                                    ) {
+                                                if (interaction.options._hoistedOptions[index].name == 'reason') {
+                                                    if (s.config.FloodDetection.Action.Mute) {
                                                         s.config.FloodDetection.Action.Mute.Reason =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.FloodDetection.Action.Mute =
-                                                            {
-                                                                Reason: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.FloodDetection.Action.Mute = {
+                                                            Reason: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    if (
-                                                        s.config.FloodDetection
-                                                            .Action.Ban
-                                                    ) {
+                                                    if (s.config.FloodDetection.Action.Ban) {
                                                         s.config.FloodDetection.Action.Ban.Reason =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.FloodDetection.Action.Ban =
-                                                            {
-                                                                Reason: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.FloodDetection.Action.Ban = {
+                                                            Reason: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    if (
-                                                        s.config.FloodDetection
-                                                            .Action.Kick
-                                                    ) {
+                                                    if (s.config.FloodDetection.Action.Kick) {
                                                         s.config.FloodDetection.Action.Kick.Reason =
-                                                            interaction.options._hoistedOptions[
-                                                                index
-                                                            ].value
+                                                            interaction.options._hoistedOptions[index].value
                                                     } else {
-                                                        s.config.FloodDetection.Action.Kick =
-                                                            {
-                                                                Reason: interaction
-                                                                    .options
-                                                                    ._hoistedOptions[
-                                                                    index
-                                                                ].value
-                                                            }
+                                                        s.config.FloodDetection.Action.Kick = {
+                                                            Reason: interaction.options._hoistedOptions[index].value
+                                                        }
                                                     }
 
-                                                    guild.config.FloodDetection
-                                                        .Action.Mute
+                                                    guild.config.FloodDetection.Action.Mute
                                                         ? (guild.config.FloodDetection.Action.Mute.Reason =
-                                                              interaction.options._hoistedOptions[
-                                                                  index
-                                                              ].value)
-                                                        : (guild.config.FloodDetection.Action.Mute =
-                                                              {
-                                                                  Reason: interaction
-                                                                      .options
-                                                                      ._hoistedOptions[
-                                                                      index
-                                                                  ].value
-                                                              })
+                                                              interaction.options._hoistedOptions[index].value)
+                                                        : (guild.config.FloodDetection.Action.Mute = {
+                                                              Reason: interaction.options._hoistedOptions[index].value
+                                                          })
 
-                                                    guild.config.FloodDetection
-                                                        .Action.Ban
+                                                    guild.config.FloodDetection.Action.Ban
                                                         ? (guild.config.FloodDetection.Action.Ban.Reason =
-                                                              interaction.options._hoistedOptions[
-                                                                  index
-                                                              ].value)
-                                                        : (guild.config.FloodDetection.Action.Ban =
-                                                              {
-                                                                  Reason: interaction
-                                                                      .options
-                                                                      ._hoistedOptions[
-                                                                      index
-                                                                  ].value
-                                                              })
-                                                    guild.config.FloodDetection
-                                                        .Action.Kick
+                                                              interaction.options._hoistedOptions[index].value)
+                                                        : (guild.config.FloodDetection.Action.Ban = {
+                                                              Reason: interaction.options._hoistedOptions[index].value
+                                                          })
+                                                    guild.config.FloodDetection.Action.Kick
                                                         ? (guild.config.FloodDetection.Action.Kick.Reason =
-                                                              interaction.options._hoistedOptions[
-                                                                  index
-                                                              ].value)
-                                                        : (guild.config.FloodDetection.Action.Kick =
-                                                              {
-                                                                  Reason: interaction
-                                                                      .options
-                                                                      ._hoistedOptions[
-                                                                      index
-                                                                  ].value
-                                                              })
+                                                              interaction.options._hoistedOptions[index].value)
+                                                        : (guild.config.FloodDetection.Action.Kick = {
+                                                              Reason: interaction.options._hoistedOptions[index].value
+                                                          })
                                                 }
                                             }
 
                                             s.save()
-                                                .catch(e => console.log(e))
+                                                .catch((e) => console.log(e))
                                                 .then(() => {
                                                     interaction.reply({
                                                         content:
                                                             'Se ejecutará la acción ' +
-                                                            interaction.options
-                                                                ._hoistedOptions[1]
-                                                                .value +
+                                                            interaction.options._hoistedOptions[1].value +
                                                             ' cuando se supere el límite del filtro de AntiFlood.',
                                                         ephemeral: true
                                                     })
@@ -1445,20 +911,14 @@ module.exports = class Interaction extends Event {
                         case 'logs':
                             switch (interaction.options._subcommand) {
                                 case 'channel':
-                                    if (
-                                        interaction.options._hoistedOptions[0]
-                                            .channel.type == 'GUILD_TEXT'
-                                    ) {
-                                        s.config.LogsChannel =
-                                            interaction.options._hoistedOptions[0].value
-                                        guild.config.LogsChannel =
-                                            interaction.options._hoistedOptions[0].value
-                                        s.save().catch(e => console.log(e))
+                                    if (interaction.options._hoistedOptions[0].channel.type == 'GUILD_TEXT') {
+                                        s.config.LogsChannel = interaction.options._hoistedOptions[0].value
+                                        guild.config.LogsChannel = interaction.options._hoistedOptions[0].value
+                                        s.save().catch((e) => console.log(e))
                                         interaction.reply({
                                             content:
                                                 'El canal <#' +
-                                                interaction.options
-                                                    ._hoistedOptions[0].value +
+                                                interaction.options._hoistedOptions[0].value +
                                                 '> se ha seleccionado como el canal de logs.',
                                             ephemeral: true
                                         })
@@ -1469,76 +929,49 @@ module.exports = class Interaction extends Event {
                         case 'pvc':
                             switch (interaction.options._subcommand) {
                                 case 'startingchannel':
-                                    if (
-                                        interaction.options._hoistedOptions[0]
-                                            .channel.type == 'GUILD_VOICE'
-                                    ) {
+                                    if (interaction.options._hoistedOptions[0].channel.type == 'GUILD_VOICE') {
                                         if (!s.config.Pvc) {
                                             s.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
-                                                    StartingChannel:
-                                                        interaction.options
-                                                            ._hoistedOptions[0]
-                                                            .value
+                                                    StartingChannel: interaction.options._hoistedOptions[0].value
                                                 }
                                             }
                                             guild.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
-                                                    StartingChannel:
-                                                        interaction.options
-                                                            ._hoistedOptions[0]
-                                                            .value
+                                                    StartingChannel: interaction.options._hoistedOptions[0].value
                                                 }
                                             }
                                         } else {
-                                            s.config.Pvc.StartingChannel =
-                                                interaction.options._hoistedOptions[0].value
+                                            s.config.Pvc.StartingChannel = interaction.options._hoistedOptions[0].value
                                             guild.config.Pvc.StartingChannel =
                                                 interaction.options._hoistedOptions[0].value
                                         }
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
                                                     data: {
                                                         content:
                                                             'Has seleccionado el canal <#' +
-                                                            interaction.options
-                                                                ._hoistedOptions[0]
-                                                                .value +
+                                                            interaction.options._hoistedOptions[0].value +
                                                             '> como canal principal para la creación de los canales privados de voz.',
                                                         flags: 64
                                                     }
@@ -1546,10 +979,7 @@ module.exports = class Interaction extends Event {
                                             })
                                     } else {
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
@@ -1562,76 +992,48 @@ module.exports = class Interaction extends Event {
                                             })
                                     }
                                 case 'category':
-                                    if (
-                                        interaction.options._hoistedOptions[0]
-                                            .channel.type == 'GUILD_CATEGORY'
-                                    ) {
+                                    if (interaction.options._hoistedOptions[0].channel.type == 'GUILD_CATEGORY') {
                                         if (!s.config.Pvc) {
                                             s.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
-                                                    Category:
-                                                        interaction.options
-                                                            ._hoistedOptions[0]
-                                                            .value
+                                                    Category: interaction.options._hoistedOptions[0].value
                                                 }
                                             }
                                             guild.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
-                                                    Category:
-                                                        interaction.options
-                                                            ._hoistedOptions[0]
-                                                            .value
+                                                    Category: interaction.options._hoistedOptions[0].value
                                                 }
                                             }
                                         } else {
-                                            s.config.Pvc.Category =
-                                                interaction.options._hoistedOptions[0].value
-                                            guild.config.Pvc.Category =
-                                                interaction.options._hoistedOptions[0].value
+                                            s.config.Pvc.Category = interaction.options._hoistedOptions[0].value
+                                            guild.config.Pvc.Category = interaction.options._hoistedOptions[0].value
                                         }
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
                                                     data: {
                                                         content:
                                                             'Has seleccionado la categoría <#' +
-                                                            interaction.options
-                                                                ._hoistedOptions[0]
-                                                                .value +
+                                                            interaction.options._hoistedOptions[0].value +
                                                             '> como la categoría principal donde se crearán los canales privados de voz.',
                                                         flags: 64
                                                     }
@@ -1639,10 +1041,7 @@ module.exports = class Interaction extends Event {
                                             })
                                     } else {
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
@@ -1655,25 +1054,16 @@ module.exports = class Interaction extends Event {
                                             })
                                     }
                                 case 'mode':
-                                    if (
-                                        interaction.options._hoistedOptions[0]
-                                            .value == true
-                                    ) {
+                                    if (interaction.options._hoistedOptions[0].value == true) {
                                         if (!s.config.Pvc) {
                                             const embed = new MessageEmbed()
                                                 .setColor('RED')
-                                                .setTitle(
-                                                    this.client.language
-                                                        .ERROREMBED
-                                                )
+                                                .setTitle(this.client.language.ERROREMBED)
                                                 .setDescription(
                                                     `Antes de iniciar los canales de voz privados debes de configurar el canal y la categoría. Usa \`/config pvc canalprincipal\` y \`/config pvc categoria\` para ello.`
                                                 )
                                             return this.client.api
-                                                .interactions(
-                                                    interaction.id,
-                                                    interaction.token
-                                                )
+                                                .interactions(interaction.id, interaction.token)
                                                 .callback.post({
                                                     data: {
                                                         type: 4,
@@ -1687,18 +1077,12 @@ module.exports = class Interaction extends Event {
                                         if (!s.config.Pvc.Category) {
                                             const embed = new MessageEmbed()
                                                 .setColor('RED')
-                                                .setTitle(
-                                                    this.client.language
-                                                        .ERROREMBED
-                                                )
+                                                .setTitle(this.client.language.ERROREMBED)
                                                 .setDescription(
                                                     `No has configurado la categoría donde se crearán los canales de voz privados. Usa \`/config pvc categoría\` para seleccionarla.`
                                                 )
                                             return this.client.api
-                                                .interactions(
-                                                    interaction.id,
-                                                    interaction.token
-                                                )
+                                                .interactions(interaction.id, interaction.token)
                                                 .callback.post({
                                                     data: {
                                                         type: 4,
@@ -1708,23 +1092,15 @@ module.exports = class Interaction extends Event {
                                                         }
                                                     }
                                                 })
-                                        } else if (
-                                            !s.config.Pvc.StartingChannel
-                                        ) {
+                                        } else if (!s.config.Pvc.StartingChannel) {
                                             const embed = new MessageEmbed()
                                                 .setColor('RED')
-                                                .setTitle(
-                                                    this.client.language
-                                                        .ERROREMBED
-                                                )
+                                                .setTitle(this.client.language.ERROREMBED)
                                                 .setDescription(
                                                     `No has configurado el canal donde los usuarios se unirán para crear los canales de voz privados. Usa \`/config pvc canalprincipal\` para seleccionarla.`
                                                 )
                                             return this.client.api
-                                                .interactions(
-                                                    interaction.id,
-                                                    interaction.token
-                                                )
+                                                .interactions(interaction.id, interaction.token)
                                                 .callback.post({
                                                     data: {
                                                         type: 4,
@@ -1734,25 +1110,15 @@ module.exports = class Interaction extends Event {
                                                         }
                                                     }
                                                 })
-                                        } else if (
-                                            !(s.Creado < 1629381609000) &&
-                                            !s.REFERED &&
-                                            !s.Partner
-                                        ) {
+                                        } else if (!(s.Creado < 1629381609000) && !s.REFERED && !s.Partner) {
                                             const embed = new MessageEmbed()
                                                 .setColor('RED')
-                                                .setTitle(
-                                                    this.client.language
-                                                        .ERROREMBED
-                                                )
+                                                .setTitle(this.client.language.ERROREMBED)
                                                 .setDescription(
                                                     `No has participado en el evento de los 25.000 servidores. Para participar debes de canjear un código previamente creado o crear uno usando \`.code generate\` y luego usar \`.code redeem (código)\`.`
                                                 )
                                             return this.client.api
-                                                .interactions(
-                                                    interaction.id,
-                                                    interaction.token
-                                                )
+                                                .interactions(interaction.id, interaction.token)
                                                 .callback.post({
                                                     data: {
                                                         type: 4,
@@ -1765,39 +1131,27 @@ module.exports = class Interaction extends Event {
                                         }
                                         if (!s.config.Pvc) {
                                             s.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
                                                     Enabled: true
                                                 }
                                             }
                                             guild.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
                                                     Enabled: true
                                                 }
@@ -1806,23 +1160,18 @@ module.exports = class Interaction extends Event {
                                             s.config.Pvc.Enabled = true
                                             guild.config.Pvc.Enabled = true
                                         }
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
                                                     data: {
                                                         content:
                                                             'Has activado los canales privados de voz. Los canales se crearán en la categoría <#' +
-                                                            s.config.Pvc
-                                                                .Category +
+                                                            s.config.Pvc.Category +
                                                             '>. Para empezar entra en <#' +
-                                                            s.config.Pvc
-                                                                .StartingChannel +
+                                                            s.config.Pvc.StartingChannel +
                                                             '>.',
                                                         flags: 64
                                                     }
@@ -1831,39 +1180,27 @@ module.exports = class Interaction extends Event {
                                     } else {
                                         if (!s.config.Pvc) {
                                             s.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
                                                     Enabled: false
                                                 }
                                             }
                                             guild.config = {
-                                                FloodDetection:
-                                                    s.config.FloodDetection,
-                                                PhishingDetection:
-                                                    s.config.PhishingDetection,
+                                                FloodDetection: s.config.FloodDetection,
+                                                PhishingDetection: s.config.PhishingDetection,
                                                 tos: s.config.tos,
                                                 spam: s.config.spam,
                                                 CHANNELID: s.config.CHANNELID,
-                                                DISABLED_COMMANDS:
-                                                    s.config.DISABLED_COMMANDS,
-                                                DISABLED_CATEGORIES:
-                                                    s.config
-                                                        .DISABLED_CATEGORIES,
-                                                MUSIC_CHANNELS:
-                                                    s.config.MUSIC_CHANNELS,
+                                                DISABLED_COMMANDS: s.config.DISABLED_COMMANDS,
+                                                DISABLED_CATEGORIES: s.config.DISABLED_CATEGORIES,
+                                                MUSIC_CHANNELS: s.config.MUSIC_CHANNELS,
                                                 Pvc: {
                                                     Enabled: false
                                                 }
@@ -1872,18 +1209,14 @@ module.exports = class Interaction extends Event {
                                             s.config.Pvc.Enabled = false
                                             guild.config.Pvc.Enabled = false
                                         }
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
                                                     data: {
-                                                        content:
-                                                            'Has desactivado los canales privados de voz.',
+                                                        content: 'Has desactivado los canales privados de voz.',
                                                         flags: 64
                                                     }
                                                 }
@@ -1894,18 +1227,12 @@ module.exports = class Interaction extends Event {
                         case 'modes':
                             switch (interaction.options._subcommand) {
                                 case 'tosmode':
-                                    if (
-                                        interaction.options._hoistedOptions[0]
-                                            .value == true
-                                    ) {
+                                    if (interaction.options._hoistedOptions[0].value == true) {
                                         s.config.tos = true
                                         guild.config.tos = true
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
@@ -1919,12 +1246,9 @@ module.exports = class Interaction extends Event {
                                     } else {
                                         s.config.tos = false
                                         guild.config.tos = false
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
@@ -1937,24 +1261,17 @@ module.exports = class Interaction extends Event {
                                             })
                                     }
                                 case 'spammode':
-                                    if (
-                                        interaction.options._hoistedOptions[0]
-                                            .value == true
-                                    ) {
+                                    if (interaction.options._hoistedOptions[0].value == true) {
                                         s.config.spam = true
                                         guild.config.spam = true
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
                                                     data: {
-                                                        content:
-                                                            'Has habilitado el modo de publicidad indirecta.',
+                                                        content: 'Has habilitado el modo de publicidad indirecta.',
                                                         flags: 64
                                                     }
                                                 }
@@ -1962,18 +1279,14 @@ module.exports = class Interaction extends Event {
                                     } else {
                                         s.config.spam = false
                                         guild.config.spam = false
-                                        s.save().catch(e => console.warn(e))
+                                        s.save().catch((e) => console.warn(e))
                                         return this.client.api
-                                            .interactions(
-                                                interaction.id,
-                                                interaction.token
-                                            )
+                                            .interactions(interaction.id, interaction.token)
                                             .callback.post({
                                                 data: {
                                                     type: 4,
                                                     data: {
-                                                        content:
-                                                            'Has deshabilitado el modo de publicidad indirecta.',
+                                                        content: 'Has deshabilitado el modo de publicidad indirecta.',
                                                         flags: 64
                                                     }
                                                 }
@@ -1999,13 +1312,13 @@ module.exports = class Interaction extends Event {
                             }
                         })
                     })
-                    .then(async result => {
+                    .then(async (result) => {
                         return await interaction.editReply({
                             content: ' ',
                             files: [result.data.data.image]
                         })
                     })
-                    .catch(e => {
+                    .catch((e) => {
                         return interaction.editReply({
                             content: this.client.language.FNPROFILE[10]
                         })
@@ -2038,7 +1351,7 @@ async function fetchGuild(client2, guild) {
                 guild.refered = s.REFERED
                 guild.partner = s.Partner
                 guild.last_timestamp = s.LAST_TIMESTAMP
-                s.save().catch(err => s.update())
+                s.save().catch((err) => s.update())
                 resolve([guild, s])
             }
         })

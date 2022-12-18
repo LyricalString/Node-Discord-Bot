@@ -29,25 +29,16 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter(message.author.username, message.author.avatarURL())
                 return message.channel.send({ embeds: [errorembed] })
             }
 
-            if (
-                message.guild.config.MUSIC_CHANNELS[0] &&
-                !message.guild.config.MUSIC_CHANNELS.includes(channel.id)
-            ) {
+            if (message.guild.config.MUSIC_CHANNELS[0] && !message.guild.config.MUSIC_CHANNELS.includes(channel.id)) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[13])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter(message.author.username, message.author.avatarURL())
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -67,28 +58,20 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter(message.author.username, message.author.avatarURL())
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (playerCanal.id != channel.id && playerCanal.members.size == 1) {
-                let member = await message.guild.members
-                    .fetch(process.env.botID)
-                    .catch(e => {
-                        return
-                    })
+                let member = await message.guild.members.fetch(process.env.botID).catch((e) => {
+                    return
+                })
                 member.voice.setChannel(channel.id)
             } else if (playerCanal.id != channel.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[2])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter(message.author.username, message.author.avatarURL())
                 return message.channel.send({ embeds: [errorembed] })
             }
             const query = args.join(' ')
@@ -97,19 +80,16 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter(message.author.username, message.author.avatarURL())
                 return message.channel.send({ embeds: [errorembed] })
             }
             let volume = 100
 
-            let filter = {
-                limit: 1,
-                by: 'name',
-                searchterm: query
-            }
+            // let filter = {
+            //     limit: 1,
+            //     by: 'name',
+            //     searchterm: query
+            // }
             let str = ''
             let name = ''
             let favicon = ''
@@ -117,16 +97,13 @@ module.exports = class Radio extends Command {
             let codec = ''
             let bitrate = ''
 
-            const {
-                RadioBrowserApi,
-                StationSearchType
-            } = require('radio-browser-api')
+            const { RadioBrowserApi, StationSearchType } = require('radio-browser-api')
             const api = new RadioBrowserApi('NodeBot')
 
-            let argumentos = []
+            // let argumentos = []
             await api
                 .getStationsBy(StationSearchType.byName, args.join(' '), 1)
-                .then(radio => {
+                .then((radio) => {
                     if (!radio[0]) return
                     str = radio[0].urlResolved
                     name = radio[0].name
@@ -135,18 +112,15 @@ module.exports = class Radio extends Command {
                     codec = radio[0].codec
                     bitrate = radio[0].bitrate
                 })
-                .catch(e => {
+                .catch((e) => {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.RADIO[11])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                     return message.channel.send({ embeds: [errorembed] })
                 })
-            await client.manager.search(str, message.author).then(async res => {
+            await client.manager.search(str, message.author).then(async (res) => {
                 switch (res.loadType) {
                     case 'TRACK_LOADED':
                         player.queue.add(res.tracks[0])
@@ -154,25 +128,12 @@ module.exports = class Radio extends Command {
                             .setTitle(client.language.RADIO[12])
                             .setColor(process.env.EMBED_COLOR)
                             .addField(client.language.RADIO[6], `${name}`)
-                            .addField(
-                                client.language.RADIO[9],
-                                `${codec}`,
-                                true
-                            )
-                            .addField(
-                                client.language.RADIO[10],
-                                `${bitrate}`,
-                                true
-                            )
-                        if (favicon && isUrl(favicon))
-                            embed.setThumbnail(favicon)
+                            .addField(client.language.RADIO[9], `${codec}`, true)
+                            .addField(client.language.RADIO[10], `${bitrate}`, true)
+                        if (favicon && isUrl(favicon)) embed.setThumbnail(favicon)
                         message.channel.send({ embeds: [embed] })
                         if (homepage)
-                            embed.addField(
-                                client.language.RADIO[7],
-                                `${client.language.RADIO[8]}(${homepage})`,
-                                true
-                            )
+                            embed.addField(client.language.RADIO[7], `${client.language.RADIO[8]}(${homepage})`, true)
                         if (!player.playing) {
                             player.play()
                             player.setVolume(volume || 50)
@@ -194,10 +155,7 @@ module.exports = class Radio extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                 ]
             })
             webhookClient.send(
