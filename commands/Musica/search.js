@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
-const { DiscordMenus, ButtonBuilder, MenuBuilder } = require('discord-menus')
+const { SelectMenuBuilder, ActionRowBuilder } = require('@discordjs/builders')
+
 module.exports = class Search extends Command {
     constructor(client) {
         super(client, {
@@ -25,13 +26,8 @@ module.exports = class Search extends Command {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
-                    .setDescription(
-                        'Necesitas estar en un canal de voz para ejecutar este comando.'
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setDescription('Necesitas estar en un canal de voz para ejecutar este comando.')
+                    .setFooter(message.author.username, message.author.avatarURL())
                 return message.channel.send({ embeds: [errorembed] })
             }
             const player = client.manager.create({
@@ -52,9 +48,7 @@ module.exports = class Search extends Command {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle('Error!')
-                    .setDescription(
-                        'Necesitas estar en el mismo canal de voz que el bot para ejecutar este comando.'
-                    )
+                    .setDescription('Necesitas estar en el mismo canal de voz que el bot para ejecutar este comando.')
                 return message.channel.send({ embeds: [errorembed] })
             }
             const res = await client.manager.search(sc, message.author)
@@ -62,24 +56,24 @@ module.exports = class Search extends Command {
             const tracks = res.tracks.slice(0, 5)
             const results = res.tracks
                 .slice(0, 5)
-                .map(result => `**${++n} -** [${result.title}](${result.uri})`)
+                .map((result) => `**${++n} -** [${result.title}](${result.uri})`)
                 .join('\n')
-            const res1 = res.tracks[0].title.toString()
-            const MenusManager = new DiscordMenus(client)
-            const myCoolMenu = new MenuBuilder()
-                .addLabel('res1', { description: `Prueba`, value: 'cancion-1' })
-                .addLabel('res1', { description: `Prueba`, value: 'cancion-2' })
-                .addLabel(res.tracks[0].title, {
-                    description: `Prueba`,
-                    value: 'cancion-3'
+            const myCoolMenu = new SelectMenuBuilder()
+                .setCustomId('cool-custom-id')
+                .setPlaceholder('Select an option')
+                .setMaxValues(1)
+                .setMinValues(1)
+                .setOptions(
+                    { label: 'res1', description: 'Prueba', value: 'cancion-1' },
+                    { label: 'res1', description: 'Prueba', value: 'cancion-2' },
+                    { label: res.tracks[0].title, description: 'Prueba', value: 'cancion-3' }
+                )
+            message
+                .reply({
+                    embeds: [new MessageEmbed().setDescription('Hello world!')],
+                    components: [new ActionRowBuilder().addComponents(myCoolMenu)]
                 })
-                .setCustomID('cool-custom-id')
-                .setPlaceHolder('Select an option')
-            await MenusManager.sendMenu(
-                message,
-                new MessageEmbed().setDescription('Hello world!'),
-                { menu: myCoolMenu }
-            ).catch(err => console.error(err))
+                .catch((err) => console.error(err))
         } catch (e) {
             console.error(e)
             message.channel.send({
@@ -88,22 +82,17 @@ module.exports = class Search extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                 ]
             })
             webhookClient.send(
                 `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
             )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            message.author
+                .send(
+                    'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
+                )
+                .catch((e) => null)
         }
     }
 }
