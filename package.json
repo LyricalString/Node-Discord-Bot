@@ -7,7 +7,6 @@
         "axios": "0.21.1",
         "bombsweeper.js": "1.0.1",
         "bottleneck": "2.19.5",
-        "bufferutil": "4.0.7",
         "discord.js": "13.12.0",
         "dotenv": "16.0.3",
         "easyqrcodejs-nodejs": "4.4.5",
@@ -20,8 +19,7 @@
         "soyultro": "4.8.5",
         "spotify-url-info": "3.1.10",
         "topgg-autoposter": "2.0.1",
-        "twit": "2.2.11",
-        "zlib-sync": "0.1.7"
+        "twit": "2.2.11"
     },
     "scripts": {
         "logs": "pm2 logs ",
@@ -42,5 +40,11 @@
     "homepage": "https://github.com/LyricalString/Node#readme",
     "engines": {
         "node": ">=18.12.0"
+    },
+    "optionalDependencies": {
+        "bufferutil": "^4.0.7",
+        "erlpack": "github:discord/erlpack",
+        "utf-8-validate": "^5.0.10",
+        "zlib-sync": "^0.1.7"
     }
 }
