@@ -5,10 +5,7 @@ module.exports = class Shrug extends Command {
     constructor(client) {
         super(client, {
             name: 'shrug',
-            description: [
-                'Shows that you are shruging.',
-                'Muestra que estás encogiendote de hombros.'
-            ],
+            description: ['Shows that you are shruging.', 'Muestra que estás encogiendote de hombros.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Shrug extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

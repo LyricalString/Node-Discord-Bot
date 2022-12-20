@@ -6,10 +6,7 @@ module.exports = class FacePalm extends Command {
         super(client, {
             name: 'facepalm',
             alias: ['fp'],
-            description: [
-                'Shows that you are facepalming yourself.',
-                'Muestra que te golpeas la cara a tí mismo.'
-            ],
+            description: ['Shows that you are facepalming yourself.', 'Muestra que te golpeas la cara a tí mismo.'],
             category: 'Interaccion'
         })
     }
@@ -31,10 +28,7 @@ module.exports = class FacePalm extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

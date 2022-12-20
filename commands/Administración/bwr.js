@@ -5,10 +5,7 @@ module.exports = class BannedWordsRefresh extends Command {
     constructor(client) {
         super(client, {
             name: 'bannedwordsrefresh',
-            description: [
-                'Refreshes the banned words.',
-                'Refresca las palabras baneadas.'
-            ],
+            description: ['Refreshes the banned words.', 'Refresca las palabras baneadas.'],
             role: 'developer',
             alias: ['bwr'],
             category: 'Administracion',
@@ -23,9 +20,7 @@ module.exports = class BannedWordsRefresh extends Command {
             const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setTitle(client.language.SUCCESSEMBED)
-                .setDescription(
-                    `Se ha actualizado la lista de palabras baneadas.`
-                )
+                .setDescription(`Se ha actualizado la lista de palabras baneadas.`)
                 .setFooter(message.author.username, message.author.avatarURL())
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
@@ -36,10 +31,7 @@ module.exports = class BannedWordsRefresh extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

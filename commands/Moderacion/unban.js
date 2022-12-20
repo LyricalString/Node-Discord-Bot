@@ -24,20 +24,15 @@ module.exports = class Ban extends Command {
                     const embed = new MessageEmbed()
                         .setColor(client.language.SUCCESSEMBED)
                         .setTitle(client.language.UNBAN[1])
-                        .setDescription(
-                            `${client.language.UNBAN[2]} ${args[1]} ${client.language.UNBAN[3]}`
-                        )
+                        .setDescription(`${client.language.UNBAN[2]} ${args[1]} ${client.language.UNBAN[3]}`)
                     message.channel.send({ embeds: [embed] })
                 })
-                .catch(e => {
+                .catch((e) => {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.UNBAN[4])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 })
         } catch (e) {
@@ -48,10 +43,7 @@ module.exports = class Ban extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

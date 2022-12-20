@@ -5,10 +5,7 @@ module.exports = class Love extends Command {
     constructor(client) {
         super(client, {
             name: 'love',
-            description: [
-                'Shows the love between you and a user.',
-                'Muestra el amor entre tú y un usuario.'
-            ],
+            description: ['Shows the love between you and a user.', 'Muestra el amor entre tú y un usuario.'],
             usage: ['<@user>', '<@usuario>'],
             category: 'Interaccion'
         })
@@ -19,25 +16,20 @@ module.exports = class Love extends Command {
             if (args[0]) {
                 user =
                     message.mentions.members.first() ||
-                    (await message.guild.members.fetch(args[0]).catch(e => {
+                    (await message.guild.members.fetch(args[0]).catch((e) => {
                         return
                     }))
             } else {
                 if (message.mentions.repliedUser) {
-                    user = await message.guild.members
-                        .fetch(message.mentions.repliedUser.id)
-                        .catch(e => {
-                            return
-                        })
+                    user = await message.guild.members.fetch(message.mentions.repliedUser.id).catch((e) => {
+                        return
+                    })
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.NOARGS)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }
@@ -46,10 +38,7 @@ module.exports = class Love extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.LOVE[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!user.user) {
@@ -57,41 +46,30 @@ module.exports = class Love extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.LOVE[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (user.user.id == message.author.id) {
                 let embed = new MessageEmbed()
                     .setTimestamp(' ')
                     .setColor(process.env.EMBED_COLOR)
-                    .setFooter(
-                        client.language.LOVE[2],
-                        message.author.displayAvatarURL()
-                    )
+                    .setFooter({ text: client.language.LOVE[2], iconURL: message.author.displayAvatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
             if (user.user.id == client.user.id) {
                 let embed = new MessageEmbed()
                     .setTimestamp(' ')
                     .setColor(process.env.EMBED_COLOR)
-                    .setFooter(
-                        client.language.LOVE[3],
-                        message.author.displayAvatarURL()
-                    )
+                    .setFooter({ text: client.language.LOVE[3], iconURL: message.author.displayAvatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
 
             const random = Math.floor(Math.random() * 100)
             let emoji = ''
             if (random < 50) {
-                emoji =
-                    '<a:331263527c8547b29dc5d4c1ccca311b:835912709605949541>'
+                emoji = '<a:331263527c8547b29dc5d4c1ccca311b:835912709605949541>'
             } else if (random < 80) {
-                emoji =
-                    '<a:239cb599aefe44e38294b04b3d86aec5:835912603528069132> ' // Un pequeño Match.Floor para hacerlo random y no de el mismo resultado!
+                emoji = '<a:239cb599aefe44e38294b04b3d86aec5:835912603528069132> ' // Un pequeño Match.Floor para hacerlo random y no de el mismo resultado!
             } else if (random < 101) {
                 emoji = '<a:pog:835912234201907220>'
             }
@@ -100,9 +78,7 @@ module.exports = class Love extends Command {
                 client.language.LOVE[4] +
                     `${message.author.username} & ${user.user.username}` +
                     client.language.LOVE[5],
-                client.language.LOVE[6] +
-                    `${message.author.username} & ${user.user.username}` +
-                    client.language.LOVE[7]
+                client.language.LOVE[6] + `${message.author.username} & ${user.user.username}` + client.language.LOVE[7]
             ]
             let msg = resp[Math.floor(Math.random() * resp.length)]
             const embed = new MessageEmbed()
@@ -113,7 +89,7 @@ module.exports = class Love extends Command {
             if (args.length > 1) {
                 args.shift()
                 const reason = args.join(' ')
-                embed.addField('\u200b', reason)
+                embed.addFields({ name: '\u200b', value: reason })
             }
             message.channel.send({ embeds: [embed] })
         } catch (e) {
@@ -123,10 +99,7 @@ module.exports = class Love extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -33,53 +33,29 @@ module.exports = class Ctegory extends Command {
                     })
                     .then((s, err) => {
                         if (s && s.config.PhishingDetection.BannedWords) {
-                            if (
-                                !s.config.PhishingDetection.BannedWords.includes(
-                                    word
-                                )
-                            ) {
-                                s.config.PhishingDetection.BannedWords.push(
-                                    word
-                                )
-                                message.guild.config.PhishingDetection.BannedWords.push(
-                                    word
-                                )
-                                s.save().catch(err => s.update())
+                            if (!s.config.PhishingDetection.BannedWords.includes(word)) {
+                                s.config.PhishingDetection.BannedWords.push(word)
+                                message.guild.config.PhishingDetection.BannedWords.push(word)
+                                s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(
-                                        client.language.BANNEDWORDS[1] +
-                                            word +
-                                            '.'
-                                    )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setDescription(client.language.BANNEDWORDS[1] + word + '.')
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             } else {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
-                                    .setDescription(
-                                        client.language.BANNEDWORDS[2]
-                                    )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setDescription(client.language.BANNEDWORDS[2])
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
                             }
                         }
                     })
-            } else if (
-                (args[0].toLowerCase() === 'del' ||
-                    args[0].toLowerCase() === 'delete') &&
-                args[1]
-            ) {
+            } else if ((args[0].toLowerCase() === 'del' || args[0].toLowerCase() === 'delete') && args[1]) {
                 let word = args[1].toLowerCase()
                 guildSchema
                     .findOne({
@@ -87,47 +63,30 @@ module.exports = class Ctegory extends Command {
                     })
                     .then((s, err) => {
                         if (s) {
-                            if (
-                                s.config.PhishingDetection.BannedWords.includes(
-                                    word
-                                )
-                            ) {
+                            if (s.config.PhishingDetection.BannedWords.includes(word)) {
                                 s.config.PhishingDetection.BannedWords.splice(
-                                    s.config.PhishingDetection.BannedWords.indexOf(
-                                        word
-                                    ),
-                                    s.config.PhishingDetection.BannedWords.indexOf(
-                                        word
-                                    ) + 1
+                                    s.config.PhishingDetection.BannedWords.indexOf(word),
+                                    s.config.PhishingDetection.BannedWords.indexOf(word) + 1
                                 )
                                 message.guild.config.PhishingDetection.BannedWords.splice(
-                                    message.guild.config.PhishingDetection.BannedWords.indexOf(
-                                        word
-                                    ),
-                                    message.guild.config.PhishingDetection.BannedWords.indexOf(
-                                        word
-                                    ) + 1
+                                    message.guild.config.PhishingDetection.BannedWords.indexOf(word),
+                                    message.guild.config.PhishingDetection.BannedWords.indexOf(word) + 1
                                 )
-                                s.save().catch(err => s.update())
+                                s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setFooter(
-                                        client.language.BANNEDWORDS[3] + word,
-                                        message.author.displayAvatarURL()
-                                    )
+                                    .setFooter({
+                                        text: client.language.BANNEDWORDS[3] + word,
+                                        iconURL: message.author.displayAvatarURL()
+                                    })
                                     .setTimestamp(' ')
                                 message.channel.send({ embeds: [embed] })
                             } else {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
-                                    .setDescription(
-                                        client.language.BANNEDWORDS[4]
-                                    )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setDescription(client.language.BANNEDWORDS[4])
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -145,34 +104,21 @@ module.exports = class Ctegory extends Command {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
                                     .setTitle(client.language.ERROREMBED)
-                                    .setDescription(
-                                        client.language.BANNEDWORDS[5]
-                                    )
-                                    .setFooter(
-                                        message.author.username,
-                                        message.author.avatarURL()
-                                    )
+                                    .setDescription(client.language.BANNEDWORDS[5])
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
                             } else {
                                 const embedadmins = new MessageEmbed()
                                     .setTitle(
-                                        '<:IconPrivateThreadIcon:859608405497217044>' +
-                                            client.language.BANNEDWORDS[6]
+                                        '<:IconPrivateThreadIcon:859608405497217044>' + client.language.BANNEDWORDS[6]
                                     )
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTimestamp(' ')
-                                for (let index in s.config.PhishingDetection
-                                    .BannedWords) {
-                                    let ListBannedWords =
-                                        s.config.PhishingDetection.BannedWords[
-                                            index
-                                        ]
-                                    embedadmins.addField(
-                                        '\u200B',
-                                        '- ' + ListBannedWords
-                                    )
+                                for (let index in s.config.PhishingDetection.BannedWords) {
+                                    let ListBannedWords = s.config.PhishingDetection.BannedWords[index]
+                                    embedadmins.addFields({ name: '\u200B', value: '- ' + ListBannedWords })
                                 }
 
                                 message.channel.send({
@@ -194,33 +140,21 @@ module.exports = class Ctegory extends Command {
                                 s.config.CHANNELID.splice(index)
                             }
                         }
-                        s.save().catch(err => s.update())
+                        s.save().catch((err) => s.update())
                         message.guild.config.channelid = []
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
                             .setDescription(client.language.BANNEDWORDS[8])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     })
             } else {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
-                    .setDescription(
-                        client.language.BANNEDWORDS[7] +
-                            '`' +
-                            prefix +
-                            'command' +
-                            '`'
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setDescription(client.language.BANNEDWORDS[7] + '`' + prefix + 'command' + '`')
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
@@ -230,10 +164,7 @@ module.exports = class Ctegory extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.fatal_error)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
             )
             webhookClient.send(
                 `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`

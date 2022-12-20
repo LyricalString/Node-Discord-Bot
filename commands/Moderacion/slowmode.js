@@ -5,10 +5,7 @@ module.exports = class Slowmode extends Command {
     constructor(client) {
         super(client, {
             name: 'slowmode',
-            description: [
-                'Sets the slowmode on the channel.',
-                'Establece el modo lento a un canal.'
-            ],
+            description: ['Sets the slowmode on the channel.', 'Establece el modo lento a un canal.'],
             usage: ['<duration>', '<duración>'],
             permissions: ['MANAGE_CHANNELS'],
             botpermissions: ['MANAGE_CHANNELS'],
@@ -20,27 +17,19 @@ module.exports = class Slowmode extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_MESSAGES')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
-                if (!message.deleted)
-                    message.delete().catch(e => console.log(e))
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
             }
             if (isNaN(args[0]) || parseInt(args[0]) < 0) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.SLOWMODE[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -49,10 +38,7 @@ module.exports = class Slowmode extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.SLOWMODE[4])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -66,16 +52,8 @@ module.exports = class Slowmode extends Command {
                 .setDescription(
                     `<a:tick:836295873091862568> ${client.language.SLOWMODE[5]} **\`${duration}\`** ${client.language.SLOWMODE[6]} **\`.slowmode 0\`**`
                 )
-                .addField(
-                    client.language.SLOWMODE[7],
-                    `<#${message.channel.id}>`,
-                    true
-                )
-                .addField(
-                    client.language.SLOWMODE[8],
-                    `<@${message.author.id}>`,
-                    true
-                )
+                .addFields({name: client.language.SLOWMODE[7], `<#${message.channel.id}>`, value: true})
+                .addFields({name: client.language.SLOWMODE[8], `<@${message.author.id}>`, value: true})
                 .setTimestamp(' ')
                 .setFooter(
                     `${client.language.SLOWMODE[9]} ${message.member.displayName}`,
@@ -93,10 +71,7 @@ module.exports = class Slowmode extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

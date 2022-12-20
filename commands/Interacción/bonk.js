@@ -1,14 +1,12 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { soyultro } = require('soyultro')
 
 module.exports = class Bonk extends Command {
     constructor(client) {
         super(client, {
             name: 'bonk',
-            description: [
-                'Hits to the mentioned user.',
-                'Pega al usuario mencionado.'
-            ],
+            description: ['Hits to the mentioned user.', 'Pega al usuario mencionado.'],
             usage: ['<@user>', '<@usuario>'],
             category: 'Interaccion'
         })
@@ -19,35 +17,27 @@ module.exports = class Bonk extends Command {
             if (args[0]) {
                 user =
                     message.mentions.members.first() ||
-                    (await message.guild.members.fetch(args[0]).catch(e => {
+                    (await message.guild.members.fetch(args[0]).catch((e) => {
                         return
                     }))
             } else {
                 if (message.mentions.repliedUser) {
-                    user = await message.guild.members
-                        .fetch(message.mentions.repliedUser.id)
-                        .catch(e => {
-                            return
-                        })
+                    user = await message.guild.members.fetch(message.mentions.repliedUser.id).catch((e) => {
+                        return
+                    })
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.NOARGS)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }
             if (!user) {
-                const { soyultro } = require('soyultro')
                 let author = message.author.username
                 let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                    .setTitle(
-                        `${author} ${client.language.BONK[3]} ${args.join(' ')}`
-                    )
+                    .setTitle(`${author} ${client.language.BONK[3]} ${args.join(' ')}`)
                     .setColor(process.env.EMBED_COLOR)
                     .setImage(soyultro('bonk'))
                 return message.channel.send({ embeds: [embed] })
@@ -57,24 +47,19 @@ module.exports = class Bonk extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.BONK[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter(message.author.username, message.author.avatarURL())
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const { soyultro } = require('soyultro')
+
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                .setTitle(
-                    `${author} ${client.language.BONK[3]} ${user.user.username}`
-                )
+                .setTitle(`${author} ${client.language.BONK[3]} ${user.user.username}`)
                 .setColor(process.env.EMBED_COLOR)
                 .setImage(soyultro('bonk'))
             if (args.length > 1) {
                 args.shift()
                 const reason = args.join(' ')
-                embed.addField('\u200b', reason)
+                embed.addFields({ name: '\u200b', value: reason })
             }
             message.channel.send({ embeds: [embed] })
         } catch (e) {
@@ -85,10 +70,7 @@ module.exports = class Bonk extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                 ]
             })
             webhookClient.send(

@@ -5,10 +5,7 @@ module.exports = class Die extends Command {
     constructor(client) {
         super(client, {
             name: 'die',
-            description: [
-                'Shows that you are dying.',
-                'Muestra que estás muriendote.'
-            ],
+            description: ['Shows that you are dying.', 'Muestra que estás muriendote.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Die extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

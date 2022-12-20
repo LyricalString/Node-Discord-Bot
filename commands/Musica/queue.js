@@ -5,10 +5,7 @@ module.exports = class queue extends Command {
     constructor(client) {
         super(client, {
             name: 'queue',
-            description: [
-                'Displays the current queue.',
-                'Muestra la cola de reproducción actual.'
-            ],
+            description: ['Displays the current queue.', 'Muestra la cola de reproducción actual.'],
             category: 'musica',
             botpermissions: ['ADD_REACTIONS'],
             alias: ['q', 'cola'],
@@ -23,10 +20,7 @@ module.exports = class queue extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.SKIP[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!player.queue.current) {
@@ -34,10 +28,7 @@ module.exports = class queue extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.QUEUE[2])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -50,9 +41,7 @@ module.exports = class queue extends Command {
                     embeds: [
                         new MessageEmbed()
                             .setTitle(client.language.QUEUE[9])
-                            .setDescription(
-                                `🎧 ${client.language.QUEUE[3]}\n[${title}](${uri}) [<@${requester.id}>]`
-                            )
+                            .setDescription(`🎧 ${client.language.QUEUE[3]}\n[${title}](${uri}) [<@${requester.id}>]`)
                             .setAuthor(
                                 `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]}`,
                                 'https://i.imgur.com/CCqeomm.gif'
@@ -76,22 +65,14 @@ module.exports = class queue extends Command {
             }
             let queuelist = player.queue
                 .slice(x - 10, x)
-                .map(
-                    () =>
-                        `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${
-                            queue[i].requester.id
-                        }>]`
-                )
+                .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                 .join('\n')
             if (!queuelist) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.QUEUE[4])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const embed = new MessageEmbed()
@@ -100,70 +81,54 @@ module.exports = class queue extends Command {
             )
             embed.setThumbnail(client.user.displayAvatarURL())
             embed.setAuthor(
-                `${client.language.QUEUE[6]} ${message.guild.name} ${
-                    client.language.QUEUE[7]
-                } (${Math.floor(x / 10)} / ${Math.floor(
-                    (player.queue.slice(1).length + 10) / 10
-                )})`,
+                `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]} (${Math.floor(
+                    x / 10
+                )} / ${Math.floor((player.queue.slice(1).length + 10) / 10)})`,
                 'https://i.imgur.com/CCqeomm.gif'
             )
-            embed.setFooter(
-                `${client.language.QUEUE[5]} ${player.queue.length}`
-            )
+            embed.setFooter(`${client.language.QUEUE[5]} ${player.queue.length}`)
             embed.setColor(process.env.EMBED_COLOR)
-            message.channel.send({ embeds: [embed] }).then(async msg => {
+            message.channel.send({ embeds: [embed] }).then(async (msg) => {
                 if (Math.floor((player.queue.slice(1).length + 10) / 10) > 1) {
                     await msg.react('⏪')
                     await msg.react('◀')
                     await msg.react('🟣')
                     await msg.react('▶')
                     await msg.react('⏩')
-                    const pages = Math.floor(
-                        (player.queue.slice(1).length + 10) / 10
-                    )
+                    const pages = Math.floor((player.queue.slice(1).length + 10) / 10)
                     let page = Math.floor(x / 10)
                     const back = msg.createReactionCollector(
-                        (reaction, user) =>
-                            reaction.emoji.name === '◀' &&
-                            user.id === message.author.id,
+                        (reaction, user) => reaction.emoji.name === '◀' && user.id === message.author.id,
                         {
                             time: 60000
                         }
                     )
                     const doubleback = msg.createReactionCollector(
-                        (reaction, user) =>
-                            reaction.emoji.name === '⏪' &&
-                            user.id === message.author.id,
+                        (reaction, user) => reaction.emoji.name === '⏪' && user.id === message.author.id,
                         {
                             time: 60000
                         }
                     )
                     const doubleforwad = msg.createReactionCollector(
-                        (reaction, user) =>
-                            reaction.emoji.name === '⏩' &&
-                            user.id === message.author.id,
+                        (reaction, user) => reaction.emoji.name === '⏩' && user.id === message.author.id,
                         {
                             time: 60000
                         }
                     )
                     const forwad = msg.createReactionCollector(
-                        (reaction, user) =>
-                            reaction.emoji.name === '▶' &&
-                            user.id === message.author.id,
+                        (reaction, user) => reaction.emoji.name === '▶' && user.id === message.author.id,
                         {
                             time: 60000
                         }
                     )
                     const middle = msg.createReactionCollector(
-                        (reaction, user) =>
-                            reaction.emoji.name === '🟣' &&
-                            user.id === message.author.id,
+                        (reaction, user) => reaction.emoji.name === '🟣' && user.id === message.author.id,
                         {
                             time: 60000
                         }
                     )
                     setTimeout(() => msg.delete(), 5000)
-                    back.on('collect', async r => {
+                    back.on('collect', async (r) => {
                         if (page === 1) return r.users.remove(message.author)
                         await r.users.remove(message.author)
                         await page--
@@ -171,12 +136,7 @@ module.exports = class queue extends Command {
                         i = x - 11
                         queuelist = player.queue
                             .slice(x - 10, x)
-                            .map(
-                                () =>
-                                    `**${++i}.** [${queue[i].title}](${
-                                        queue[i].uri
-                                    }) [<@${queue[i].requester.id}>]`
-                            )
+                            .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setTitle(client.language.QUEUE[1])
@@ -189,21 +149,15 @@ module.exports = class queue extends Command {
                         )
                         msg.edit(embed)
                     })
-                    forwad.on('collect', async r => {
-                        if (page === pages)
-                            return r.users.remove(message.author)
+                    forwad.on('collect', async (r) => {
+                        if (page === pages) return r.users.remove(message.author)
                         await r.users.remove(message.author)
                         await page++
                         x = Math.floor(page) * 10 + 1
                         i = x - 11
                         queuelist = player.queue
                             .slice(x - 10, x)
-                            .map(
-                                () =>
-                                    `**${++i}.** [${queue[i].title}](${
-                                        queue[i].uri
-                                    }) [<@${queue[i].requester.id}>]`
-                            )
+                            .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setTitle(client.language.QUEUE[1])
@@ -216,7 +170,7 @@ module.exports = class queue extends Command {
                         )
                         msg.edit(embed)
                     })
-                    doubleback.on('collect', async r => {
+                    doubleback.on('collect', async (r) => {
                         if (page === 1) return r.users.remove(message.author)
                         await r.users.remove(message.author)
                         page = 1
@@ -224,12 +178,7 @@ module.exports = class queue extends Command {
                         i = x - 11
                         queuelist = player.queue
                             .slice(x - 10, x)
-                            .map(
-                                () =>
-                                    `**${++i}.** [${queue[i].title}](${
-                                        queue[i].uri
-                                    }) [<@${queue[i].requester.id}>]`
-                            )
+                            .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setTitle(client.language.QUEUE[1])
@@ -242,21 +191,15 @@ module.exports = class queue extends Command {
                         )
                         msg.edit(embed)
                     })
-                    doubleforwad.on('collect', async r => {
-                        if (page === pages)
-                            return r.users.remove(message.author)
+                    doubleforwad.on('collect', async (r) => {
+                        if (page === pages) return r.users.remove(message.author)
                         await r.users.remove(message.author)
                         page = pages
                         x = Math.floor(page) * 10 + 1
                         i = x - 11
                         queuelist = player.queue
                             .slice(x - 10, x)
-                            .map(
-                                () =>
-                                    `**${++i}.** [${queue[i].title}](${
-                                        queue[i].uri
-                                    }) [<@${queue[i].requester.id}>]`
-                            )
+                            .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
                         embed.setTitle(client.language.QUEUE[1])
@@ -269,9 +212,7 @@ module.exports = class queue extends Command {
                         )
                         msg.edit(embed)
                     })
-                    middle.on('collect', async r =>
-                        r.users.remove(message.author)
-                    )
+                    middle.on('collect', async (r) => r.users.remove(message.author))
                 }
             })
         } catch (e) {
@@ -282,10 +223,7 @@ module.exports = class queue extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

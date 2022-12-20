@@ -6,10 +6,7 @@ module.exports = class Help extends Command {
         super(client, {
             name: 'help',
             botpermissions: ['ADD_REACTIONS'],
-            description: [
-                'Show you information about me.',
-                'Muestra información sobre mí.'
-            ],
+            description: ['Show you information about me.', 'Muestra información sobre mí.'],
             cooldown: 5,
             usage: ['<command>', '<comando>'],
             category: 'Info'
@@ -27,7 +24,7 @@ module.exports = class Help extends Command {
                         client.language.HELP[7],
                         `${client.language.HELP[8]} \`${message.guild.prefix}commands\`.`
                     )
-                    .addField(client.language.HELP[9], client.language.HELP[10])
+                    .addFields({ name: client.language.HELP[9], value: client.language.HELP[10] })
                     .addField(
                         client.language.HELP[11],
                         client.language.HELP[12] +
@@ -46,72 +43,41 @@ module.exports = class Help extends Command {
                 const data = []
                 const name = args[0].toLowerCase()
                 const command =
-                    client.commands.get(name) ||
-                    client.commands.find(
-                        c => c.aliases && c.aliases.includes(name)
-                    )
+                    client.commands.get(name) || client.commands.find((c) => c.aliases && c.aliases.includes(name))
 
                 if (!command) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(name + client.language.HELP[25])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
 
                 data.push(`**${client.language.HELP[15]}:** ${command.name}`)
 
-                if (command.aliases)
-                    data.push(
-                        `**${
-                            client.language.HELP[16]
-                        }:** ${command.aliases.join(', ')}`
-                    )
-                if (command.description)
-                    data.push(
-                        `**${client.language.HELP[17]}:** ${command.description}`
-                    )
-                if (command.usage)
-                    data.push(
-                        `**${client.language.HELP[18]}:** .${command.name} ${command.usage}`
-                    )
+                if (command.aliases) data.push(`**${client.language.HELP[16]}:** ${command.aliases.join(', ')}`)
+                if (command.description) data.push(`**${client.language.HELP[17]}:** ${command.description}`)
+                if (command.usage) data.push(`**${client.language.HELP[18]}:** .${command.name} ${command.usage}`)
 
-                data.push(
-                    `**${client.language.HELP[19]}:** ${
-                        command.cooldown || 3
-                    } ${client.language.HELP[30]}(s)`
-                )
+                data.push(`**${client.language.HELP[19]}:** ${command.cooldown || 3} ${client.language.HELP[30]}(s)`)
                 let embed2 = new MessageEmbed()
-                    .setTitle(
-                        client.language.HELP[20] +
-                            command.name +
-                            client.language.HELP[24]
-                    )
+                    .setTitle(client.language.HELP[20] + command.name + client.language.HELP[24])
                     .setColor(process.env.EMBED_COLOR)
                     .addFields(
                         {
                             name: `**${client.language.HELP[17]}**`,
-                            value: command.description
-                                ? command.description.toString()
-                                : client.language.HELP[29],
+                            value: command.description ? command.description.toString() : client.language.HELP[29],
                             inline: true
                         },
                         {
                             name: `**${client.language.HELP[18]}**`,
-                            value: command.usage
-                                ? command.usage.toString()
-                                : client.language.HELP[29],
+                            value: command.usage ? command.usage.toString() : client.language.HELP[29],
                             inline: true
                         },
                         {
                             name: `**${client.language.HELP[16]}**`,
-                            value: command.aliases
-                                ? command.aliases.toString()
-                                : client.language.HELP[29],
+                            value: command.aliases ? command.aliases.toString() : client.language.HELP[29],
                             inline: true
                         }
                     )
@@ -130,10 +96,7 @@ module.exports = class Help extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

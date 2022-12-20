@@ -15,33 +15,21 @@ module.exports = class Lock extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_GUILD')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_GUILD')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_GUILD"\``
                 })
             }
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_MESSAGES')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
-                if (!message.deleted)
-                    message.delete().catch(e => console.log(e))
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
             }
-            message.channel.permissionOverwrites.edit(
-                message.guild.roles.everyone,
-                {
-                    SEND_MESSAGES: false
-                }
-            )
+            message.channel.permissionOverwrites.edit(message.guild.roles.everyone, {
+                SEND_MESSAGES: false
+            })
             const embed = new MessageEmbed()
                 .setTitle(client.language.LOCK[3])
                 .setDescription(
@@ -57,10 +45,7 @@ module.exports = class Lock extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

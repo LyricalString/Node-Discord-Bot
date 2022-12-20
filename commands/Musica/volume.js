@@ -30,9 +30,7 @@ module.exports = class Volume extends Command {
             }
             if (player.voiceChannel) {
                 if (
-                    !message.guild.members.cache
-                        .get(message.author.id)
-                        .permissions.has('ADMINISTRATOR') &&
+                    !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR') &&
                     player.voiceChannel != message.member.voice.channelId
                 )
                     return
@@ -42,10 +40,7 @@ module.exports = class Volume extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.VOLUME[9])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -69,19 +64,9 @@ module.exports = class Volume extends Command {
             } else if (vol > 20 && vol <= 30) {
                 volamt = `${volemoji}` + `${volemoji}` + `${volemoji}`
             } else if (vol > 30 && vol <= 40) {
-                volamt =
-                    `${volemoji}` +
-                    `${volemoji}` +
-                    `${volemoji}` +
-                    `${volemoji}`
+                volamt = `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}`
             } else if (vol > 40 && vol <= 50) {
-                volamt =
-                    `${volemoji}` +
-                    `${volemoji}` +
-                    `${volemoji}` +
-                    `${volemoji}` +
-                    `${volemoji}` +
-                    `${volemoji}`
+                volamt = `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}`
             } else if (vol > 50 && vol <= 60) {
                 volamt =
                     `${volemoji}` +
@@ -129,10 +114,7 @@ module.exports = class Volume extends Command {
             if (!args[0]) {
                 const Embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setAuthor(
-                        client.language.VOLUME[5],
-                        client.user.displayAvatarURL()
-                    )
+                    .setAuthor(client.language.VOLUME[5], client.user.displayAvatarURL())
                     .setTitle(client.language.VOLUME[6])
                     .setDescription(`** 🔊${volamt} ${player.volume} %**`)
                 message.channel.send({ embeds: [Embed] })
@@ -144,11 +126,7 @@ module.exports = class Volume extends Command {
                         'https://cdn.discordapp.com/emojis/717184163660300309.gif?v=1'
                     )
                     .setTitle(`**ERROR**`)
-                    .setDescription(
-                        `**${client.language.VOLUME[7]} __${Number(
-                            args[0]
-                        )}__ %**`
-                    )
+                    .setDescription(`**${client.language.VOLUME[7]} __${Number(args[0])}__ %**`)
                 message.channel.send({ embeds: [Embed] })
             } else {
                 player.setVolume(Number(args[0]))
@@ -162,19 +140,10 @@ module.exports = class Volume extends Command {
                 } else if (vol > 20 && vol <= 30) {
                     volamt = `${volemoji}` + `${volemoji}` + `${volemoji}`
                 } else if (vol > 30 && vol <= 40) {
-                    volamt =
-                        `${volemoji}` +
-                        `${volemoji}` +
-                        `${volemoji}` +
-                        `${volemoji}`
+                    volamt = `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}`
                 } else if (vol > 40 && vol <= 50) {
                     volamt =
-                        `${volemoji}` +
-                        `${volemoji}` +
-                        `${volemoji}` +
-                        `${volemoji}` +
-                        `${volemoji}` +
-                        `${volemoji}`
+                        `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}` + `${volemoji}`
                 } else if (vol > 50 && vol <= 60) {
                     volamt =
                         `${volemoji}` +
@@ -221,10 +190,7 @@ module.exports = class Volume extends Command {
 
                 const Embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setAuthor(
-                        client.language.VOLUME[8],
-                        client.user.displayAvatarURL()
-                    )
+                    .setAuthor(client.language.VOLUME[8], client.user.displayAvatarURL())
                     .setTitle(`** 🔊${volamt} ${player.volume} %**`)
                 message.channel.send({ embeds: [Embed] })
             }
@@ -236,10 +202,7 @@ module.exports = class Volume extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

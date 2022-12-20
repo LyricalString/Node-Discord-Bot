@@ -21,13 +21,8 @@ module.exports = class Emoji extends Command {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
-                    .setDescription(
-                        `${client.language.EMOJI[2]}\`${prefix}emoji ${client.language.EMOJI[3]}\`. ^^`
-                    )
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setDescription(`${client.language.EMOJI[2]}\`${prefix}emoji ${client.language.EMOJI[3]}\`. ^^`)
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (message.attachments.size == 0) {
@@ -35,10 +30,7 @@ module.exports = class Emoji extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.EMOJI[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             Array.from(message.attachments, ([key, value]) => {
@@ -48,16 +40,13 @@ module.exports = class Emoji extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.EMOJI[1])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
                 try {
                     message.guild.emojis
                         .create(attachment, args[0], {})
-                        .then(e => {
+                        .then((e) => {
                             const emoji = client.emojis.cache.get(e.id)
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
@@ -65,21 +54,15 @@ module.exports = class Emoji extends Command {
                                 .setDescription(
                                     `${client.language.EMOJI[4]} ${emoji}. ${client.language.EMOJI[5]} \`:${args[0]}:\` ${client.language.EMOJI[6]}`
                                 )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({ embeds: [embed] })
                         })
-                        .catch(e => {
+                        .catch((e) => {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.EMOJI[7])
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -89,10 +72,7 @@ module.exports = class Emoji extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.EMOJI[8])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             })
@@ -104,10 +84,7 @@ module.exports = class Emoji extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

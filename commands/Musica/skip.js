@@ -5,10 +5,7 @@ module.exports = class Skip extends Command {
     constructor(client) {
         super(client, {
             name: 'skip',
-            description: [
-                'Skips to the next song in queue',
-                'Salta a la siguiente canción en cola.'
-            ],
+            description: ['Skips to the next song in queue', 'Salta a la siguiente canción en cola.'],
             category: 'musica',
             alias: ['s']
         })
@@ -21,16 +18,11 @@ module.exports = class Skip extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.SKIP[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (
-                !message.guild.members.cache
-                    .get(message.author.id)
-                    .permissions.has('ADMINISTRATOR') &&
+                !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR') &&
                 player.voiceChannel != message.member.voice.channelId
             )
                 return
@@ -42,18 +34,13 @@ module.exports = class Skip extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.SKIP[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
             if (player.voiceChannel) {
                 if (
-                    !message.guild.members.cache
-                        .get(message.author.id)
-                        .permissions.has('ADMINISTRATOR') &&
+                    !message.guild.members.cache.get(message.author.id).permissions.has('ADMINISTRATOR') &&
                     player.voiceChannel != message.member.voice.channelId
                 )
                     return
@@ -75,10 +62,7 @@ module.exports = class Skip extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

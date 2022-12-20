@@ -5,10 +5,7 @@ module.exports = class Lurk extends Command {
     constructor(client) {
         super(client, {
             name: 'lurk',
-            description: [
-                'Shows that you are lurking.',
-                'Muestra que estás espiando.'
-            ],
+            description: ['Shows that you are lurking.', 'Muestra que estás espiando.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Lurk extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

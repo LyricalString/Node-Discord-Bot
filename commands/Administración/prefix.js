@@ -5,14 +5,8 @@ module.exports = class Prefix extends Command {
     constructor(client) {
         super(client, {
             name: 'prefix',
-            description: [
-                'Sets a new prefix for Node.',
-                'Establece un nuevo prefijo para Node.'
-            ],
-            usage: [
-                'set <new prefix> or reset',
-                'set <nuevo prefijo> or reset'
-            ],
+            description: ['Sets a new prefix for Node.', 'Establece un nuevo prefijo para Node.'],
+            usage: ['set <new prefix> or reset', 'set <nuevo prefijo> or reset'],
             permissions: ['ADMINISTRATOR'],
             subcommands: ['set', 'reset'],
             args: true,
@@ -33,32 +27,24 @@ module.exports = class Prefix extends Command {
                                 .setDescription(
                                     `${client.language.PREFIX[2]} \`${process.env.prefix}prefix set <${client.language.PREFIX[3]}>\``
                                 )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
                         }
                         GuildSchema.findOne({
                             guildID: message.guild.id
-                        }).then(data => {
+                        }).then((data) => {
                             prefix = data.PREFIX
                             data.PREFIX = args[1].toLowerCase()
-                            data.save().catch(err => console.error(err))
+                            data.save().catch((err) => console.error(err))
                         })
                         message.guild.prefix = args[1].toLowerCase()
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(
-                                `${client.language.PREFIX[1]} \`${prefix}\``
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription(`${client.language.PREFIX[1]} \`${prefix}\``)
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
@@ -67,41 +53,30 @@ module.exports = class Prefix extends Command {
                             .setDescription(
                                 `${client.language.PREFIX[2]} \`${process.env.prefix}prefix set <${client.language.PREFIX[3]}>\``
                             )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                 }
                 if (args[0] == 'reset') {
                     GuildSchema.findOne({
                         guildID: message.guild.id
-                    }).then(data => {
+                    }).then((data) => {
                         data.PREFIX = '.'
-                        data.save().catch(err => console.error(err))
+                        data.save().catch((err) => console.error(err))
                     })
                     message.guild.prefix = '.'
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setTitle(client.language.SUCCESSEMBED)
-                        .setDescription(
-                            `Se ha reseteado el prefix, ahora vuelve a ser \`.\``
-                        )
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setDescription(`Se ha reseteado el prefix, ahora vuelve a ser \`.\``)
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.PREFIX[4])
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }
@@ -113,10 +88,7 @@ module.exports = class Prefix extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

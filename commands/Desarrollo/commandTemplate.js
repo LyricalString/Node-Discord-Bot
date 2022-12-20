@@ -5,10 +5,7 @@ module.exports = class a extends Command {
     constructor(client) {
         super(client, {
             name: 'a',
-            description: [
-                'Stops and deletes the current song.',
-                'Detiene y elimina la cola de reproducción.'
-            ],
+            description: ['Stops and deletes the current song.', 'Detiene y elimina la cola de reproducción.'],
             usage: [],
             category: 'music',
             args: true,
@@ -25,10 +22,7 @@ module.exports = class a extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

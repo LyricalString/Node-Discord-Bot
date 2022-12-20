@@ -25,10 +25,7 @@ module.exports = class Embed extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[5])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[1]) {
@@ -36,10 +33,7 @@ module.exports = class Embed extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[2]) {
@@ -47,10 +41,7 @@ module.exports = class Embed extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[2])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[3]) {
@@ -58,17 +49,12 @@ module.exports = class Embed extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             let canal, descripcion, color, titulo
 
-            canal =
-                message.mentions.channels.first() ||
-                message.guild.channels.cache.get(args[0])
+            canal = message.mentions.channels.first() || message.guild.channels.cache.get(args[0])
             descripcion = args[3]
             titulo = args[2]
             if (!canal) {
@@ -76,10 +62,7 @@ module.exports = class Embed extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[4])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             let colors = [
@@ -118,16 +101,11 @@ module.exports = class Embed extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.CREATEEMBED[6])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     .setImage('https://i.postimg.cc/gj8NSLsy/embed-colors.png')
                 return message.channel.send({ embeds: [errorembed] })
             }
-            var embed = new MessageEmbed()
-                .setDescription(`${descripcion}`)
-                .setColor(`${color}`)
+            var embed = new MessageEmbed().setDescription(`${descripcion}`).setColor(`${color}`)
 
             if (
                 (titulo || titulo !== 'null') &&
@@ -139,11 +117,7 @@ module.exports = class Embed extends Command {
             ) {
                 embed.setTitle(titulo)
             }
-            if (
-                !canal
-                    .permissionsFor(process.env.botID)
-                    .has(['SEND_MESSAGES', 'EMBED_LINKS', 'VIEW_CHANNEL'])
-            ) {
+            if (!canal.permissionsFor(process.env.botID).has(['SEND_MESSAGES', 'EMBED_LINKS', 'VIEW_CHANNEL'])) {
                 message.channel.send({
                     content:
                         'No tengo los permisos `SEND_MESSAGES`, `EMBED_LINKS` ni `VIEW_CHANNEL`, que son necesarios para enviar el embed.'
@@ -159,10 +133,7 @@ module.exports = class Embed extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -28,138 +28,72 @@ module.exports = class Osu extends Command {
                     .apiCall('/get_user', {
                         u: args[1]
                     })
-                    .then(user => {
+                    .then((user) => {
                         const usuario = user[0]
-                        const embed = new MessageEmbed()
-                            .setColor(process.env.EMBED_COLOR)
-                            .setTitle(usuario.username)
-                        if (usuario.user_id != null)
-                            embed.addField(
-                                'ID del Usuario',
-                                usuario.user_id,
-                                true
-                            )
-                        if (usuario.join_date != null)
-                            embed.addField(
-                                'Fecha de unión',
-                                usuario.join_date,
-                                true
-                            )
-                        if (usuario.count300 != null)
-                            embed.addField('Combos 300', usuario.count300, true)
-                        if (usuario.count100 != null)
-                            embed.addField('Combos 100', usuario.count100, true)
-                        if (usuario.count50 != null)
-                            embed.addField('Combos 50', usuario.count50, true)
-                        if (usuario.playcount != null)
-                            embed.addField('Partidas', usuario.playcount, true)
+                        const embed = new MessageEmbed().setColor(process.env.EMBED_COLOR).setTitle(usuario.username)
+                        if (usuario.user_id != null) embed.addFields({name: 'ID del Usuario', usuario.user_id, value: true})
+                        if (usuario.join_date != null) embed.addFields({name: 'Fecha de unión', usuario.join_date, value: true})
+                        if (usuario.count300 != null) embed.addFields({name: 'Combos 300', usuario.count300, value: true})
+                        if (usuario.count100 != null) embed.addFields({name: 'Combos 100', usuario.count100, value: true})
+                        if (usuario.count50 != null) embed.addFields({name: 'Combos 50', usuario.count50, value: true})
+                        if (usuario.playcount != null) embed.addFields({name: 'Partidas', usuario.playcount, value: true})
                         if (usuario.ranked_score != null)
-                            embed.addField(
-                                'Puntuación Competitivo',
-                                usuario.ranked_score,
-                                true
-                            )
-                        if (usuario.total_score != null)
-                            embed.addField(
-                                'Puntuación Total',
-                                usuario.total_score,
-                                true
-                            )
-                        if (usuario.pp_rank != null)
-                            embed.addField(
-                                'Puntos Rendimiento',
-                                usuario.pp_rank,
-                                true
-                            )
+                            embed.addFields({name: 'Puntuación Competitivo', usuario.ranked_score, value: true})
+                        if (usuario.total_score != null) embed.addFields({name: 'Puntuación Total', usuario.total_score, value: true})
+                        if (usuario.pp_rank != null) embed.addFields({name: 'Puntos Rendimiento', usuario.pp_rank, value: true})
                         if (usuario.pp_country_rank != null)
-                            embed.addField(
-                                'Rankin Puntos Rendimiento por País',
-                                usuario.pp_country_rank,
-                                true
-                            )
-                        if (usuario.accuracy != null)
-                            embed.addField('Precisión', usuario.accuracy, true)
-                        if (usuario.level != null)
-                            embed.addField(
-                                'Nivel',
-                                Math.round(usuario.level),
-                                true
-                            )
-                        if (usuario.country != null)
-                            embed.addField('País', usuario.country, true)
+                            embed.addFields({name: 'Rankin Puntos Rendimiento por País', usuario.pp_country_rank, value: true})
+                        if (usuario.accuracy != null) embed.addFields({name: 'Precisión', usuario.accuracy, value: true})
+                        if (usuario.level != null) embed.addFields({name: 'Nivel', Math.round(usuario.level), value: true})
+                        if (usuario.country != null) embed.addFields({name: 'País', usuario.country, value: true})
                         if (usuario.total_seconds_played != null)
                             embed.addField(
                                 'Horas Jugadas',
-                                Math.roung(
-                                    parseInt(usuario.total_seconds_played) /
-                                        3600
-                                ),
+                                Math.roung(parseInt(usuario.total_seconds_played) / 3600),
                                 true
                             )
                         message.channel.send({ embeds: [embed] })
                     })
-                    .catch(e => {
+                    .catch((e) => {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
-                            .setDescription(
-                                'Ese usuario no está registrado en Osu!'
-                            )
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setDescription('Ese usuario no está registrado en Osu!')
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     })
             } else if (args[0].toLowerCase() == 'beatmap') {
-                if (
-                    !args[1].startsWith('http') &&
-                    !args[1].includes('/') &&
-                    !isNaN(args[1])
-                ) {
+                if (!args[1].startsWith('http') && !args[1].includes('/') && !isNaN(args[1])) {
                     osuApi
                         .getBeatmaps({ b: args[1] })
-                        .then(beatmaps => {
+                        .then((beatmaps) => {
                             console.debug(beatmaps)
                         })
-                        .catch(e => {
+                        .catch((e) => {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
-                                .setDescription(
-                                    'Ese usuario no está registrado en Osu!'
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setDescription('Ese usuario no está registrado en Osu!')
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
                         })
-                } else if (
-                    args[1].startsWith('http') ||
-                    args[1].includes('/')
-                ) {
+                } else if (args[1].startsWith('http') || args[1].includes('/')) {
                     let argumentos = args[1].split('/')
                     osuApi
                         .getBeatmaps({ b: argumentos[5] })
-                        .then(beatmaps => {
+                        .then((beatmaps) => {
                             console.debug(beatmaps)
                         })
-                        .catch(e => {
+                        .catch((e) => {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
-                                .setDescription(
-                                    'Ese usuario no está registrado en Osu!'
-                                )
-                                .setFooter(
-                                    message.author.username,
-                                    message.author.avatarURL()
-                                )
+                                .setDescription('Ese usuario no está registrado en Osu!')
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -177,10 +111,7 @@ module.exports = class Osu extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

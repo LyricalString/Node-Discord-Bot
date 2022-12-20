@@ -5,10 +5,7 @@ module.exports = class RoleInfo extends Command {
     constructor(client) {
         super(client, {
             name: 'role-info',
-            description: [
-                'Shows the information of that role.',
-                'Muestra la información de un rol.'
-            ],
+            description: ['Shows the information of that role.', 'Muestra la información de un rol.'],
             alias: ['roleinfo', 'roleinf', 'ri'],
             usage: ['<@role/id>', '<@rol/id>'],
             cooldown: 5,
@@ -18,25 +15,18 @@ module.exports = class RoleInfo extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            let role =
-                (await message.guild.roles.fetch(args[0])) ||
-                message.mentions.roles.first()
+            let role = (await message.guild.roles.fetch(args[0])) || message.mentions.roles.first()
             if (!role) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.ROLEINFO[9])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const guild = message.guild
             const rol = new MessageEmbed()
-                .setThumbnail(
-                    message.author.displayAvatarURL({ dynamic: true })
-                )
+                .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
                 .setColor(role.displayHexColor || process.env.EMBED_COLOR)
                 .setAuthor(guild.name, guild.iconURL({ dynamic: true }))
@@ -52,18 +42,10 @@ module.exports = class RoleInfo extends Command {
                 ) //Id del rol
                 .addField(
                     `🔢 ${client.language.ROLEINFO[4]}: `,
-                    '```' +
-                        `${Math.abs(
-                            role.rawPosition - message.guild.roles.cache.size
-                        )}` +
-                        '```',
+                    '```' + `${Math.abs(role.rawPosition - message.guild.roles.cache.size)}` + '```',
                     true
                 ) //Su pocision en cuanto los otros roles
-                .addField(
-                    `🎩 ${client.language.ROLEINFO[5]}: `,
-                    '```' + `${role.hexColor}` + '```',
-                    true
-                ) //Su hexColor
+                .addFields({name: `🎩 ${client.language.ROLEINFO[5]}: `, '```' + `${role.hexColor}` + '```', value: true}) //Su hexColor
                 .addField(
                     `<:roles:864116470648930304> ${client.language.ROLEINFO[6]}: `,
                     role.mentionable
@@ -96,10 +78,7 @@ module.exports = class RoleInfo extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

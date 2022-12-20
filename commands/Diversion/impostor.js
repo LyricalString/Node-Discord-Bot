@@ -5,10 +5,7 @@ module.exports = class Impostor extends Command {
     constructor(client) {
         super(client, {
             name: 'impostor',
-            description: [
-                "Are you the impostor? Let's try it.",
-                '¿Eres el impostor? Probémoslo.'
-            ],
+            description: ["Are you the impostor? Let's try it.", '¿Eres el impostor? Probémoslo.'],
             usage: ['<@user/id>', '<@usuario/id>'],
             alias: ['sus', 'suspicious'],
             category: 'diversion'
@@ -20,41 +17,30 @@ module.exports = class Impostor extends Command {
             if (args[0]) {
                 mencionado =
                     message.mentions.members.first() ||
-                    (await message.guild.members
-                        .fetch(args[0].replace('<@', '').replace('>', ''))
-                        .catch(e => {
-                            return
-                        }))
+                    (await message.guild.members.fetch(args[0].replace('<@', '').replace('>', '')).catch((e) => {
+                        return
+                    }))
             }
             if (!mencionado && args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.IMPOSTOR[3])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            let random = [
-                client.language.IMPOSTOR[1],
-                client.language.IMPOSTOR[2]
-            ] //Hacemos frases para ver si es o no
+            let random = [client.language.IMPOSTOR[1], client.language.IMPOSTOR[2]] //Hacemos frases para ver si es o no
 
             if (!mencionado)
                 //Si el autor no menciono a nadie
 
-                return message.channel
-                    .send(`. 　　　。　　　　•　 　ﾟ　　。 　　.
+                return message.channel.send(`. 　　　。　　　　•　 　ﾟ　　。 　　.
     
             　　　.　　　 　　.　　　　　。　　 。　. 　
     
             .　　 。　　　　　 ඞ 。 . 　　 • 　　　　•
     
-            　　ﾟ　　 ${message.author.username} ${
-                    random[Math.floor(Math.random() * random.length)]
-                } 　 。　.
+            　　ﾟ　　 ${message.author.username} ${random[Math.floor(Math.random() * random.length)]} 　 。　.
     
             　　'　　　  　 　　。     ,         ﾟ             ,   ﾟ      .       ,        .             ,
     
@@ -68,9 +54,7 @@ module.exports = class Impostor extends Command {
     
             .　　 。　　　　　 ඞ 。 . 　　 • 　　　　•.                                     .
     
-            　　ﾟ　　 ${mencionado.user.username} ${
-                random[Math.floor(Math.random() * random.length)]
-            } 　 。　.
+            　　ﾟ　　 ${mencionado.user.username} ${random[Math.floor(Math.random() * random.length)]} 　 。　.
     
             　　'　　　  　 　　。                                          .
             。  
@@ -83,10 +67,7 @@ module.exports = class Impostor extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

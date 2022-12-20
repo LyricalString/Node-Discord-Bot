@@ -9,10 +9,7 @@ module.exports = class ServerInfo extends Command {
         super(client, {
             name: 'server-info',
             botpermissions: ['ATTACH_FILES'],
-            description: [
-                'Display info about this server.',
-                'Muestra información sobre este servidor.'
-            ],
+            description: ['Display info about this server.', 'Muestra información sobre este servidor.'],
             alias: ['serverinfo', 'serverinf', 'si'],
             cooldown: 5,
             category: 'Info'
@@ -57,21 +54,19 @@ module.exports = class ServerInfo extends Command {
             const guild = message.guild
             const channel = guild.channels.cache
                 .sort((a, b) => b.position - a.position)
-                .map(role => role.toString())
+                .map((role) => role.toString())
                 .slice(0, -1)
             const members = guild.members.cache
             const role = guild.roles.cache
                 .sort((a, b) => b.position - a.position)
-                .map(role => role.toString())
+                .map((role) => role.toString())
                 .slice(0, -1)
             const boost = guild.premiumTier
             const emojis = message.guild.emojis.cache
             const boostcount = guild.premiumSubscriptionCount
-            const bots = members.filter(member => member.user.bot).size
-            const humans = members.filter(member => !member.user.bot).size
-            const create = moment(message.guild.createdTimestamp).format(
-                'DD-MM-YYYY'
-            )
+            const bots = members.filter((member) => member.user.bot).size
+            const humans = members.filter((member) => !member.user.bot).size
+            const create = moment(message.guild.createdTimestamp).format('DD-MM-YYYY')
             const banner = guild.banner
 
             message.channel.send({
@@ -86,11 +81,7 @@ module.exports = class ServerInfo extends Command {
                             `<:serverowner:863983092930183169> ${client.language.SERVERINFO[9]}`,
                             `<@${guild.ownerId}>`
                         )
-                        .addField(
-                            client.language.SERVERINFO[10],
-                            '```' + `${guild.id}` + '```',
-                            true
-                        )
+                        .addFields({name: client.language.SERVERINFO[10], '```' + `${guild.id}` + '```', value: true})
                         .addField(
                             `<:members:864107765050638367> ${client.language.SERVERINFO[11]}`,
                             '```' + `${guild.memberCount}` + '```',
@@ -98,13 +89,11 @@ module.exports = class ServerInfo extends Command {
                         )
                         .addField(
                             `😀 ${client.language.SERVERINFO[12]} [${emojis.size}]`,
-                            `<:join:864104115076595762> ${
-                                client.language.SERVERINFO[13]
-                            }: ${
-                                emojis.filter(emoji => !emoji.animated).size
-                            }\n<a:flecha2:836295945423552522> ${
-                                client.language.SERVERINFO[14]
-                            }: ${emojis.filter(emoji => emoji.animated).size}`,
+                            `<:join:864104115076595762> ${client.language.SERVERINFO[13]}: ${
+                                emojis.filter((emoji) => !emoji.animated).size
+                            }\n<a:flecha2:836295945423552522> ${client.language.SERVERINFO[14]}: ${
+                                emojis.filter((emoji) => emoji.animated).size
+                            }`,
                             true
                         )
                         .addField(
@@ -114,32 +103,16 @@ module.exports = class ServerInfo extends Command {
                         )
                         .addField(
                             `<:plus:864103028867727420> ${client.language.SERVERINFO[16]} [${guild.channels.cache.size}]`,
-                            `<:category:864116468291338290> ${
-                                client.language.SERVERINFO[17]
-                            }: ${
-                                guild.channels.cache.filter(
-                                    x => x.type === 'GUILD_CATEGORY'
-                                ).size
-                            }\n<:textchannelblurple:863983092893220885> ${
-                                client.language.SERVERINFO[18]
-                            }: ${
-                                guild.channels.cache.filter(
-                                    x => x.type === 'GUILD_TEXT'
-                                ).size
-                            }\n<:voicechannelblurple:864103406309867531> ${
-                                client.language.SERVERINFO[19]
-                            }: ${
-                                guild.channels.cache.filter(
-                                    x => x.type === 'GUILD_VOICE'
-                                ).size
+                            `<:category:864116468291338290> ${client.language.SERVERINFO[17]}: ${
+                                guild.channels.cache.filter((x) => x.type === 'GUILD_CATEGORY').size
+                            }\n<:textchannelblurple:863983092893220885> ${client.language.SERVERINFO[18]}: ${
+                                guild.channels.cache.filter((x) => x.type === 'GUILD_TEXT').size
+                            }\n<:voicechannelblurple:864103406309867531> ${client.language.SERVERINFO[19]}: ${
+                                guild.channels.cache.filter((x) => x.type === 'GUILD_VOICE').size
                             }`,
                             true
                         )
-                        .addField(
-                            `📆 ${client.language.SERVERINFO[20]}`,
-                            '```' + `${create}` + '```',
-                            true
-                        )
+                        .addFields({name: `📆 ${client.language.SERVERINFO[20]}`, '```' + `${create}` + '```', value: true})
                         .addField(
                             `<:serverbooster:864102069728313354> ${client.language.SERVERINFO[21]}`,
                             '```' + `${boostcount}` + '```',
@@ -149,26 +122,17 @@ module.exports = class ServerInfo extends Command {
                             `<:money:864102174908612619> ${client.language.SERVERINFO[22]}`,
                             `${
                                 boost
-                                    ? '```' +
-                                      `${client.language.SERVERINFO[23]} ${boost}` +
-                                      '```'
+                                    ? '```' + `${client.language.SERVERINFO[23]} ${boost}` + '```'
                                     : '```' + `No` + '```'
                             }`,
                             true,
                             true
                         )
-                        //.addField(`<:roles:864116470648930304> Roles [${role.length}]`, role.length < 10 ? role.join(', ') : role.length > 10 ? trimArray(role) : 'None')
-                        .addField(
-                            `**${client.language.SERVERINFO[25]}**`,
-                            `${verification[guild.verificationLevel]}`
-                        )
+                        //.addFields({name: `<:roles:864116470648930304> Roles [${role.length}]`, role.length < 10 ? role.join(', value: ') : role.length > 10 ? trimArray(role) : 'None'})
+                        .addFields({name: `**${client.language.SERVERINFO[25]}**`, value: `${verification[guild.verificationLevel]}`})
                         .addField(
                             `**${client.language.SERVERINFO[26]}**`,
-                            '```' +
-                                `${
-                                    explicitContent[guild.explicitContentFilter]
-                                }` +
-                                '```'
+                            '```' + `${explicitContent[guild.explicitContentFilter]}` + '```'
                         )
                         .setImage(guild.bannerURL({ dynamic: true }))
                 ]
@@ -181,10 +145,7 @@ module.exports = class ServerInfo extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

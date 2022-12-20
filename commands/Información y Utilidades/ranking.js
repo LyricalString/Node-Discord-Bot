@@ -7,10 +7,7 @@ module.exports = class VotesLeader extends Command {
     constructor(client) {
         super(client, {
             name: 'ranking',
-            description: [
-                'Shows the top commands by uses of Node',
-                'Muestra los comandos destacados por usos de Node'
-            ],
+            description: ['Shows the top commands by uses of Node', 'Muestra los comandos destacados por usos de Node'],
             subcommands: ['commands', 'cmd'],
             usage: ['<commands/cmd>', '<commands/cmd>'],
             category: 'Info',
@@ -20,10 +17,7 @@ module.exports = class VotesLeader extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                args[0].toLowerCase() == 'commands' ||
-                args[0].toLowerCase() == 'cmd'
-            ) {
+            if (args[0].toLowerCase() == 'commands' || args[0].toLowerCase() == 'cmd') {
                 CommandsModel.find()
                     .sort({ uses: -1 })
                     .limit(10)
@@ -49,9 +43,7 @@ module.exports = class VotesLeader extends Command {
                             }
                         ]).then(async (s, err) => {
                             console.debug(s[0].count)
-                            embed.setFooter(
-                                'Comandos ejecutados en total: ' + s[0].count
-                            )
+                            embed.setFooter('Comandos ejecutados en total: ' + s[0].count)
                             msg.edit({ content: ' ', embeds: [embed] })
                         })
                     })
@@ -64,10 +56,7 @@ module.exports = class VotesLeader extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

@@ -5,10 +5,7 @@ module.exports = class Restart extends Command {
     constructor(client) {
         super(client, {
             name: 'announcerestart',
-            description: [
-                'Announces restart of Node.',
-                'Anuncia un reinicio de Node.'
-            ],
+            description: ['Announces restart of Node.', 'Anuncia un reinicio de Node.'],
             category: 'Moderation',
             role: 'developer',
             alias: ['arestart'],
@@ -30,10 +27,7 @@ module.exports = class Restart extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[9])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
@@ -44,10 +38,7 @@ module.exports = class Restart extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(
@@ -68,23 +59,18 @@ module.exports = class Restart extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[10])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             case 'SEARCH_RESULT': {
                 player.queue[0] = res.tracks[0]
                 player.stop()
-                if (!player.playing && !player.queue.size && !player.paused)
-                    player.play()
+                if (!player.playing && !player.queue.size && !player.paused) player.play()
                 break
             }
             case 'TRACK_LOADED': {
                 player.queue[0] = res.tracks[0]
                 player.stop()
-                if (!player.playing && !player.paused && !player.queue.size)
-                    player.play()
+                if (!player.playing && !player.paused && !player.queue.size) player.play()
             }
         }
         /*

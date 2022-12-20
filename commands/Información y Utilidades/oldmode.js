@@ -34,10 +34,7 @@ module.exports = class OldMode extends Command {
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
                             .setDescription(client.language.OLDMODE[1])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[0].toLowerCase() == 'disable') {
                         message.member.user.OLDMODE = false
@@ -46,13 +43,10 @@ module.exports = class OldMode extends Command {
                             .setColor(process.env.EMBED_COLOR)
                             .setTitle(client.language.SUCCESSEMBED)
                             .setDescription(client.language.OLDMODE[2])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     }
-                    s.save().catch(e => console.error(e))
+                    s.save().catch((e) => console.error(e))
                 })
         } catch (e) {
             console.error(e)
@@ -62,10 +56,7 @@ module.exports = class OldMode extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

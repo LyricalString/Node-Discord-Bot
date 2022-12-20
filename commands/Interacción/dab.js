@@ -1,14 +1,12 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { soyultro } = require('soyultro')
 
 module.exports = class Cuddle extends Command {
     constructor(client) {
         super(client, {
             name: 'dab',
-            description: [
-                'Shows that you are doing a dab.',
-                'Muestra que estás haciendo un dab.'
-            ],
+            description: ['Shows that you are doing a dab.', 'Muestra que estás haciendo un dab.'],
             category: 'Interaccion'
         })
     }
@@ -18,11 +16,10 @@ module.exports = class Cuddle extends Command {
             if (args[0]) {
                 user =
                     message.mentions.members.first() ||
-                    (await message.guild.members.fetch(args[0]).catch(e => {
+                    (await message.guild.members.fetch(args[0]).catch((e) => {
                         return
                     }))
             } else {
-                const { soyultro } = require('soyultro')
                 let author = message.author.username
                 let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
                     .setTitle(`${author} ${client.language.DAB[4]}`)
@@ -31,23 +28,19 @@ module.exports = class Cuddle extends Command {
                 if (args.length > 1) {
                     args.shift()
                     const reason = args.join(' ')
-                    embed.addField('\u200b', reason)
+                    embed.addFields({ name: '\u200b', value: reason })
                 }
                 return message.channel.send({ embeds: [embed] })
             }
             if (!user) {
-                const { soyultro } = require('soyultro')
                 let author = message.author.username
                 let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                    .setTitle(
-                        `${author} ${client.language.DAB[3]} ${args.join(' ')}`
-                    )
+                    .setTitle(`${author} ${client.language.DAB[3]} ${args.join(' ')}`)
                     .setColor(process.env.EMBED_COLOR)
                     .setImage(soyultro('dab'))
                 return message.channel.send({ embeds: [embed] })
             }
             if (user.id == message.author.id) {
-                const { soyultro } = require('soyultro')
                 let author = message.author.username
                 let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
                     .setTitle(`${author} ${client.language.DAB[4]}`)
@@ -56,16 +49,14 @@ module.exports = class Cuddle extends Command {
                 if (args.length > 1) {
                     args.shift()
                     const reason = args.join(' ')
-                    embed.addField('\u200b', reason)
+                    embed.addFields({ name: '\u200b', value: reason })
                 }
                 return message.channel.send({ embeds: [embed] })
             }
-            const { soyultro } = require('soyultro')
+
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                .setTitle(
-                    `${author} y ${user.user.username} ${client.language.DAB[3]}`
-                )
+                .setTitle(`${author} y ${user.user.username} ${client.language.DAB[3]}`)
                 .setColor(process.env.EMBED_COLOR)
                 .setImage(soyultro('dab'))
 
@@ -78,10 +69,7 @@ module.exports = class Cuddle extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter(message.author.username, message.author.avatarURL())
                 ]
             })
             webhookClient.send(

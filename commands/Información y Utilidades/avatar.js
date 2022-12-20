@@ -17,11 +17,9 @@ module.exports = class Avatar extends Command {
         if (args[0]) {
             member =
                 message.mentions.members.first() ||
-                (await message.guild.members
-                    .fetch(args[0].replace('<@', '').replace('>', ''))
-                    .catch(e => {
-                        return
-                    }))
+                (await message.guild.members.fetch(args[0].replace('<@', '').replace('>', '')).catch((e) => {
+                    return
+                }))
         }
         if (args[0] && !member) {
             const errorembed = new MessageEmbed()
@@ -43,15 +41,11 @@ module.exports = class Avatar extends Command {
         } else {
             let user =
                 message.mentions.users.first() ||
-                (await message.guild.members
-                    .fetch(args[0].replace('<@', '').replace('>', ''))
-                    .catch(e => {
-                        return
-                    }))
+                (await message.guild.members.fetch(args[0].replace('<@', '').replace('>', '')).catch((e) => {
+                    return
+                }))
             if (lang == 'es_ES') {
-                embed.setFooter(
-                    `${client.language.AVATAR[2]} ${member.user.tag}!`
-                )
+                embed.setFooter(`${client.language.AVATAR[2]} ${member.user.tag}!`)
                 embed.setImage(
                     member.user.displayAvatarURL({
                         dynamic: true,
@@ -61,9 +55,7 @@ module.exports = class Avatar extends Command {
                 embed.setColor('#00ff00')
                 message.channel.send({ embeds: [embed] })
             } else {
-                embed.setFooter(
-                    `${member.user.tag}${client.language.AVATAR[3]}`
-                )
+                embed.setFooter(`${member.user.tag}${client.language.AVATAR[3]}`)
                 embed.setImage(
                     member.user.displayAvatarURL({
                         dynamic: true,
@@ -83,10 +75,7 @@ module.exports = class Avatar extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

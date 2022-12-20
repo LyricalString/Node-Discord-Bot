@@ -24,12 +24,10 @@ module.exports = class McHistory extends Command {
             let NameMC
             if (!args2[1])
                 return message.channel.send(
-                    client.language.MCHISTORY[1] +
-                        process.env.prefix +
-                        client.language.MCHISTORY[2]
+                    client.language.MCHISTORY[1] + process.env.prefix + client.language.MCHISTORY[2]
                 )
             fetch(`https://mc-heads.net/minecraft/profile/${args2}`)
-                .then(res => {
+                .then((res) => {
                     if (res.status == 200) {
                         return res.json()
                     } else {
@@ -37,15 +35,12 @@ module.exports = class McHistory extends Command {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.MCHISTORY[3])
-                            .setFooter(
-                                message.author.username,
-                                message.author.avatarURL()
-                            )
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         message.channel.send({ embeds: [errorembed] })
                         return undefined
                     }
                 })
-                .then(History_Info => {
+                .then((History_Info) => {
                     if (!History_Info) return
 
                     const embedhistory = new MessageEmbed()
@@ -53,25 +48,14 @@ module.exports = class McHistory extends Command {
                         .setColor(process.env.EMBED_COLOR)
                         .setTimestamp(' ')
 
-                    for (
-                        var index = 0;
-                        index < History_Info['name_history'].length;
-                        index++
-                    ) {
-                        Fecha =
-                            History_Info['name_history'][index]['changedToAt']
+                    for (var index = 0; index < History_Info['name_history'].length; index++) {
+                        Fecha = History_Info['name_history'][index]['changedToAt']
                         NameMC = History_Info['name_history'][index]['name']
 
                         if (!Fecha) {
-                            embedhistory.addField(
-                                client.language.MCHISTORY[5],
-                                NameMC
-                            ) // LENGUAJEEEEEEEEEEEEEEE
+                            embedhistory.addFields({ name: client.language.MCHISTORY[5], value: NameMC }) // LENGUAJEEEEEEEEEEEEEEE
                         } else {
-                            embedhistory.addField(
-                                parserTimeStamp(Fecha),
-                                NameMC
-                            )
+                            embedhistory.addFields({ name: parserTimeStamp(Fecha), value: NameMC })
                         }
                     }
                     message.channel.send({
@@ -86,10 +70,7 @@ module.exports = class McHistory extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

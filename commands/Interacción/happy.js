@@ -5,10 +5,7 @@ module.exports = class Happy extends Command {
     constructor(client) {
         super(client, {
             name: 'happy',
-            description: [
-                'Shows that you are happy.',
-                'Muestra que estás feliz.'
-            ],
+            description: ['Shows that you are happy.', 'Muestra que estás feliz.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Happy extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

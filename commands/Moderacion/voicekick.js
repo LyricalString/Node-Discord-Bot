@@ -5,10 +5,7 @@ module.exports = class VoiceKick extends Command {
     constructor(client) {
         super(client, {
             name: 'voicekick',
-            description: [
-                'Kicks a user from a voice chat.',
-                'Expulsa a un usuario de un chat de voz.'
-            ],
+            description: ['Kicks a user from a voice chat.', 'Expulsa a un usuario de un chat de voz.'],
             usage: ['<@user> <#channel>', '<@usuario> <#canal>'],
             alias: ['vckick'],
             permissions: ['KICK_MEMBERS'],
@@ -21,21 +18,16 @@ module.exports = class VoiceKick extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            if (
-                !message.channel
-                    .permissionsFor(message.guild.me)
-                    .has('MANAGE_MESSAGES')
-            ) {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
                     content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
-                if (!message.deleted)
-                    message.delete().catch(e => console.log(e))
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
             }
             let member =
                 message.mentions.members.first() ||
-                (await message.guild.members.fetch(args[0]).catch(e => {
+                (await message.guild.members.fetch(args[0]).catch((e) => {
                     return
                 }))
 
@@ -44,26 +36,18 @@ module.exports = class VoiceKick extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.VOICEKICK[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
-            let channel = message.guild.channels.cache.get(
-                member.voice.channelId
-            )
+            let channel = message.guild.channels.cache.get(member.voice.channelId)
 
             if (!channel) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.VOICEKICK[2])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -72,9 +56,7 @@ module.exports = class VoiceKick extends Command {
             const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setTitle(client.language.SUCCESSEMBED)
-                .setDescription(
-                    `${client.language.VOICEKICK[3]} <#${channel.id}>!`
-                )
+                .setDescription(`${client.language.VOICEKICK[3]} <#${channel.id}>!`)
                 .setFooter(message.author.username, message.author.avatarURL())
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
@@ -85,10 +67,7 @@ module.exports = class VoiceKick extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

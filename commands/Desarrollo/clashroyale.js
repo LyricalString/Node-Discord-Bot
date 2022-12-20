@@ -7,10 +7,7 @@ module.exports = class ClashRoyale extends Command {
     constructor(client) {
         super(client, {
             name: 'clashroyale',
-            description: [
-                'Display info about the Github account.',
-                'Muestra información sobre una cuenta de Github.'
-            ],
+            description: ['Display info about the Github account.', 'Muestra información sobre una cuenta de Github.'],
             usage: ['<username>', '<usuario>'],
             args: false,
             production: true,
@@ -25,15 +22,10 @@ module.exports = class ClashRoyale extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.INSTAGRAM[1])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const sentMessage = await message.channel.send(
-                client.language.TIKTOK[1]
-            )
+            const sentMessage = await message.channel.send(client.language.TIKTOK[1])
             let response, details
             response = await axios
                 .get(`https://api.clashroyale.com/v1/players/#V9rqulj`, {
@@ -46,7 +38,7 @@ module.exports = class ClashRoyale extends Command {
                             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
                     }
                 })
-                .catch(e => {
+                .catch((e) => {
                     return sentMessage.edit('Ese usuario no existe.')
                 })
             const account = await response.data
@@ -56,10 +48,7 @@ module.exports = class ClashRoyale extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.INSTAGRAM[13])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!account.id) {
@@ -67,16 +56,11 @@ module.exports = class ClashRoyale extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.INSTAGRAM[13])
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
-            const embed2 = new MessageEmbed()
-                .setDescription(response)
-                .setColor(process.env.EMBED_COLOR)
+            const embed2 = new MessageEmbed().setDescription(response).setColor(process.env.EMBED_COLOR)
 
             sentMessage.edit({ embed: embed2 })
         } catch (e) {
@@ -87,10 +71,7 @@ module.exports = class ClashRoyale extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

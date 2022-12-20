@@ -5,10 +5,7 @@ module.exports = class Cry extends Command {
     constructor(client) {
         super(client, {
             name: 'cry',
-            description: [
-                'Shows that you are crying.',
-                'Muestra que estás llorando.'
-            ],
+            description: ['Shows that you are crying.', 'Muestra que estás llorando.'],
             category: 'Interaccion'
         })
     }
@@ -30,10 +27,7 @@ module.exports = class Cry extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(

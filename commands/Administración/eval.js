@@ -24,17 +24,11 @@ module.exports = class Channel extends Command {
                 const embed = new MessageEmbed()
                     .setAuthor('Eval | Node')
                     .setColor(process.env.EMBED_COLOR)
-                    .addField(
-                        ':inbox_tray: Entrada',
-                        `\`\`\`js\n${args.join(' ')}\`\`\``
-                    )
-                    .addField(
-                        ':outbox_tray: Salida',
-                        `\`\`\`js\n${inspect(evaled)}\n\`\`\``
-                    )
+                    .addFields({ name: ':inbox_tray: Entrada', value: `\`\`\`js\n${args.join(' ')}\`\`\`` })
+                    .addFields({ name: ':outbox_tray: Salida', value: `\`\`\`js\n${inspect(evaled)}\n\`\`\`` })
                     .setTimestamp(' ')
 
-                message.channel.send({ embeds: [embed] }).catch(e => {
+                message.channel.send({ embeds: [embed] }).catch((e) => {
                     console.log(evaled)
                 })
             } catch (error) {
@@ -50,10 +44,7 @@ module.exports = class Channel extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.fatal_error)
-                    .setFooter(
-                        message.author.username,
-                        message.author.avatarURL()
-                    )
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
             )
             webhookClient.send(
                 `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`

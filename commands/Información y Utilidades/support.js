@@ -15,9 +15,7 @@ module.exports = class Support extends Command {
     }
     async run(client, message, args, prefix, lang, webhookClient, ipc) {
         try {
-            let embed = new MessageEmbed()
-                .setColor(process.env.EMBED_COLOR)
-                .setDescription(client.language.SUPPORT)
+            let embed = new MessageEmbed().setColor(process.env.EMBED_COLOR).setDescription(client.language.SUPPORT)
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
             console.error(e)
@@ -27,10 +25,7 @@ module.exports = class Support extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(
-                            message.author.username,
-                            message.author.avatarURL()
-                        )
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookClient.send(
