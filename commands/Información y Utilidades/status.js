@@ -19,7 +19,7 @@ module.exports = class Status extends Command {
     async run(message, args, prefix) {
         try {
             const guildNum = await message.client.shard.fetchmessage.clientValues('guilds.cache.size')
-            const memberNum = await message.client.shard.broadcastEval((message.client) =>
+            const memberNum = await message.client.shard.broadcastEval((client) =>
                 message.client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)
             )
             const totalMembers = memberNum.reduce((prev, memberCount) => prev + memberCount, 0)
