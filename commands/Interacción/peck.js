@@ -32,7 +32,7 @@ module.exports = class Peck extends Command {
                         .setColor('RED')
                         .setTitle(message.client.language.ERROREMBED)
                         .setDescription(message.client.language.NOARGS)
-                        .setFooter({text: message.author.username, message.author.avatarURL()})
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }
@@ -50,7 +50,7 @@ module.exports = class Peck extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription(message.client.language.PECK[1])
-                    .setFooter({text: message.author.username, message.author.avatarURL()})
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 

@@ -29,7 +29,7 @@ module.exports = class Search extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription('Necesitas estar en un canal de voz para ejecutar este comando.')
-                    .setFooter({text: message.author.username, message.author.avatarURL()})
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const player = message.client.manager.create({
@@ -84,7 +84,7 @@ module.exports = class Search extends Command {
                         .setColor('RED')
                         .setTitle(message.client.language.ERROREMBED)
                         .setDescription(message.client.language.fatal_error)
-                        .setFooter({text: message.author.username, message.author.avatarURL()})
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
             webhookmessage.client.send(

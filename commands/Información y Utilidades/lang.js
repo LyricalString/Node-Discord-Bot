@@ -16,13 +16,9 @@ module.exports = class Lang extends Command {
     }
     /**
      *
-     * @param {import('discord.js').Client} message.client
      * @param {import('discord.js').Message} message
      * @param {string[]} args
      * @param {string} prefix
-     * @param {string} lang
-     * @param {*} webhookmessage.client
-     * @param {*} ipc
      */
     async run(message, args, prefix) {
         try {
@@ -50,7 +46,7 @@ module.exports = class Lang extends Command {
                     }
                 )
             const embed = new MessageEmbed()
-                .setFooter({text: 'Selecciona un lenguaje de la lista.', message.author.displayAvatarURL()})
+                .setTitle('Selecciona un lenguaje de la lista.')
                 .setColor(process.env.EMBED_COLOR)
             const m = await message.reply({
                 embeds: [embed],
@@ -66,7 +62,7 @@ module.exports = class Lang extends Command {
                                 .setColor('RED')
                                 .setTitle(message.client.language.ERROREMBED)
                                 .setDescription(message.client.language.LANGMENU[3])
-                                .setFooter({text: message.author.username, message.author.avatarURL()})
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({ embeds: [errorembed] })
                         }
                         const lang = interaction.values[0] === 'es' ? 'es_ES' : 'en_EN'
@@ -97,7 +93,7 @@ module.exports = class Lang extends Command {
                                     ? 'Has seleccionado español como tu nuevo idioma.'
                                     : "You've selected English as your new language"
                             )
-                            .setFooter({text: message.author.username, message.author.avatarURL()})
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return interaction.update({ embeds: [embed], components: [] })
                     } catch (error) {
                         console.error(error)

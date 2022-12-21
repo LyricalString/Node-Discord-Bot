@@ -33,7 +33,7 @@ module.exports = class Kill extends Command {
                         .setColor('RED')
                         .setTitle(message.client.language.ERROREMBED)
                         .setDescription(message.client.language.NOARGS)
-                        .setFooter({text: message.author.username, message.author.avatarURL()})
+                        .setFooter({text: message.author.username, iconURL:message.author.avatarURL()})
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }
@@ -43,7 +43,7 @@ module.exports = class Kill extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription(`${author} ${message.client.language.KILL[5]}`)
-                    .setFooter({text: message.author.username, message.author.avatarURL()})
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (user.id == message.author.id) {
@@ -51,7 +51,7 @@ module.exports = class Kill extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription(message.client.language.KILL[3])
-                    .setFooter({text: message.author.username, message.author.avatarURL()})
+                    .setFooter({text: message.author.username, iconURL:message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
 

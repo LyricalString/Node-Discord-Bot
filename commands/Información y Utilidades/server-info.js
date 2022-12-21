@@ -76,7 +76,7 @@ module.exports = class ServerInfo extends Command {
                         .setColor(process.env.EMBED_COLOR)
                         .setThumbnail(guild.iconURL({ dynamic: true }))
                         .setTimestamp()
-                        .setFooter({text: guild.name, guild.iconURL({ dynamic: true })})
+                        .setFooter({ text: guild.name, iconURL: guild.iconURL({ dynamic: true }) })
                         .setTitle(guild.name)
                         .addField(
                             `<:serverowner:863983092930183169> ${message.client.language.SERVERINFO[9]}`,
@@ -111,11 +111,13 @@ module.exports = class ServerInfo extends Command {
                                 name: `<:plus:864103028867727420> ${message.client.language.SERVERINFO[16]} [${guild.channels.cache.size}]`,
                                 value: `<:category:864116468291338290> ${message.client.language.SERVERINFO[17]}: ${
                                     guild.channels.cache.filter((x) => x.type === 'GUILD_CATEGORY').size
-                                }\n<:textchannelblurple:863983092893220885> ${message.client.language.SERVERINFO[18]}: ${
+                                }\n<:textchannelblurple:863983092893220885> ${
+                                    message.client.language.SERVERINFO[18]
+                                }: ${
                                     guild.channels.cache.filter((x) => x.type === 'GUILD_TEXT').size
-                                }\n<:voicechannelblurple:864103406309867531> ${message.client.language.SERVERINFO[19]}: ${
-                                    guild.channels.cache.filter((x) => x.type === 'GUILD_VOICE').size
-                                }`,
+                                }\n<:voicechannelblurple:864103406309867531> ${
+                                    message.client.language.SERVERINFO[19]
+                                }: ${guild.channels.cache.filter((x) => x.type === 'GUILD_VOICE').size}`,
                                 inline: true
                             },
                             {
@@ -142,9 +144,9 @@ module.exports = class ServerInfo extends Command {
                             name: `**${message.client.language.SERVERINFO[25]}**`,
                             value: `${verification[guild.verificationLevel]}`
                         })
-                        .addField({
+                        .addFields({
                             name: `**${message.client.language.SERVERINFO[26]}**`,
-                            valie: '```' + `${explicitContent[guild.explicitContentFilter]}` + '```'
+                            value: '```' + `${explicitContent[guild.explicitContentFilter]}` + '```'
                         })
                         .setImage(guild.bannerURL({ dynamic: true }))
                 ]

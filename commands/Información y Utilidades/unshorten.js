@@ -28,17 +28,17 @@ module.exports = class BannedWordsRefresh extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription('El argumento del comando no es un enlace.')
-                    .setFooter({text: message.author.username, message.author.avatarURL()})
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            unshorten(message.client, message, args, prefix, lang)
+            unshorten(message, args, prefix)
         } catch (e) {
             sendError(e, message)
         }
     }
 }
 
-async function unshorten(message.client, message, args, prefix, lang) {
+async function unshorten(message, args, prefix) {
     axios({
         method: 'get',
         url: args[0],
@@ -47,7 +47,7 @@ async function unshorten(message.client, message, args, prefix, lang) {
         .then((res) => {
             if (!res) return null
             if (res.status == 301) {
-                return unshorten(response.redirect_destination)
+                return unshorten(res.redirect_destination)
             } else if (res.status == 200) {
                 for (let index in bannedWords) {
                     if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {

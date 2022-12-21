@@ -36,7 +36,7 @@ module.exports = class UserInfo extends Command {
             let embed2 = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setDescription('Obteniendo el perfil...')
-                .setFooter({text: message.author.username, message.author.avatarURL()})
+                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
             const sentMessage = await message.channel.send({
                 content: ' ',
                 embeds: [embed2]

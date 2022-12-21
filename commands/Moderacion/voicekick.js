@@ -59,7 +59,7 @@ module.exports = class VoiceKick extends Command {
                 .setColor(process.env.EMBED_COLOR)
                 .setTitle(message.client.language.SUCCESSEMBED)
                 .setDescription(`${message.client.language.VOICEKICK[3]} <#${channel.id}>!`)
-                .setFooter({text: message.author.username, message.author.avatarURL()})
+                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
             sendError(e, message)
