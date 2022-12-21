@@ -14,7 +14,7 @@ module.exports = class Prefix extends Command {
             category: 'administracion'
         })
     }
-    async run(message.client, message, args, prefix2, lang) {
+    async run(message, args, prefix2, lang) {
         try {
             let prefix
             if (args[0]) {
