@@ -1,5 +1,8 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class AutoMix extends Command {
     constructor(client) {
         super(client, {
@@ -15,7 +18,7 @@ module.exports = class AutoMix extends Command {
             category: 'musica'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             const sc = message.attachments.first() || args.join(' ')
             if (!message.member) {
@@ -40,7 +43,7 @@ module.exports = class AutoMix extends Command {
                 // if (emblemas && emblemas.Notifications.Enabled) badges.push('🔔')
                 // if (emblemas && emblemas.Developer.Enabled) badges.push('💻')
                 // if (emblemas && emblemas.Booster.Enabled) badges.push('⛑')
-                // errorembed.setFooter(message.author.username + ' ' + badges.join(''), message.author.avatarURL());
+                // errorembed.setFooter({text: message.author.username + ' ' + badges.join(''), message.author.avatarURL()});
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -123,9 +126,17 @@ module.exports = class AutoMix extends Command {
                     const e = new MessageEmbed()
                         .setTitle(client.language.AUTOMIX[4])
                         .setColor(process.env.EMBED_COLOR)
-                        .addFields({name: client.language.AUTOMIX[5], `${result.playlist.name}`, value: true})
-                        .addFields({name: client.language.AUTOMIX[6], `\`${result.tracks.length}\``, value: true})
-                        .addFields({name: client.language.AUTOMIX[7], `${result.tracks[0].requester}`, value: true})
+                        .addFields({ name: client.language.AUTOMIX[5], value: `${result.playlist.name}`, inline: true })
+                        .addFields({
+                            name: client.language.AUTOMIX[6],
+                            value: `\`${result.tracks.length}\``,
+                            inline: true
+                        })
+                        .addFields({
+                            name: client.language.AUTOMIX[7],
+                            value: `${result.tracks[0].requester}`,
+                            inline: true
+                        })
                         .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`)
                     return msg.edit({ content: ' ', embeds: [e] })
                 }
@@ -138,26 +149,7 @@ module.exports = class AutoMix extends Command {
                     return msg.edit({ content: ' ', embeds: [errorembed2] })
             }
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

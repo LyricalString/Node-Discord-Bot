@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const moment = require('moment')
 let CodeModel = require('../../models/code.js')
+const { sendError } = require('../../utils/utils.js')
 
 const flags = {
     DISCORD_EMPLOYEE: 'Discord Employee',
@@ -30,12 +31,12 @@ module.exports = class UserInfo extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             let embed2 = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setDescription('Obteniendo el perfil...')
-                .setFooter(message.author.username, message.author.avatarURL())
+                .setFooter({text: message.author.username, message.author.avatarURL()})
             const sentMessage = await message.channel.send({
                 content: ' ',
                 embeds: [embed2]
@@ -66,7 +67,7 @@ module.exports = class UserInfo extends Command {
                 .slice(0, -1)
             const userFlags = member.user.flags ? member.user.flags.toArray() : ' '
             const guild = message.guild
-            const embed = new MessageEmbed().setTimestamp(' ')
+            const embed = new MessageEmbed().setTimestamp()
             if (member.user.displayAvatarURL())
                 embed.setThumbnail(
                     member.user.displayAvatarURL({
@@ -237,26 +238,7 @@ module.exports = class UserInfo extends Command {
                 }
             })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

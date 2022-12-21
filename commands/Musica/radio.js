@@ -1,6 +1,9 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const isUrl = require('../../utils/isUrl.js')
+
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Radio extends Command {
     constructor(client) {
         super(client, {
@@ -15,13 +18,13 @@ module.exports = class Radio extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             // const errorembed = new MessageEmbed()
             //     .setColor("RED")
             //     .setTitle(client.language.ERROREMBED)
             //     .setDescription('La API se encuentra en mantenimiento. Volverán cuando vuelva la API.')
-            //     .setFooter(message.author.username, message.author.avatarURL());
+            //     .setFooter({text: message.author.username, message.author.avatarURL()});
             //   return message.channel.send({ embeds: [errorembed] });
             const { channel } = message.member.voice
             if (!channel) {
@@ -29,7 +32,7 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[1])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -38,7 +41,7 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[13])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
 
@@ -58,7 +61,7 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[1])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (playerCanal.id != channel.id && playerCanal.members.size == 1) {
@@ -71,7 +74,7 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.PLAY[2])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
             const query = args.join(' ')
@@ -80,7 +83,7 @@ module.exports = class Radio extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription(client.language.RADIO[3])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
             let volume = 100
@@ -117,7 +120,7 @@ module.exports = class Radio extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.RADIO[11])
-                        .setFooter(message.author.username, message.author.avatarURL())
+                        .setFooter({text: message.author.username, message.author.avatarURL()})
                     return message.channel.send({ embeds: [errorembed] })
                 })
             await client.manager.search(str, message.author).then(async (res) => {
@@ -155,7 +158,7 @@ module.exports = class Radio extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(message.author.username, message.author.avatarURL())
+                        .setFooter({text: message.author.username, message.author.avatarURL()})
                 ]
             })
             webhookClient.send(

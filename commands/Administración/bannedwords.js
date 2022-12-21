@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js')
 const guildSchema = require('../../models/guild.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Ctegory extends Command {
     constructor(client) {
@@ -23,7 +24,7 @@ module.exports = class Ctegory extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             if (args[0].toLowerCase() == 'add' && args[1]) {
                 let word = args[1].toLowerCase()
@@ -79,7 +80,7 @@ module.exports = class Ctegory extends Command {
                                         text: client.language.BANNEDWORDS[3] + word,
                                         iconURL: message.author.displayAvatarURL()
                                     })
-                                    .setTimestamp(' ')
+                                    .setTimestamp()
                                 message.channel.send({ embeds: [embed] })
                             } else {
                                 const errorembed = new MessageEmbed()
@@ -115,7 +116,7 @@ module.exports = class Ctegory extends Command {
                                         '<:IconPrivateThreadIcon:859608405497217044>' + client.language.BANNEDWORDS[6]
                                     )
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTimestamp(' ')
+                                    .setTimestamp()
                                 for (let index in s.config.PhishingDetection.BannedWords) {
                                     let ListBannedWords = s.config.PhishingDetection.BannedWords[index]
                                     embedadmins.addFields({ name: '\u200B', value: '- ' + ListBannedWords })
@@ -158,24 +159,7 @@ module.exports = class Ctegory extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
-            console.error(e)
-            message.channel.send(
-                new MessageEmbed()
-                    .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.fatal_error)
-                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-            )
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

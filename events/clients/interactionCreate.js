@@ -168,9 +168,9 @@ module.exports = class Interaction extends Event {
                     })
                     if (member.user.id == interaction.member.user.id) {
                         let embed = new MessageEmbed()
-                            .setTimestamp(' ')
+                            .setTimestamp()
                             .setColor('RED')
-                            .setFooter(this.client.language.LOVE[2])
+                            .setFooter({ text: this.client.language.LOVE[2] })
                         return this.client.api.interactions(interaction.id, interaction.token).callback.post({
                             data: {
                                 type: 4,
@@ -184,9 +184,9 @@ module.exports = class Interaction extends Event {
                     }
                     if (member.user.id == this.client.user.id) {
                         let embed = new MessageEmbed()
-                            .setTimestamp(' ')
+                            .setTimestamp()
                             .setColor('RED')
-                            .setFooter(this.client.language.LOVE[3])
+                            .setFooter({ text: this.client.language.LOVE[3] })
                         return this.client.api.interactions(interaction.id, interaction.token).callback.post({
                             data: {
                                 type: 4,
@@ -364,7 +364,7 @@ module.exports = class Interaction extends Event {
                             .map((role) => role.toString())
                             .slice(0, -1)
                         const userFlags = member.user.flags.toArray()
-                        const embed = new MessageEmbed().setTimestamp(' ')
+                        const embed = new MessageEmbed().setTimestamp()
                         if (member.user.displayAvatarURL())
                             embed.setThumbnail(
                                 member.user.displayAvatarURL({

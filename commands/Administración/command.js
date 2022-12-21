@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js')
 const guildSchema = require('../../models/guild.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Command2 extends Command {
     constructor(client) {
@@ -21,7 +22,7 @@ module.exports = class Command2 extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             if (args[0].toLowerCase() === 'disable' && args[1]) {
                 if (!client.commands.get(args[1])) {
@@ -128,7 +129,7 @@ module.exports = class Command2 extends Command {
                                         '<:IconPrivateThreadIcon:859608405497217044>' + client.language.COMMAND[8]
                                     )
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTimestamp(' ')
+                                    .setTimestamp()
                                 for (var index = 0; index < s.config.DISABLED_COMMANDS.length; index++) {
                                     let ListAdmin = s.config.DISABLED_COMMANDS[index]
                                     embedadmins.addFields({ name: '\u200B', value: '- ' + ListAdmin })
@@ -171,26 +172,7 @@ module.exports = class Command2 extends Command {
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

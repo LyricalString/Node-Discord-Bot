@@ -2,6 +2,8 @@ const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const { SelectMenuBuilder, ActionRowBuilder } = require('@discordjs/builders')
 
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Search extends Command {
     constructor(client) {
         super(client, {
@@ -18,7 +20,7 @@ module.exports = class Search extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             const sc = message.attachments.first() || args.join(' ')
             const { channel } = message.member.voice
@@ -27,7 +29,7 @@ module.exports = class Search extends Command {
                     .setColor('RED')
                     .setTitle(client.language.ERROREMBED)
                     .setDescription('Necesitas estar en un canal de voz para ejecutar este comando.')
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
             const player = client.manager.create({
@@ -82,7 +84,7 @@ module.exports = class Search extends Command {
                         .setColor('RED')
                         .setTitle(client.language.ERROREMBED)
                         .setDescription(client.language.fatal_error)
-                        .setFooter(message.author.username, message.author.avatarURL())
+                        .setFooter({text: message.author.username, message.author.avatarURL()})
                 ]
             })
             webhookClient.send(

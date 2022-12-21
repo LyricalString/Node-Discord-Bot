@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js')
 const { SelectMenuBuilder, ActionRowBuilder } = require('@discordjs/builders')
 const Command = require('../../structures/Commandos.js')
 const userModel = require('../../models/user.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Lang extends Command {
     constructor(client) {
@@ -23,7 +24,7 @@ module.exports = class Lang extends Command {
      * @param {*} webhookClient
      * @param {*} ipc
      */
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             const menu = new SelectMenuBuilder()
                 .setCustomId('menu1')
@@ -49,7 +50,7 @@ module.exports = class Lang extends Command {
                     }
                 )
             const embed = new MessageEmbed()
-                .setFooter('Selecciona un lenguaje de la lista.', message.author.displayAvatarURL())
+                .setFooter({text: 'Selecciona un lenguaje de la lista.', message.author.displayAvatarURL()})
                 .setColor(process.env.EMBED_COLOR)
             const m = await message.reply({
                 embeds: [embed],
@@ -65,7 +66,7 @@ module.exports = class Lang extends Command {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.LANGMENU[3])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({text: message.author.username, message.author.avatarURL()})
                             return message.channel.send({ embeds: [errorembed] })
                         }
                         const lang = interaction.values[0] === 'es' ? 'es_ES' : 'en_EN'
@@ -96,7 +97,7 @@ module.exports = class Lang extends Command {
                                     ? 'Has seleccionado español como tu nuevo idioma.'
                                     : "You've selected English as your new language"
                             )
-                            .setFooter(message.author.username, message.author.avatarURL())
+                            .setFooter({text: message.author.username, message.author.avatarURL()})
                         return interaction.update({ embeds: [embed], components: [] })
                     } catch (error) {
                         console.error(error)
@@ -104,24 +105,7 @@ module.exports = class Lang extends Command {
                 }
             )
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter(message.author.username, message.author.avatarURL())
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            message.author
-                .send(
-                    'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                )
-                .catch((e) => null)
+            sendError(e, message)
         }
     }
 }

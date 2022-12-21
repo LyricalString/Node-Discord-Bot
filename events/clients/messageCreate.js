@@ -10,9 +10,6 @@ let args
 let command
 let usage
 const SwitchThings = require('../../utils/SwitchThings')
-const webhookClient = new WebhookClient({
-    url: process.env.errorWebhookURL
-})
 const unshorten = require('../../utils/unshorten.js')
 const axios = require('axios')
 var Bottleneck = require('bottleneck') //Node only
@@ -723,7 +720,7 @@ module.exports = class messageCreate extends Event {
                             .setColor('RED')
                             .setTitle(client.language.ERROREMBED)
                             .setDescription(client.language.MESSAGE[2])
-                            .setFooter(message.author.username, message.author.avatarURL())
+                            .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
 
@@ -735,7 +732,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[15])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -745,7 +742,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(`${client.language.MESSAGE[3]} <a:pepeRiendose:835905480160444466>`)
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -755,7 +752,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[4])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -765,7 +762,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[5])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -775,7 +772,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[6])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -796,7 +793,10 @@ module.exports = class messageCreate extends Event {
                                         .setDescription(
                                             `${client.language.NOPERMS[1]} \`${cmd.permissions[index2]}\` ${client.language.NOPERMS[2]}`
                                         )
-                                        .setFooter(message.author.username, message.author.avatarURL())
+                                        .setFooter({
+                                            text: message.author.username,
+                                            iconURL: message.author.avatarURL()
+                                        })
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -816,7 +816,10 @@ module.exports = class messageCreate extends Event {
                                         .setDescription(
                                             `${client.language.BOTNOPERMS[1]} \`${cmd.botpermissions[index3]}\` ${client.language.BOTNOPERMS[2]}`
                                         )
-                                        .setFooter(message.author.username, message.author.avatarURL())
+                                        .setFooter({
+                                            text: message.author.username,
+                                            iconURL: message.author.avatarURL()
+                                        })
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -834,7 +837,7 @@ module.exports = class messageCreate extends Event {
                                     .setDescription(
                                         `${client.language.MESSAGE[7]} \`${cmd.name}\`${client.language.MESSAGE[8]}\`${prefix}${cmd.name} ${usage}\`.`
                                     )
-                                    .setFooter(message.author.username, message.author.avatarURL())
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -845,7 +848,7 @@ module.exports = class messageCreate extends Event {
                                     .setDescription(
                                         `${client.language.MESSAGE[7]} \`${cmd.name}\`${client.language.MESSAGE[8]} \`${prefix}help ${cmd.name}\`.`
                                     )
-                                    .setFooter(message.author.username, message.author.avatarURL())
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
                                 })
@@ -863,7 +866,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(reply)
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -873,7 +876,7 @@ module.exports = class messageCreate extends Event {
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[13])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -905,7 +908,10 @@ module.exports = class messageCreate extends Event {
                                                 client.language.MESSAGE[11]
                                             } ${cmd.name}.`
                                         )
-                                        .setFooter(message.author.username, message.author.avatarURL())
+                                        .setFooter({
+                                            text: message.author.username,
+                                            iconURL: message.author.avatarURL()
+                                        })
                                     return message.channel.send({
                                         embeds: [errorembed]
                                     })
@@ -932,14 +938,14 @@ module.exports = class messageCreate extends Event {
                                     }
                                 })
                             })
-                            cmd.run(client, message, args, prefix, message.member.user.LANG, webhookClient, ipc)
+                            cmd.run(client, message, args, prefix, message.member.user.LANG, ipc)
                         } catch (e) {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
                                 .setTitle(client.language.ERROREMBED)
                                 .setDescription(client.language.MESSAGE[12])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
                             })
@@ -978,7 +984,7 @@ function unshortenBWRLinks(client, message, url, notify) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             try {
                                 if (!message.deleted)
                                     message.delete().catch((e) => {
@@ -986,7 +992,10 @@ function unshortenBWRLinks(client, message, url, notify) {
                                             .setColor(process.env.EMBED_COLOR)
                                             .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                             .setDescription(client.language.MESSAGE[17])
-                                            .setFooter(message.author.username, message.author.avatarURL())
+                                            .setFooter({
+                                                text: message.author.username,
+                                                iconURL: message.author.avatarURL()
+                                            })
                                         return message.channel.send({
                                             embeds: [embed]
                                         })
@@ -996,7 +1005,7 @@ function unshortenBWRLinks(client, message, url, notify) {
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                     .setDescription(client.language.MESSAGE[17])
-                                    .setFooter(message.author.username, message.author.avatarURL())
+                                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             }
                             return message.channel.send({ embeds: [embed] })
@@ -1020,7 +1029,7 @@ function unshortenBWRLinks(client, message, url, notify) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
@@ -1049,7 +1058,7 @@ function unshortenBWRLinks(client, message, url, notify) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
@@ -1072,7 +1081,7 @@ function unshortenBWRLinks(client, message, url, notify) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[17])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
@@ -1109,7 +1118,7 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
@@ -1134,7 +1143,7 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
@@ -1163,7 +1172,7 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {
@@ -1186,7 +1195,7 @@ function unshortenGuildLinks(client, message, url, notify, Guild) {
                                 .setColor(process.env.EMBED_COLOR)
                                 .setTitle(`${client.language.MESSAGE[16]} <:notcheck:864102874983825428>`)
                                 .setDescription(client.language.MESSAGE[18])
-                                .setFooter(message.author.username, message.author.avatarURL())
+                                .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             if (!message.deleted) message.delete().catch((e) => console.error(e))
                             return message.channel.send({ embeds: [embed] })
                         } else {

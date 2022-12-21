@@ -2,6 +2,7 @@ const axios = require('axios')
 
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class GitHub extends Command {
     constructor(client) {
@@ -14,7 +15,7 @@ module.exports = class GitHub extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(client, message, args, prefix, lang, ipc) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
@@ -92,10 +93,7 @@ module.exports = class GitHub extends Command {
 
             sentMessage.edit({ content: ' ', embeds: [embed2] })
         } catch (e) {
-            console.log(e)
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}** \n Message: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
+            sendError(e, message)
         }
     }
 }

@@ -3,6 +3,7 @@ const Command = require('../../structures/Commandos.js')
 const isUrl = require('../../utils/isUrl.js')
 const axios = require('axios')
 let bannedWords = require('../../predefinedBannedWords.json')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class BannedWordsRefresh extends Command {
     constructor(client) {
@@ -13,27 +14,31 @@ module.exports = class BannedWordsRefresh extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
-        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
-            message.reply({
-                content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
-            })
-        } else {
-            if (!message.deleted) message.delete().catch((e) => console.log(e))
+    async run(client, message, args, prefix, lang, ipc) {
+        try {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
+                message.reply({
+                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                })
+            } else {
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
+            }
+            if (!isUrl(args[0])) {
+                const errorembed = new MessageEmbed()
+                    .setColor('RED')
+                    .setTitle(client.language.ERROREMBED)
+                    .setDescription('El argumento del comando no es un enlace.')
+                    .setFooter({text: message.author.username, message.author.avatarURL()})
+                return message.channel.send({ embeds: [errorembed] })
+            }
+            unshorten(client, message, args, prefix, lang)
+        } catch (e) {
+            sendError(e, message)
         }
-        if (!isUrl(args[0])) {
-            const errorembed = new MessageEmbed()
-                .setColor('RED')
-                .setTitle(client.language.ERROREMBED)
-                .setDescription('El argumento del comando no es un enlace.')
-                .setFooter(message.author.username, message.author.avatarURL())
-            return message.channel.send({ embeds: [errorembed] })
-        }
-        unshorten(client, message, args, prefix, lang, webhookClient)
     }
 }
 
-async function unshorten(client, message, args, prefix, lang, webhookClient) {
+async function unshorten(client, message, args, prefix, lang) {
     axios({
         method: 'get',
         url: args[0],

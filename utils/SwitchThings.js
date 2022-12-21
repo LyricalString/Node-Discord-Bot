@@ -84,7 +84,10 @@ module.exports = async function (client, Thing, Todo, message2, toDel) {
                                                     .setDescription(
                                                         `${client.language.KICK[13]} \`${message2.author.id}\` ${client.language.MUTE[1]}`
                                                     )
-                                                    .setFooter(message2.author.username, message2.author.avatarURL())
+                                                    .setFooter({
+                                                        text: message2.author.username,
+                                                        iconURL: message2.author.avatarURL()
+                                                    })
                                                 message2.channel.send({
                                                     embeds: [embed]
                                                 })
@@ -129,7 +132,10 @@ module.exports = async function (client, Thing, Todo, message2, toDel) {
                                                     .setDescription(
                                                         `${client.language.KICK[13]} \`${message2.author.id}\` ${client.language.MUTE[1]}`
                                                     )
-                                                    .setFooter(message2.author.username, message2.author.avatarURL())
+                                                    .setFooter({
+                                                        text: message2.author.username,
+                                                        iconURL: message2.author.avatarURL()
+                                                    })
                                                 canal.send({ embeds: [embed] })
                                             }
                                         })
@@ -286,7 +292,10 @@ module.exports = async function (client, Thing, Todo, message2, toDel) {
                                                     .setDescription(
                                                         `${client.language.KICK[13]} \`${message2.author.id}\` ${client.language.MUTE[1]}`
                                                     )
-                                                    .setFooter(message2.author.username, message2.author.avatarURL())
+                                                    .setFooter({
+                                                        text: message2.author.username,
+                                                        iconURL: message2.author.avatarURL()
+                                                    })
                                                 message2.channel.send({
                                                     embeds: [embed]
                                                 })
@@ -331,7 +340,10 @@ module.exports = async function (client, Thing, Todo, message2, toDel) {
                                                     .setDescription(
                                                         `${client.language.KICK[13]} \`${message2.author.id}\` ${client.language.MUTE[1]}`
                                                     )
-                                                    .setFooter(message2.author.username, message2.author.avatarURL())
+                                                    .setFooter({
+                                                        text: message2.author.username,
+                                                        iconURL: message2.author.avatarURL()
+                                                    })
                                                 canal.send({ embeds: [embed] })
                                             }
                                         })
