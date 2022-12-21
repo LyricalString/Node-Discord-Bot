@@ -6,8 +6,8 @@ const { sendError } = require('../../utils/utils.js')
 momentDurationFormatSetup(moment)
 
 module.exports = class ServerInfo extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'server-info',
             botpermissions: ['ATTACH_FILES'],
             description: ['Display info about this server.', 'Muestra información sobre este servidor.'],
@@ -16,7 +16,7 @@ module.exports = class ServerInfo extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let region = {
                 europe: 'Europa',
@@ -40,17 +40,17 @@ module.exports = class ServerInfo extends Command {
             }
 
             let verification = {
-                NONE: client.language.SERVERINFO[1],
-                LOW: client.language.SERVERINFO[2],
-                MEDIUM: client.language.SERVERINFO[3],
-                HIGH: client.language.SERVERINFO[4],
-                VERY_HIGH: client.language.SERVERINFO[5]
+                NONE: message.client.language.SERVERINFO[1],
+                LOW: message.client.language.SERVERINFO[2],
+                MEDIUM: message.client.language.SERVERINFO[3],
+                HIGH: message.client.language.SERVERINFO[4],
+                VERY_HIGH: message.client.language.SERVERINFO[5]
             }
 
             let explicitContent = {
-                DISABLED: client.language.SERVERINFO[6],
-                MEMBERS_WITHOUT_ROLES: client.language.SERVERINFO[7],
-                ALL_MEMBERS: client.language.SERVERINFO[8]
+                DISABLED: message.client.language.SERVERINFO[6],
+                MEMBERS_WITHOUT_ROLES: message.client.language.SERVERINFO[7],
+                ALL_MEMBERS: message.client.language.SERVERINFO[8]
             }
             const guild = message.guild
             const channel = guild.channels.cache
@@ -79,71 +79,71 @@ module.exports = class ServerInfo extends Command {
                         .setFooter({text: guild.name, guild.iconURL({ dynamic: true })})
                         .setTitle(guild.name)
                         .addField(
-                            `<:serverowner:863983092930183169> ${client.language.SERVERINFO[9]}`,
+                            `<:serverowner:863983092930183169> ${message.client.language.SERVERINFO[9]}`,
                             `<@${guild.ownerId}>`
                         )
                         .addFields(
                             {
-                                name: client.language.SERVERINFO[10],
+                                name: message.client.language.SERVERINFO[10],
                                 value: '```' + `${guild.id}` + '```',
                                 inline: true
                             },
                             {
-                                name: `<:members:864107765050638367> ${client.language.SERVERINFO[11]}`,
+                                name: `<:members:864107765050638367> ${message.client.language.SERVERINFO[11]}`,
                                 value: '```' + `${guild.memberCount}` + '```',
                                 inline: true
                             },
                             {
-                                name: `😀 ${client.language.SERVERINFO[12]} [${emojis.size}]`,
-                                value: `<:join:864104115076595762> ${client.language.SERVERINFO[13]}: ${
+                                name: `😀 ${message.client.language.SERVERINFO[12]} [${emojis.size}]`,
+                                value: `<:join:864104115076595762> ${message.client.language.SERVERINFO[13]}: ${
                                     emojis.filter((emoji) => !emoji.animated).size
-                                }\n<a:flecha2:836295945423552522> ${client.language.SERVERINFO[14]}: ${
+                                }\n<a:flecha2:836295945423552522> ${message.client.language.SERVERINFO[14]}: ${
                                     emojis.filter((emoji) => emoji.animated).size
                                 }`,
                                 inline: true
                             },
                             {
-                                name: `<:ticketblurple:863983092783382548> ${client.language.SERVERINFO[15]}`,
+                                name: `<:ticketblurple:863983092783382548> ${message.client.language.SERVERINFO[15]}`,
                                 value: '```' + `${role.length}` + '```',
                                 inline: true
                             },
                             {
-                                name: `<:plus:864103028867727420> ${client.language.SERVERINFO[16]} [${guild.channels.cache.size}]`,
-                                value: `<:category:864116468291338290> ${client.language.SERVERINFO[17]}: ${
+                                name: `<:plus:864103028867727420> ${message.client.language.SERVERINFO[16]} [${guild.channels.cache.size}]`,
+                                value: `<:category:864116468291338290> ${message.client.language.SERVERINFO[17]}: ${
                                     guild.channels.cache.filter((x) => x.type === 'GUILD_CATEGORY').size
-                                }\n<:textchannelblurple:863983092893220885> ${client.language.SERVERINFO[18]}: ${
+                                }\n<:textchannelblurple:863983092893220885> ${message.client.language.SERVERINFO[18]}: ${
                                     guild.channels.cache.filter((x) => x.type === 'GUILD_TEXT').size
-                                }\n<:voicechannelblurple:864103406309867531> ${client.language.SERVERINFO[19]}: ${
+                                }\n<:voicechannelblurple:864103406309867531> ${message.client.language.SERVERINFO[19]}: ${
                                     guild.channels.cache.filter((x) => x.type === 'GUILD_VOICE').size
                                 }`,
                                 inline: true
                             },
                             {
-                                name: `📆 ${client.language.SERVERINFO[20]}`,
+                                name: `📆 ${message.client.language.SERVERINFO[20]}`,
                                 value: '```' + `${create}` + '```',
                                 inline: true
                             },
                             {
-                                name: `<:serverbooster:864102069728313354> ${client.language.SERVERINFO[21]}`,
+                                name: `<:serverbooster:864102069728313354> ${message.client.language.SERVERINFO[21]}`,
                                 value: '```' + `${boostcount}` + '```',
                                 inline: true
                             },
                             {
-                                name: `<:money:864102174908612619> ${client.language.SERVERINFO[22]}`,
+                                name: `<:money:864102174908612619> ${message.client.language.SERVERINFO[22]}`,
                                 value: `${
                                     boost
-                                        ? '```' + `${client.language.SERVERINFO[23]} ${boost}` + '```'
+                                        ? '```' + `${message.client.language.SERVERINFO[23]} ${boost}` + '```'
                                         : '```' + `No` + '```'
                                 }`,
                                 inline: true
                             }
                         )
                         .addFields({
-                            name: `**${client.language.SERVERINFO[25]}**`,
+                            name: `**${message.client.language.SERVERINFO[25]}**`,
                             value: `${verification[guild.verificationLevel]}`
                         })
                         .addField({
-                            name: `**${client.language.SERVERINFO[26]}**`,
+                            name: `**${message.client.language.SERVERINFO[26]}**`,
                             valie: '```' + `${explicitContent[guild.explicitContentFilter]}` + '```'
                         })
                         .setImage(guild.bannerURL({ dynamic: true }))

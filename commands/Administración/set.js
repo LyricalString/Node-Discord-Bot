@@ -6,8 +6,8 @@ const guildSchema = require('../../models/guild.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class set extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'set',
             description: ['Sets a user role inside the bot', 'Cambia el role del usuario dentro del bot.'],
             usage: ['tester <add/del> <user/id>', 'partner <add/del> <guildID> <invite link>'],
@@ -18,7 +18,7 @@ module.exports = class set extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (args[0].toLowerCase() == 'partner') {
                 if (args[1].toLowerCase() == 'add') {
@@ -30,7 +30,7 @@ module.exports = class set extends Command {
                             if (err) return message.channel.send('err ' + err)
                             if (data) return message.channel.send('Ya está en la db partner esa guild')
                             if (!data) {
-                                await ipc.fetchGuild(args[2]).then((data2) => {
+                                await message.client.guilds.fetch(args[2]).then((data2) => {
                                     if (!data2)
                                         return message.channel.send('Este servidor no se encuentra dentro de Node.')
                                     if (data2) {
@@ -71,7 +71,7 @@ module.exports = class set extends Command {
                             if (!data)
                                 return message.channel.send('Esta guild no se encuentra en los servdiores partners')
                             if (data) {
-                                await ipc.fetchGuild(args[2]).then((data2) => {
+                                await message.client.guilds.fetch(args[2]).then((data2) => {
                                     if (!data2)
                                         return message.channel.send('Este servidor no se encuentra dentro de Node.')
                                     if (data2) {
@@ -91,7 +91,7 @@ module.exports = class set extends Command {
                             if (err) return message.channel.send('err ' + err)
                             if (!data) return message.channel.send('El usuario no está registrado en la base de datos')
                             if (data) {
-                                await ipc.fetchUser(args[2]).then((data2) => {
+                                await message.client.users.fetch(args[2]).then((data2) => {
                                     if (!data2) return message.channel.send('No encontramos al usuario en la cache.')
                                     if (data2) {
                                         data.TESTER = true
@@ -111,7 +111,7 @@ module.exports = class set extends Command {
                             if (err) return message.channel.send('err ' + err)
                             if (!data) return message.channel.send('El usuario no está registrado en la base de datos')
                             if (data) {
-                                await ipc.fetchUser(args[2]).then((data2) => {
+                                await message.client.users.fetch(args[2]).then((data2) => {
                                     if (!data2) return message.channel.send('No encontramos al usuario en la cache.')
                                     if (data2) {
                                         data.TESTER = false

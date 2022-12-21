@@ -4,8 +4,8 @@ const osu = require('node-osu')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Osu extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'osu',
             description: [
                 'Shows the people name who helped on the development of Node.',
@@ -17,7 +17,7 @@ module.exports = class Osu extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             const osuApi = new osu.Api(process.env.OsuSecret, {
                 notFoundAsError: true, // Throw an error on not found instead of returning nothing. (default: true)
@@ -58,7 +58,7 @@ module.exports = class Osu extends Command {
                     .catch((e) => {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
+                            .setTitle(message.client.language.ERROREMBED)
                             .setDescription('Ese usuario no está registrado en Osu!')
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
@@ -74,7 +74,7 @@ module.exports = class Osu extends Command {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
+                                .setTitle(message.client.language.ERROREMBED)
                                 .setDescription('Ese usuario no está registrado en Osu!')
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
@@ -92,7 +92,7 @@ module.exports = class Osu extends Command {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
+                                .setTitle(message.client.language.ERROREMBED)
                                 .setDescription('Ese usuario no está registrado en Osu!')
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({

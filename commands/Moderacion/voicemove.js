@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class VoiceMove extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'voicemove',
             description: ['Moves a user to another voice channel.', 'Mueve a un usuario a otro canal de voz.'],
             usage: ['<@user> <#channel>', '<@usuario> <#canal>'],
@@ -18,11 +18,11 @@ module.exports = class VoiceMove extends Command {
             nochannel: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -32,8 +32,8 @@ module.exports = class VoiceMove extends Command {
             if (!member) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.VOICEMOVE[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.VOICEMOVE[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -46,8 +46,8 @@ module.exports = class VoiceMove extends Command {
             } else if (channel.type != 'GUILD_VOICE') {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.VOICEMOVE[2])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.VOICEMOVE[2])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -56,7 +56,7 @@ module.exports = class VoiceMove extends Command {
                 if (!member.voice || !member.voice.channelId) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
+                        .setTitle(message.client.language.ERROREMBED)
                         .setDescription('El usuario no está conectado en ningún canal de voz.')
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
@@ -64,8 +64,8 @@ module.exports = class VoiceMove extends Command {
                 if (member.voice.channelId == channel.id) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.VOICEMOVE[3])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.VOICEMOVE[3])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -73,7 +73,7 @@ module.exports = class VoiceMove extends Command {
                 let embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
                     .setTimestamp()
-                    .setDescription(client.language.VOICEMOVE[4])
+                    .setDescription(message.client.language.VOICEMOVE[4])
                 message.channel.send({ embeds: [embed] })
             } catch (error) {
                 console.error(error)

@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Volume extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'volume',
             alias: ['vol', 'volumen'],
             description: ['Modifies the volume.', 'Sube o baja el volumen.'],
@@ -14,9 +14,9 @@ module.exports = class Volume extends Command {
             category: 'musica'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
-            const player = client.manager.players.get(message.guild.id)
+            const player = message.client.manager.players.get(message.guild.id)
             const { channel } = message.member.voice
             let volemoji = '▬'
             let volamt
@@ -24,10 +24,10 @@ module.exports = class Volume extends Command {
                 const Embed = new MessageEmbed()
                     .setColor('RED')
                     .setAuthor(
-                        client.language.VOLUME[1],
+                        message.client.language.VOLUME[1],
                         'https://cdn.discordapp.com/emojis/717184163660300309.gif?v=1'
                     )
-                    .setDescription(client.language.VOLUME[2])
+                    .setDescription(message.client.language.VOLUME[2])
                 return message.channel.send({ embeds: [Embed] })
             }
             if (player.voiceChannel) {
@@ -40,8 +40,8 @@ module.exports = class Volume extends Command {
             if (isNaN(args[0])) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.VOLUME[9])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.VOLUME[9])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -50,10 +50,10 @@ module.exports = class Volume extends Command {
                 const Embed = new MessageEmbed()
                     .setColor('RED')
                     .setAuthor(
-                        client.language.VOLUME[1],
+                        message.client.language.VOLUME[1],
                         'https://cdn.discordapp.com/emojis/717184163660300309.gif?v=1'
                     )
-                    .setTitle(client.language.VOLUME[4])
+                    .setTitle(message.client.language.VOLUME[4])
                 return message.channel.send({ embeds: [Embed] })
             }
             let vol = Number(player.volume)
@@ -116,19 +116,19 @@ module.exports = class Volume extends Command {
             if (!args[0]) {
                 const Embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setAuthor(client.language.VOLUME[5], client.user.displayAvatarURL())
-                    .setTitle(client.language.VOLUME[6])
+                    .setAuthor(message.client.language.VOLUME[5], message.client.user.displayAvatarURL())
+                    .setTitle(message.client.language.VOLUME[6])
                     .setDescription(`** 🔊${volamt} ${player.volume} %**`)
                 message.channel.send({ embeds: [Embed] })
             } else if (player.volume == Number(args[0])) {
                 const Embed = new MessageEmbed()
                     .setColor('RED')
                     .setAuthor(
-                        client.language.VOLUME[5],
+                        message.client.language.VOLUME[5],
                         'https://cdn.discordapp.com/emojis/717184163660300309.gif?v=1'
                     )
                     .setTitle(`**ERROR**`)
-                    .setDescription(`**${client.language.VOLUME[7]} __${Number(args[0])}__ %**`)
+                    .setDescription(`**${message.client.language.VOLUME[7]} __${Number(args[0])}__ %**`)
                 message.channel.send({ embeds: [Embed] })
             } else {
                 player.setVolume(Number(args[0]))
@@ -192,7 +192,7 @@ module.exports = class Volume extends Command {
 
                 const Embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setAuthor(client.language.VOLUME[8], client.user.displayAvatarURL())
+                    .setAuthor(message.client.language.VOLUME[8], message.client.user.displayAvatarURL())
                     .setTitle(`** 🔊${volamt} ${player.volume} %**`)
                 message.channel.send({ embeds: [Embed] })
             }

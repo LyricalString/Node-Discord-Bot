@@ -4,8 +4,8 @@ const { MessageEmbed } = require('discord.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Channel extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'eval',
             description: ['Evaluates a code.', 'Evalua un codigo.'],
             usage: ['<code>', '<codigo>'],
@@ -17,7 +17,7 @@ module.exports = class Channel extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let evaled
             try {

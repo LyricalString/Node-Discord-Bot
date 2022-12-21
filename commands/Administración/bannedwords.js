@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Ctegory extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'bannedwords',
             description: [
                 'Modifies the array of banned words for phishing automod.',
@@ -24,7 +24,7 @@ module.exports = class Ctegory extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (args[0].toLowerCase() == 'add' && args[1]) {
                 let word = args[1].toLowerCase()
@@ -40,15 +40,15 @@ module.exports = class Ctegory extends Command {
                                 s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(client.language.BANNEDWORDS[1] + word + '.')
+                                    .setTitle(message.client.language.SUCCESSEMBED)
+                                    .setDescription(message.client.language.BANNEDWORDS[1] + word + '.')
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             } else {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.BANNEDWORDS[2])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.BANNEDWORDS[2])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -77,7 +77,7 @@ module.exports = class Ctegory extends Command {
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
                                     .setFooter({
-                                        text: client.language.BANNEDWORDS[3] + word,
+                                        text: message.client.language.BANNEDWORDS[3] + word,
                                         iconURL: message.author.displayAvatarURL()
                                     })
                                     .setTimestamp()
@@ -85,8 +85,8 @@ module.exports = class Ctegory extends Command {
                             } else {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.BANNEDWORDS[4])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.BANNEDWORDS[4])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -104,8 +104,8 @@ module.exports = class Ctegory extends Command {
                             if (!s.config.PhishingDetection.BannedWords[0]) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.BANNEDWORDS[5])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.BANNEDWORDS[5])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -113,7 +113,8 @@ module.exports = class Ctegory extends Command {
                             } else {
                                 const embedadmins = new MessageEmbed()
                                     .setTitle(
-                                        '<:IconPrivateThreadIcon:859608405497217044>' + client.language.BANNEDWORDS[6]
+                                        '<:IconPrivateThreadIcon:859608405497217044>' +
+                                            message.client.language.BANNEDWORDS[6]
                                     )
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTimestamp()
@@ -145,16 +146,16 @@ module.exports = class Ctegory extends Command {
                         message.guild.config.channelid = []
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.BANNEDWORDS[8])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.BANNEDWORDS[8])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     })
             } else {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.BANNEDWORDS[7] + '`' + prefix + 'command' + '`')
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.BANNEDWORDS[7] + '`' + prefix + 'command' + '`')
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }

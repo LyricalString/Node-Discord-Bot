@@ -3,8 +3,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Achievement extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'achievement',
             description: ['Returns a custom Minecraft achievement!', '¡Devuelve un logro personalizado de Minecraft!'],
             alias: ['mcachievement', 'logro', 'mclogro'],
@@ -14,14 +14,14 @@ module.exports = class Achievement extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let args1 = args.join(' ')
             let args2 = args1.split(', ')
             if (!args2[1] || !args2[2]) {
                 const error = new MessageEmbed()
-                    .setTitle(client.language.ACHIEVEMENT)
-                    .addFields({ name: '\u200b', value: `\`${client.language.ACHIEVEMENTEMBED}\`` })
+                    .setTitle(message.client.language.ACHIEVEMENT)
+                    .addFields({ name: '\u200b', value: `\`${message.client.language.ACHIEVEMENTEMBED}\`` })
                     .setColor(process.env.EMBED_COLOR)
                 message.channel.send({ embeds: [error] })
             }

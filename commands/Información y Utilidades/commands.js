@@ -7,8 +7,8 @@ let descripcion, usage
 let encendido = false
 
 module.exports = class Commands extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'commands',
             description: [
                 'List all of my commands and its uses.',
@@ -21,61 +21,61 @@ module.exports = class Commands extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             const myCoolMenu = new SelectMenuBuilder()
                 .setOptions(
                     {
-                        label: client.language.COMMANDS[18],
-                        description: client.language.COMMANDS[20],
+                        label: message.client.language.COMMANDS[18],
+                        description: message.client.language.COMMANDS[20],
                         value: 'm6',
                         emoji: {
                             name: '🕵️‍♀️'
                         }
                     },
                     {
-                        label: client.language.COMMANDS[1],
-                        description: client.language.COMMANDS[13],
+                        label: message.client.language.COMMANDS[1],
+                        description: message.client.language.COMMANDS[13],
                         value: 'm1',
                         emoji: {
                             name: '🔒'
                         }
                     },
                     {
-                        label: client.language.COMMANDS[2],
-                        description: client.language.COMMANDS[14],
+                        label: message.client.language.COMMANDS[2],
+                        description: message.client.language.COMMANDS[14],
                         value: 'm2',
                         emoji: {
                             name: '🎮'
                         }
                     },
                     {
-                        label: client.language.COMMANDS[19],
-                        description: client.language.COMMANDS[21],
+                        label: message.client.language.COMMANDS[19],
+                        description: message.client.language.COMMANDS[21],
                         value: 'm7',
                         emoji: {
                             name: '🎭'
                         }
                     },
                     {
-                        label: client.language.COMMANDS[3],
-                        description: client.language.COMMANDS[15],
+                        label: message.client.language.COMMANDS[3],
+                        description: message.client.language.COMMANDS[15],
                         value: 'm3',
                         emoji: {
                             name: '🎶'
                         }
                     },
                     {
-                        label: client.language.COMMANDS[4],
-                        description: client.language.COMMANDS[16],
+                        label: message.client.language.COMMANDS[4],
+                        description: message.client.language.COMMANDS[16],
                         value: 'm4',
                         emoji: {
                             name: '🌐'
                         }
                     },
                     {
-                        label: client.language.COMMANDS[5],
-                        description: client.language.COMMANDS[17],
+                        label: message.client.language.COMMANDS[5],
+                        description: message.client.language.COMMANDS[17],
                         value: 'm5',
                         emoji: {
                             name: '🛠️'
@@ -85,15 +85,15 @@ module.exports = class Commands extends Command {
                 .setMaxValues(1)
                 .setMinValues(1)
                 .setCustomID('menucommands')
-                .setPlaceHolder(client.language.COMMANDS[12])
+                .setPlaceHolder(message.client.language.COMMANDS[12])
             const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setDescription(
-                    `<a:828830816486293608:836296002893381682> ${client.language.COMMANDS[6]} \`${message.guild.prefix}help <${client.language.COMMANDS[7]}>\` ${client.language.COMMANDS[8]}.`
+                    `<a:828830816486293608:836296002893381682> ${message.client.language.COMMANDS[6]} \`${message.guild.prefix}help <${message.client.language.COMMANDS[7]}>\` ${message.client.language.COMMANDS[8]}.`
                 )
-                .addFields({ name: client.language.COMMANDS[9], value: client.language.COMMANDS[10] })
+                .addFields({ name: message.client.language.COMMANDS[9], value: message.client.language.COMMANDS[10] })
                 .setFooter(
-                    client.language.oldDiscord,
+                    message.client.language.oldDiscord,
                     message.author.avatarURL({
                         dynamic: true
                     })
@@ -103,7 +103,7 @@ module.exports = class Commands extends Command {
                         dynamic: true
                     })
                 )
-                .setTitle(`✨ - ${client.language.COMMANDS[11]}`)
+                .setTitle(`✨ - ${message.client.language.COMMANDS[11]}`)
             const m = await message.reply({
                 embeds: [embed],
                 components: [new ActionRowBuilder().addComponents(myCoolMenu)]
@@ -119,7 +119,7 @@ module.exports = class Commands extends Command {
                         if (optionSelected == 'm1') {
                             try {
                                 let test = ''
-                                client.commands.forEach((cmd) => {
+                                message.client.commands.forEach((cmd) => {
                                     descripcion = lang == 'en_US' ? cmd.description[0] : cmd.description[1]
                                     if (cmd.usage) {
                                         usage = lang == 'en_US' ? cmd.usage[0] : cmd.usage[1]
@@ -145,7 +145,7 @@ module.exports = class Commands extends Command {
                         } else if (optionSelected == 'm2') {
                             try {
                                 let test = ''
-                                client.commands.forEach((cmd) => {
+                                message.client.commands.forEach((cmd) => {
                                     if (cmd.usage) {
                                         usage = lang == 'en_US' ? cmd.usage[0] : cmd.usage[1]
                                     } else {
@@ -171,7 +171,7 @@ module.exports = class Commands extends Command {
                         } else if (optionSelected == 'm3') {
                             try {
                                 let test = ''
-                                client.commands.forEach((cmd) => {
+                                message.client.commands.forEach((cmd) => {
                                     if (cmd.usage) {
                                         usage = lang == 'en_US' ? cmd.usage[0] : cmd.usage[1]
                                     } else {
@@ -197,7 +197,7 @@ module.exports = class Commands extends Command {
                         } else if (optionSelected == 'm4') {
                             try {
                                 let test = ''
-                                client.commands.forEach((cmd) => {
+                                message.client.commands.forEach((cmd) => {
                                     if (cmd.usage) {
                                         usage = lang == 'en_US' ? cmd.usage[0] : cmd.usage[1]
                                     } else {
@@ -223,7 +223,7 @@ module.exports = class Commands extends Command {
                         } else if (optionSelected == 'm5') {
                             try {
                                 let test = ''
-                                client.commands.forEach((cmd) => {
+                                message.client.commands.forEach((cmd) => {
                                     if (cmd.usage) {
                                         if (cmd.usage) {
                                             usage = lang == 'en_US' ? cmd.usage[0] : cmd.usage[1]
@@ -251,7 +251,7 @@ module.exports = class Commands extends Command {
                         } else if (optionSelected == 'm6') {
                             try {
                                 let test = ''
-                                client.commands.forEach((cmd) => {
+                                message.client.commands.forEach((cmd) => {
                                     if (cmd.usage) {
                                         usage = lang == 'en_US' ? cmd.usage[0] : cmd.usage[1]
                                     } else {
@@ -277,7 +277,7 @@ module.exports = class Commands extends Command {
                         } else if (optionSelected == 'm7') {
                             try {
                                 let test = ''
-                                client.commands.forEach((cmd) => {
+                                message.client.commands.forEach((cmd) => {
                                     if (cmd.usage) {
                                         usage = lang == 'en_US' ? cmd.usage[0] : cmd.usage[1]
                                     } else {

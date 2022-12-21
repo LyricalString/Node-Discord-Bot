@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Channel extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'channel',
             description: ['Sets the listening channel for Node.', 'Establece el canal de escucha para Node.'],
             permissions: ['ADMINISTRATOR'],
@@ -18,7 +18,7 @@ module.exports = class Channel extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let musica = false
             if (!args[0]) return
@@ -33,16 +33,16 @@ module.exports = class Channel extends Command {
                     if (!message.guild.channels.cache.get(CHANNEL_ID)) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.ADDLISTENINGCHANNEL[4])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.ADDLISTENINGCHANNEL[4])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                     if (message.guild.channels.cache.get(CHANNEL_ID).type != 'GUILD_VOICE') {
                         const embed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.ADDLISTENINGCHANNEL[5])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.ADDLISTENINGCHANNEL[5])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     }
@@ -58,8 +58,10 @@ module.exports = class Channel extends Command {
                                     s.save().catch((err) => s.update())
                                     const embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
-                                        .setTitle(client.language.SUCCESSEMBED)
-                                        .setDescription(client.language.ADDLISTENINGCHANNEL[6] + CHANNEL_ID + '>')
+                                        .setTitle(message.client.language.SUCCESSEMBED)
+                                        .setDescription(
+                                            message.client.language.ADDLISTENINGCHANNEL[6] + CHANNEL_ID + '>'
+                                        )
                                         .setFooter({
                                             text: message.author.username,
                                             iconURL: message.author.avatarURL()
@@ -70,8 +72,8 @@ module.exports = class Channel extends Command {
                                 } else {
                                     const errorembed = new MessageEmbed()
                                         .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(client.language.ADDLISTENINGCHANNEL[7])
+                                        .setTitle(message.client.language.ERROREMBED)
+                                        .setDescription(message.client.language.ADDLISTENINGCHANNEL[7])
                                         .setFooter({
                                             text: message.author.username,
                                             iconURL: message.author.avatarURL()
@@ -88,8 +90,8 @@ module.exports = class Channel extends Command {
                         if (!message.guild.channels.cache.get(CHANNEL_ID)) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.ADDLISTENINGCHANNEL[4])
+                                .setTitle(message.client.language.ERROREMBED)
+                                .setDescription(message.client.language.ADDLISTENINGCHANNEL[4])
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
@@ -99,8 +101,8 @@ module.exports = class Channel extends Command {
                     if (message.guild.channels.cache.get(CHANNEL_ID).type != 'GUILD_TEXT') {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.ADDLISTENINGCHANNEL[3])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.ADDLISTENINGCHANNEL[3])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     }
@@ -116,8 +118,10 @@ module.exports = class Channel extends Command {
                                     s.save().catch((err) => s.update())
                                     const embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
-                                        .setTitle(client.language.SUCCESSEMBED)
-                                        .setDescription(client.language.ADDLISTENINGCHANNEL[1] + CHANNEL_ID + '>')
+                                        .setTitle(message.client.language.SUCCESSEMBED)
+                                        .setDescription(
+                                            message.client.language.ADDLISTENINGCHANNEL[1] + CHANNEL_ID + '>'
+                                        )
                                         .setFooter({
                                             text: message.author.username,
                                             iconURL: message.author.avatarURL()
@@ -128,8 +132,8 @@ module.exports = class Channel extends Command {
                                 } else {
                                     const errorembed = new MessageEmbed()
                                         .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(client.language.ADDLISTENINGCHANNEL[2])
+                                        .setTitle(message.client.language.ERROREMBED)
+                                        .setDescription(message.client.language.ADDLISTENINGCHANNEL[2])
                                         .setFooter({
                                             text: message.author.username,
                                             iconURL: message.author.avatarURL()
@@ -161,8 +165,8 @@ module.exports = class Channel extends Command {
                                 s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(client.language.DELLISTENINGCHANNEL[3] + CHANNEL_ID + '>')
+                                    .setTitle(message.client.language.SUCCESSEMBED)
+                                    .setDescription(message.client.language.DELLISTENINGCHANNEL[3] + CHANNEL_ID + '>')
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             }
@@ -186,8 +190,8 @@ module.exports = class Channel extends Command {
                                 s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(client.language.DELLISTENINGCHANNEL[1] + CHANNEL_ID + '>')
+                                    .setTitle(message.client.language.SUCCESSEMBED)
+                                    .setDescription(message.client.language.DELLISTENINGCHANNEL[1] + CHANNEL_ID + '>')
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             }
@@ -204,8 +208,8 @@ module.exports = class Channel extends Command {
                                 if (!s.config.MUSIC_CHANNELS[0]) {
                                     const errorembed = new MessageEmbed()
                                         .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(client.language.SHOWLISTENINGCHANNEL[8])
+                                        .setTitle(message.client.language.ERROREMBED)
+                                        .setDescription(message.client.language.SHOWLISTENINGCHANNEL[8])
                                         .setFooter({
                                             text: message.author.username,
                                             iconURL: message.author.avatarURL()
@@ -215,7 +219,7 @@ module.exports = class Channel extends Command {
                                     })
                                 } else {
                                     const embedadmins = new MessageEmbed()
-                                        .setTitle(client.language.SHOWLISTENINGCHANNEL[2])
+                                        .setTitle(message.client.language.SHOWLISTENINGCHANNEL[2])
                                         .setColor(process.env.EMBED_COLOR)
                                         .setTimestamp()
                                     for (var index = 0; index < s.config.MUSIC_CHANNELS.length; index++) {
@@ -240,8 +244,8 @@ module.exports = class Channel extends Command {
                                 if (!s.config.CHANNELID[0]) {
                                     const errorembed = new MessageEmbed()
                                         .setColor('RED')
-                                        .setTitle(client.language.ERROREMBED)
-                                        .setDescription(client.language.SHOWLISTENINGCHANNEL[1])
+                                        .setTitle(message.client.language.ERROREMBED)
+                                        .setDescription(message.client.language.SHOWLISTENINGCHANNEL[1])
                                         .setFooter({
                                             text: message.author.username,
                                             iconURL: message.author.avatarURL()
@@ -251,7 +255,7 @@ module.exports = class Channel extends Command {
                                     })
                                 } else {
                                     const embedadmins = new MessageEmbed()
-                                        .setTitle(client.language.SHOWLISTENINGCHANNEL[2])
+                                        .setTitle(message.client.language.SHOWLISTENINGCHANNEL[2])
                                         .setColor(process.env.EMBED_COLOR)
                                         .setTimestamp()
                                     for (var index = 0; index < s.config.CHANNELID.length; index++) {
@@ -284,8 +288,8 @@ module.exports = class Channel extends Command {
                             message.guild.config.MUSIC_CHANNELS = []
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(client.language.SUCCESSEMBED)
-                                .setDescription(client.language.SHOWLISTENINGCHANNEL[5])
+                                .setTitle(message.client.language.SUCCESSEMBED)
+                                .setDescription(message.client.language.SHOWLISTENINGCHANNEL[5])
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({ embeds: [embed] })
                         })
@@ -305,8 +309,8 @@ module.exports = class Channel extends Command {
                             message.guild.config.CHANNELID = []
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(client.language.SUCCESSEMBED)
-                                .setDescription(client.language.SHOWLISTENINGCHANNEL[5])
+                                .setTitle(message.client.language.SUCCESSEMBED)
+                                .setDescription(message.client.language.SHOWLISTENINGCHANNEL[5])
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({ embeds: [embed] })
                         })
@@ -314,9 +318,9 @@ module.exports = class Channel extends Command {
             } else {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
+                    .setTitle(message.client.language.ERROREMBED)
                     .setDescription(
-                        `${client.language.SHOWLISTENINGCHANNEL[6]} ${prefix}${client.language.SHOWLISTENINGCHANNEL[7]}`
+                        `${message.client.language.SHOWLISTENINGCHANNEL[6]} ${prefix}${message.client.language.SHOWLISTENINGCHANNEL[7]}`
                     )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })

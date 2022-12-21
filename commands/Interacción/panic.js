@@ -5,18 +5,18 @@ const { soyultro } = require('soyultro')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Panic extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'panic',
             description: ['Shows that you are panicking.', 'Muestra que estás en pánico.'],
             category: 'Interaccion'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                .setTitle(`${author} ${client.language.PANIC[1]}`)
+                .setTitle(`${author} ${message.client.language.PANIC[1]}`)
                 .setColor(process.env.EMBED_COLOR)
                 .setImage(soyultro('panic'))
 

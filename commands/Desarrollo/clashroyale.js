@@ -5,8 +5,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class ClashRoyale extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'clashroyale',
             description: ['Display info about the Github account.', 'Muestra información sobre una cuenta de Github.'],
             usage: ['<username>', '<usuario>'],
@@ -16,17 +16,17 @@ module.exports = class ClashRoyale extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const sentMessage = await message.channel.send(client.language.TIKTOK[1])
+            const sentMessage = await message.channel.send(message.client.language.TIKTOK[1])
             let response, details
             response = await axios
                 .get(`https://api.clashroyale.com/v1/players/#V9rqulj`, {
@@ -47,16 +47,16 @@ module.exports = class ClashRoyale extends Command {
             if (!account) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[13])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[13])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!account.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[13])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[13])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }

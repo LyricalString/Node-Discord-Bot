@@ -6,8 +6,8 @@ const { getPreview } = require('spotify-url-info')(fetch)
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Play extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'play',
             description: ['Play any song on your voice channel.', 'Reproduce cualquier canción en tu canal de voz.'],
             usage: ['<song>', '<canción>'],
@@ -17,7 +17,7 @@ module.exports = class Play extends Command {
             category: 'musica'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let sc
             if (message.attachments.size == 0) {
@@ -31,8 +31,8 @@ module.exports = class Play extends Command {
             if (!channel) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.PLAY[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.PLAY[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -40,13 +40,13 @@ module.exports = class Play extends Command {
             if (message.guild.config.MUSIC_CHANNELS[0] && !message.guild.config.MUSIC_CHANNELS.includes(channel.id)) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.RADIO[13])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.RADIO[13])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
-            const player = client.manager.create({
+            const player = message.client.manager.create({
                 guild: message.guild.id,
                 voiceChannel: channel.id,
                 textChannel: message.channel.id,
@@ -57,12 +57,12 @@ module.exports = class Play extends Command {
                 player.connect()
                 player.setVolume(35)
             }
-            const playerCanal = client.channels.cache.get(player.voiceChannel)
+            const playerCanal = message.client.channels.cache.get(player.voiceChannel)
             if (!playerCanal) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.PLAY[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.PLAY[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -74,15 +74,15 @@ module.exports = class Play extends Command {
             } else if (playerCanal.id != channel.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.PLAY[2])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.PLAY[2])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (sc.startsWith('https://open.spotify.com/')) {
                 let res
                 try {
-                    res = await client.manager.search(sc || sc.url, message.author)
+                    res = await message.client.manager.search(sc || sc.url, message.author)
                     switch (res.loadType) {
                         case 'TRACK_LOADED':
                             {
@@ -90,23 +90,23 @@ module.exports = class Play extends Command {
                                 const embed = await new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
                                     .setDescription(
-                                        `**${client.language.PLAY[3]}\n[${res.tracks[0].title}](${res.tracks[0].uri})**`
+                                        `**${message.client.language.PLAY[3]}\n[${res.tracks[0].title}](${res.tracks[0].uri})**`
                                     )
                                     .setThumbnail(
                                         `https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`
                                     )
                                     .addFields({
-                                        name: client.language.PLAY[4],
+                                        name: message.client.language.PLAY[4],
                                         value: res.tracks[0].author,
                                         inline: true
                                     })
                                     .addFields({
-                                        name: client.language.PLAY[5],
+                                        name: message.client.language.PLAY[5],
                                         value: res.tracks[0].requester.tag,
                                         inline: true
                                     })
                                     .addFields({
-                                        name: client.language.PLAY[6],
+                                        name: message.client.language.PLAY[6],
                                         value: util.formatTime(res.tracks[0].duration),
                                         inline: true
                                     })
@@ -125,21 +125,25 @@ module.exports = class Play extends Command {
                                 .setAuthor(message.author.username, message.author.avatarURL())
                                 .setColor(process.env.EMBED_COLOR)
                                 .addFields({
-                                    name: client.language.PLAY[7],
+                                    name: message.client.language.PLAY[7],
                                     value: `${res.playlist.name}`,
                                     inline: true
                                 })
                                 .addFields({
-                                    name: client.language.PLAY[8],
+                                    name: message.client.language.PLAY[8],
                                     value: `\`${res.tracks.length}\``,
                                     inline: true
                                 })
                                 .addFields({
-                                    name: client.language.PLAY[5],
+                                    name: message.client.language.PLAY[5],
                                     value: `${res.tracks[0].requester}`,
                                     inline: true
                                 })
-                                .addFields({ name: client.language.PLAY[6], value: `${duration}`, inline: true })
+                                .addFields({
+                                    name: message.client.language.PLAY[6],
+                                    value: `${duration}`,
+                                    inline: true
+                                })
                                 .setThumbnail(`${playlistInfo.image}`)
                             message.channel.send({ embeds: [embed] })
                             player.queue.add(res.tracks)
@@ -148,25 +152,25 @@ module.exports = class Play extends Command {
                         }
                     }
                 } catch (e) {
-                    return webhookClient.send(
+                    return webhookmessage.client.send(
                         `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\n\nError: ${e}\n\n**------------------------------------**`
                     )
                 }
             } else {
                 let res
                 try {
-                    res = await client.manager.search(sc, message.author)
+                    res = await message.client.manager.search(sc, message.author)
                     if (res.loadType === 'LOAD_FAILED') {
                         if (!player.queue.current) player.destroy()
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.PLAY[9])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.PLAY[9])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
                 } catch (e) {
-                    return webhookClient.send(
+                    return webhookmessage.client.send(
                         `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\n\nError: ${e}\n\n**------------------------------------**`
                     )
                 }
@@ -175,26 +179,30 @@ module.exports = class Play extends Command {
                         if (!player.queue.current) player.destroy()
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.PLAY[10])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.PLAY[10])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     case 'SEARCH_RESULT': {
                         const embed = await new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setDescription(
-                                `**${client.language.PLAY[3]}\n[${res.tracks[0].title}](${res.tracks[0].uri})**`
+                                `**${message.client.language.PLAY[3]}\n[${res.tracks[0].title}](${res.tracks[0].uri})**`
                             )
 
                             .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`)
-                            .addFields({ name: client.language.PLAY[4], value: res.tracks[0].author, inline: true })
                             .addFields({
-                                name: client.language.PLAY[5],
+                                name: message.client.language.PLAY[4],
+                                value: res.tracks[0].author,
+                                inline: true
+                            })
+                            .addFields({
+                                name: message.client.language.PLAY[5],
                                 value: res.tracks[0].requester.tag,
                                 inline: true
                             })
                             .addFields({
-                                name: client.language.PLAY[6],
+                                name: message.client.language.PLAY[6],
                                 value: util.formatTime(res.tracks[0].duration),
                                 inline: true
                             })
@@ -213,20 +221,24 @@ module.exports = class Play extends Command {
                         if (!player.playing && !player.paused && player.queue.totalSize === res.tracks.length)
                             player.play()
                         const e = new MessageEmbed()
-                            .setTitle(client.language.PLAY[11])
+                            .setTitle(message.client.language.PLAY[11])
                             .setColor(process.env.EMBED_COLOR)
-                            .addFields({ name: client.language.PLAY[12], value: `${res.playlist.name}`, inline: true })
                             .addFields({
-                                name: client.language.PLAY[13],
+                                name: message.client.language.PLAY[12],
+                                value: `${res.playlist.name}`,
+                                inline: true
+                            })
+                            .addFields({
+                                name: message.client.language.PLAY[13],
                                 value: `\`${res.tracks.length}\``,
                                 inline: true
                             })
                             .addFields({
-                                name: client.language.PLAY[5],
+                                name: message.client.language.PLAY[5],
                                 value: `${res.tracks[0].requester}`,
                                 inline: true
                             })
-                            .addFields({ name: client.language.PLAY[6], value: `${duration}`, inline: true })
+                            .addFields({ name: message.client.language.PLAY[6], value: `${duration}`, inline: true })
                             .setImage(`https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`)
                         return message.channel.send({ embeds: [e] })
                     }
@@ -235,17 +247,21 @@ module.exports = class Play extends Command {
                         const embed = await new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
                             .setDescription(
-                                `**${client.language.PLAY[3]}\n[${res.tracks[0].title}](${res.tracks[0].uri})**`
+                                `**${message.client.language.PLAY[3]}\n[${res.tracks[0].title}](${res.tracks[0].uri})**`
                             )
                             .setThumbnail(`https://img.youtube.com/vi/${res.tracks[0].identifier}/maxresdefault.jpg`)
-                            .addFields({ name: client.language.PLAY[4], value: res.tracks[0].author, inline: true })
                             .addFields({
-                                name: client.language.PLAY[5],
+                                name: message.client.language.PLAY[4],
+                                value: res.tracks[0].author,
+                                inline: true
+                            })
+                            .addFields({
+                                name: message.client.language.PLAY[5],
                                 value: res.tracks[0].requester.tag,
                                 inline: true
                             })
                             .addFields({
-                                name: client.language.PLAY[6],
+                                name: message.client.language.PLAY[6],
                                 value: util.formatTime(res.tracks[0].duration),
                                 inline: true
                             })

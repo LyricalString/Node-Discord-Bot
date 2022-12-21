@@ -3,8 +3,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Avatar extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'avatar',
             description: ['Send your avatar!', '¡Envía tu avatar!'],
             aliases: ['icon', 'pfp', 'av', 'image'],
@@ -12,7 +12,7 @@ module.exports = class Avatar extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         let embed = new MessageEmbed()
         let member
         if (args[0]) {
@@ -25,8 +25,8 @@ module.exports = class Avatar extends Command {
         if (args[0] && !member) {
             const errorembed = new MessageEmbed()
                 .setColor('RED')
-                .setTitle(client.language.ERROREMBED)
-                .setDescription(client.language.AVATAR[1])
+                .setTitle(message.client.language.ERROREMBED)
+                .setDescription(message.client.language.AVATAR[1])
                 .setFooter({text: message.author.username, message.author.avatarURL()})
             return message.channel.send({ embeds: [errorembed] })
         }
@@ -46,7 +46,7 @@ module.exports = class Avatar extends Command {
                     return
                 }))
             if (lang == 'es_ES') {
-                embed.setFooter({text: `${client.language.AVATAR[2]} ${member.user.tag}!`})
+                embed.setFooter({text: `${message.client.language.AVATAR[2]} ${member.user.tag}!`})
                 embed.setImage(
                     member.user.displayAvatarURL({
                         dynamic: true,
@@ -56,7 +56,7 @@ module.exports = class Avatar extends Command {
                 embed.setColor('#00ff00')
                 message.channel.send({ embeds: [embed] })
             } else {
-                embed.setFooter({text: `${member.user.tag}${client.language.AVATAR[3]}`})
+                embed.setFooter({text: `${member.user.tag}${message.client.language.AVATAR[3]}`})
                 embed.setImage(
                     member.user.displayAvatarURL({
                         dynamic: true,

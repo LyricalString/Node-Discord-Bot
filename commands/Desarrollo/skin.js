@@ -4,8 +4,8 @@ const { sendError } = require('../../utils/utils.js')
 let encendido = false
 
 module.exports = class Skin extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'skin',
             description: ['Shows a menu with the skins.', 'Muestra un menú con las skins.'],
             usage: ['<@user>', '<@usuario>'],
@@ -14,7 +14,7 @@ module.exports = class Skin extends Command {
             inactive: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let cabeza = new MessageButton()
                 .setStyle('blurple') //default: blurple
@@ -63,7 +63,7 @@ module.exports = class Skin extends Command {
             })
             console.log('4')
             if (encendido == false) {
-                client.on('clickButton', async (button, err) => {
+                message.client.on('clickButton', async (button, err) => {
                     if (err) return
                     console.log('5')
                     if (button.id === 'bu1') {

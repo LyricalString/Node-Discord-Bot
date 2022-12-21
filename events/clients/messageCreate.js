@@ -1,4 +1,4 @@
-const { MessageEmbed, WebhookClient, Collection } = require('discord.js')
+const { MessageEmbed, Collection } = require('discord.js')
 const { readFileSync } = require('fs')
 const Event = require('../../structures/Event.js')
 const UserModel = require('../../models/user.js')
@@ -938,7 +938,7 @@ module.exports = class messageCreate extends Event {
                                     }
                                 })
                             })
-                            cmd.run(client, message, args, prefix, message.member.user.LANG, ipc)
+                            cmd.run(message, args, prefix, message.member.user.LANG)
                         } catch (e) {
                             console.error(e)
                             const errorembed = new MessageEmbed()

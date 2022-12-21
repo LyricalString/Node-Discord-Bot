@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class queue extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'queue',
             description: ['Displays the current queue.', 'Muestra la cola de reproducción actual.'],
             category: 'musica',
@@ -14,22 +14,22 @@ module.exports = class queue extends Command {
             args: false
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
-            const player = client.manager.players.get(message.guild.id)
+            const player = message.client.manager.players.get(message.guild.id)
             if (!player) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.SKIP[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.SKIP[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!player.queue.current) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.QUEUE[2])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.QUEUE[2])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -42,10 +42,12 @@ module.exports = class queue extends Command {
                 return message.channel.send({
                     embeds: [
                         new MessageEmbed()
-                            .setTitle(client.language.QUEUE[9])
-                            .setDescription(`🎧 ${client.language.QUEUE[3]}\n[${title}](${uri}) [<@${requester.id}>]`)
+                            .setTitle(message.client.language.QUEUE[9])
+                            .setDescription(
+                                `🎧 ${message.client.language.QUEUE[3]}\n[${title}](${uri}) [<@${requester.id}>]`
+                            )
                             .setAuthor(
-                                `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]}`,
+                                `${message.client.language.QUEUE[6]} ${message.guild.name} ${message.client.language.QUEUE[7]}`,
                                 'https://i.imgur.com/CCqeomm.gif'
                             )
                             .setColor(process.env.EMBED_COLOR)
@@ -72,23 +74,23 @@ module.exports = class queue extends Command {
             if (!queuelist) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.QUEUE[4])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.QUEUE[4])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const embed = new MessageEmbed()
             embed.setDescription(
-                `🎧 ${client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${client.language.QUEUE[8]}__:\n${queuelist}`
+                `🎧 ${message.client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${message.client.language.QUEUE[8]}__:\n${queuelist}`
             )
-            embed.setThumbnail(client.user.displayAvatarURL())
+            embed.setThumbnail(message.client.user.displayAvatarURL())
             embed.setAuthor(
-                `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]} (${Math.floor(
-                    x / 10
-                )} / ${Math.floor((player.queue.slice(1).length + 10) / 10)})`,
+                `${message.client.language.QUEUE[6]} ${message.guild.name} ${
+                    message.client.language.QUEUE[7]
+                } (${Math.floor(x / 10)} / ${Math.floor((player.queue.slice(1).length + 10) / 10)})`,
                 'https://i.imgur.com/CCqeomm.gif'
             )
-            embed.setFooter({ text: `${client.language.QUEUE[5]} ${player.queue.length}` })
+            embed.setFooter({ text: `${message.client.language.QUEUE[5]} ${player.queue.length}` })
             embed.setColor(process.env.EMBED_COLOR)
             message.channel.send({ embeds: [embed] }).then(async (msg) => {
                 if (Math.floor((player.queue.slice(1).length + 10) / 10) > 1) {
@@ -141,12 +143,12 @@ module.exports = class queue extends Command {
                             .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
-                        embed.setTitle(client.language.QUEUE[1])
+                        embed.setTitle(message.client.language.QUEUE[1])
                         embed.setDescription(
-                            `🎧 ${client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${client.language.QUEUE[8]}__:\n${queuelist}`
+                            `🎧 ${message.client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${message.client.language.QUEUE[8]}__:\n${queuelist}`
                         )
                         embed.setAuthor(
-                            `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]} (${page} / ${pages})`,
+                            `${message.client.language.QUEUE[6]} ${message.guild.name} ${message.client.language.QUEUE[7]} (${page} / ${pages})`,
                             'https://i.imgur.com/CCqeomm.gif'
                         )
                         msg.edit(embed)
@@ -162,12 +164,12 @@ module.exports = class queue extends Command {
                             .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
-                        embed.setTitle(client.language.QUEUE[1])
+                        embed.setTitle(message.client.language.QUEUE[1])
                         embed.setDescription(
-                            `🎧 ${client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${client.language.QUEUE[8]}__:\n${queuelist}`
+                            `🎧 ${message.client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${message.client.language.QUEUE[8]}__:\n${queuelist}`
                         )
                         embed.setAuthor(
-                            `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]} (${page} / ${pages})`,
+                            `${message.client.language.QUEUE[6]} ${message.guild.name} ${message.client.language.QUEUE[7]} (${page} / ${pages})`,
                             'https://i.imgur.com/CCqeomm.gif'
                         )
                         msg.edit(embed)
@@ -183,12 +185,12 @@ module.exports = class queue extends Command {
                             .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
-                        embed.setTitle(client.language.QUEUE[1])
+                        embed.setTitle(message.client.language.QUEUE[1])
                         embed.setDescription(
-                            `🎧 ${client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${client.language.QUEUE[8]}__:\n${queuelist}`
+                            `🎧 ${message.client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${message.client.language.QUEUE[8]}__:\n${queuelist}`
                         )
                         embed.setAuthor(
-                            `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]} (${page} / ${pages})`,
+                            `${message.client.language.QUEUE[6]} ${message.guild.name} ${message.client.language.QUEUE[7]} (${page} / ${pages})`,
                             'https://i.imgur.com/CCqeomm.gif'
                         )
                         msg.edit(embed)
@@ -204,12 +206,12 @@ module.exports = class queue extends Command {
                             .map(() => `**${++i}.** [${queue[i].title}](${queue[i].uri}) [<@${queue[i].requester.id}>]`)
                             .join('\n')
                         embed.setColor(process.env.EMBED_COLOR)
-                        embed.setTitle(client.language.QUEUE[1])
+                        embed.setTitle(message.client.language.QUEUE[1])
                         embed.setDescription(
-                            `🎧 ${client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${client.language.QUEUE[8]}__:\n${queuelist}`
+                            `🎧 ${message.client.language.QUEUE[3]}\n [${title}](${uri}) [<@${requester.id}>]\n__${message.client.language.QUEUE[8]}__:\n${queuelist}`
                         )
                         embed.setAuthor(
-                            `${client.language.QUEUE[6]} ${message.guild.name} ${client.language.QUEUE[7]} (${page} / ${pages})`,
+                            `${message.client.language.QUEUE[6]} ${message.guild.name} ${message.client.language.QUEUE[7]} (${page} / ${pages})`,
                             'https://i.imgur.com/CCqeomm.gif'
                         )
                         msg.edit(embed)

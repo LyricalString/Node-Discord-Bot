@@ -22,8 +22,8 @@ const flags = {
 }
 
 module.exports = class UserInfo extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'user-info',
             description: ['Display info about a user.', 'Muestra información sobre un usuario.'],
             alias: ['whois', 'userinfo', 'profile'],
@@ -31,7 +31,7 @@ module.exports = class UserInfo extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let embed2 = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
@@ -54,8 +54,8 @@ module.exports = class UserInfo extends Command {
             if (!member || !member.user) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.USERINFO[17])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.USERINFO[17])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return sentMessage.edit({ embeds: [errorembed] })
             }
@@ -94,36 +94,36 @@ module.exports = class UserInfo extends Command {
             }
             if (member.user && member.user.username)
                 embed.addField(
-                    `<:serverowner:863983092930183169> ${client.language.USERINFO[1]}`,
+                    `<:serverowner:863983092930183169> ${message.client.language.USERINFO[1]}`,
                     '```' + `${member.user.username}` + '```'
                 )
             if (member.user && member.user.discriminator)
                 embed.addField(
-                    '<:textchannelblurple:863983092893220885> ' + client.language.USERINFO[2],
+                    '<:textchannelblurple:863983092893220885> ' + message.client.language.USERINFO[2],
                     '```' + `${member.user.discriminator}` + '```',
                     true
                 )
             if (member.id)
                 embed.addField(
-                    `<:settings:864103218828017694> ${client.language.USERINFO[3]}`,
+                    `<:settings:864103218828017694> ${message.client.language.USERINFO[3]}`,
                     '```' + `${member.id}` + '```',
                     true
                 )
             if (userFlags)
                 embed.addField(
-                    `<:ticketblurple:863983092783382548> ${client.language.USERINFO[11]}`,
+                    `<:ticketblurple:863983092783382548> ${message.client.language.USERINFO[11]}`,
                     '```' +
                         `${
                             userFlags.length
                                 ? userFlags.map((flag) => flags[flag]).join(', ')
-                                : client.language.USERINFO[8]
+                                : message.client.language.USERINFO[8]
                         }` +
                         '```',
                     true
                 )
             if (member.user && member.user.createdTimestamp)
                 embed.addField(
-                    `📆 ${client.language.USERINFO[5]}`,
+                    `📆 ${message.client.language.USERINFO[5]}`,
                     '```' +
                         `${moment(member.user.createdTimestamp).format('LT')}\n${moment(
                             member.user.createdTimestamp
@@ -133,17 +133,17 @@ module.exports = class UserInfo extends Command {
                 )
             if (member.user && member.user.presence && member.user.presence.game)
                 embed.addField(
-                    `<:screenshare:864126217941942353> ${client.language.USERINFO[12]}`,
-                    '```' + `${member.user.presence.game || client.language.USERINFO[16]}` + '```',
+                    `<:screenshare:864126217941942353> ${message.client.language.USERINFO[12]}`,
+                    '```' + `${member.user.presence.game || message.client.language.USERINFO[16]}` + '```',
                     true
                 )
             if (member.roles && member.roles.highest.id && member.roles.highest.name)
                 embed.addField(
-                    `<:upvote:864107632411541514> ${client.language.USERINFO[13]}`,
+                    `<:upvote:864107632411541514> ${message.client.language.USERINFO[13]}`,
                     '```' +
                         `${
                             member.roles.highest.id === message.guild.id
-                                ? client.language.USERINFO[8]
+                                ? message.client.language.USERINFO[8]
                                 : member.roles.highest.name
                         }` +
                         '```',
@@ -151,20 +151,20 @@ module.exports = class UserInfo extends Command {
                 )
             if (member.joinedAt)
                 embed.addField(
-                    '<:join:864104115076595762>' + client.language.USERINFO[4],
+                    '<:join:864104115076595762>' + message.client.language.USERINFO[4],
                     '```' + `${moment(member.joinedAt).format('LL LTS')}` + '```',
                     true
                 )
             if (member.roles)
                 embed.addField(
-                    `<:lupablurple:863983093030060062>${client.language.USERINFO[14]}`,
-                    `${member.roles.hoist ? member.roles.hoist : client.language.USERINFO[8]}`,
+                    `<:lupablurple:863983093030060062>${message.client.language.USERINFO[14]}`,
+                    `${member.roles.hoist ? member.roles.hoist : message.client.language.USERINFO[8]}`,
                     true
                 )
             if (member.user.displayAvatarURL())
                 embed.addField(
                     '<:linkblurple:863983092711817247> Avatar',
-                    `[${client.language.USERINFO[15]}](${member.user.displayAvatarURL({
+                    `[${message.client.language.USERINFO[15]}](${member.user.displayAvatarURL({
                         dynamic: true
                     })})`,
                     true
@@ -179,8 +179,8 @@ module.exports = class UserInfo extends Command {
             CodeModel.findOne({ USERID: message.author.id.toString() }).then((s, err) => {
                 if (err) {
                     embed.addField(
-                        client.language.USERINFO[18],
-                        `${badges.length > 0 ? badges.join(' ') : client.language.USERINFO[8]}`,
+                        message.client.language.USERINFO[18],
+                        `${badges.length > 0 ? badges.join(' ') : message.client.language.USERINFO[8]}`,
                         true
                     )
                     if (roles[0])
@@ -191,7 +191,7 @@ module.exports = class UserInfo extends Command {
                                     ? roles.join(' ')
                                     : roles.length > 10
                                     ? trimArray(roles)
-                                    : client.language.USERINFO[8]
+                                    : message.client.language.USERINFO[8]
                             }`
                         )
                     return sentMessage.edit({ embeds: [embed] })
@@ -201,8 +201,8 @@ module.exports = class UserInfo extends Command {
                         badges.push('<:25kEvent:877189363157585990>')
                     }
                     embed.addField(
-                        client.language.USERINFO[18],
-                        `${badges.length > 0 ? badges.join(' ') : client.language.USERINFO[8]}`,
+                        message.client.language.USERINFO[18],
+                        `${badges.length > 0 ? badges.join(' ') : message.client.language.USERINFO[8]}`,
                         true
                     )
                     if (roles[0])
@@ -213,14 +213,14 @@ module.exports = class UserInfo extends Command {
                                     ? roles.join(' ')
                                     : roles.length >= 10
                                     ? trimArray(roles)
-                                    : client.language.USERINFO[8]
+                                    : message.client.language.USERINFO[8]
                             }`
                         )
                     return sentMessage.edit({ embeds: [embed] })
                 } else {
                     embed.addField(
-                        client.language.USERINFO[18],
-                        `${badges.length > 0 ? badges.join(' ') : client.language.USERINFO[8]}`,
+                        message.client.language.USERINFO[18],
+                        `${badges.length > 0 ? badges.join(' ') : message.client.language.USERINFO[8]}`,
                         true
                     )
                     if (roles[0])
@@ -231,7 +231,7 @@ module.exports = class UserInfo extends Command {
                                     ? roles.join(' ')
                                     : roles.length > 10
                                     ? trimArray(roles)
-                                    : client.language.USERINFO[8]
+                                    : message.client.language.USERINFO[8]
                             }`
                         )
                     return sentMessage.edit({ embeds: [embed] })

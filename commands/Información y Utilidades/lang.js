@@ -5,8 +5,8 @@ const userModel = require('../../models/user.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Lang extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'lang',
             description: ['Select your language using this menu.', 'Seleccione su idioma usando este menú.'],
             alias: ['language', 'idioma', 'lenguaje'],
@@ -16,19 +16,19 @@ module.exports = class Lang extends Command {
     }
     /**
      *
-     * @param {import('discord.js').Client} client
+     * @param {import('discord.js').Client} message.client
      * @param {import('discord.js').Message} message
      * @param {string[]} args
      * @param {string} prefix
      * @param {string} lang
-     * @param {*} webhookClient
+     * @param {*} webhookmessage.client
      * @param {*} ipc
      */
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             const menu = new SelectMenuBuilder()
                 .setCustomId('menu1')
-                .setPlaceholder(client.language.LANGMENU[1])
+                .setPlaceholder(message.client.language.LANGMENU[1])
                 .setMaxValues(1)
                 .setMinValues(1)
                 .addOptions(
@@ -64,8 +64,8 @@ module.exports = class Lang extends Command {
                         if (interaction.member.id != message.author.id) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.LANGMENU[3])
+                                .setTitle(message.client.language.ERROREMBED)
+                                .setDescription(message.client.language.LANGMENU[3])
                                 .setFooter({text: message.author.username, message.author.avatarURL()})
                             return message.channel.send({ embeds: [errorembed] })
                         }
@@ -91,7 +91,7 @@ module.exports = class Lang extends Command {
                         user.LANG = lang
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
+                            .setTitle(message.client.language.SUCCESSEMBED)
                             .setDescription(
                                 lang === 'es_ES'
                                     ? 'Has seleccionado español como tu nuevo idioma.'

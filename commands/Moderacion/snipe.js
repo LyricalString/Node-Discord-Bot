@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Snipe extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'snipe',
             description: ['Gets the latest message deleted!', '¡Obtiene el último mensaje eliminado!'],
             cooldown: 5,
@@ -16,11 +16,11 @@ module.exports = class Snipe extends Command {
             moderation: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -29,11 +29,11 @@ module.exports = class Snipe extends Command {
                 message.mentions.channels.first() ||
                 message.channel ||
                 message.guild.channels.cache.find((channel) => channel.id === args[0])
-            const msg = client.snipes.get(channel.id)
+            const msg = message.client.snipes.get(channel.id)
             const errorembed = new MessageEmbed()
                 .setColor('RED')
-                .setTitle(client.language.ERROREMBED)
-                .setDescription(client.language.SNIPE[1])
+                .setTitle(message.client.language.ERROREMBED)
+                .setDescription(message.client.language.SNIPE[1])
                 .setFooter({text: message.author.username, message.author.avatarURL()})
             if (!msg || !msg.delete) {
                 message.channel.send({ embeds: [errorembed] }).then((m) => {
@@ -44,13 +44,13 @@ module.exports = class Snipe extends Command {
             } else {
                 const main = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setAuthor(`${client.language.SNIPE[2]} ${msg.delete.tag}`, msg.delete.displayAvatarURL())
-                    .addFields({name: client.language.SNIPE[3], value: `<#${msg.canal.id}>`})
+                    .setAuthor(`${message.client.language.SNIPE[2]} ${msg.delete.tag}`, msg.delete.displayAvatarURL())
+                    .addFields({name: message.client.language.SNIPE[3], value: `<#${msg.canal.id}>`})
                     .setTimestamp()
                 if (msg.content) main.setDescription(msg.content)
                 if (msg.embed) {
                     const embed = new MessageEmbed()
-                    embed.setAuthor(`${client.language.SNIPE[2]} ${msg.delete.tag}`, msg.delete.displayAvatarURL())
+                    embed.setAuthor(`${message.client.language.SNIPE[2]} ${msg.delete.tag}`, msg.delete.displayAvatarURL())
                     if (msg.title) embed.setTitle(msg.title)
                     if (msg.description) embed.setDescription(msg.description)
                     if (msg.url) embed.setURL(msg.url)
@@ -66,7 +66,7 @@ module.exports = class Snipe extends Command {
                     return message.author.send({ embeds: [embed] }).then(() => {
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
+                            .setTitle(message.client.language.SUCCESSEMBED)
                             .setDescription(`¡Te he enviado una copia del mensaje por privado!`)
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         message.channel.send({ embeds: [embed] })

@@ -5,8 +5,8 @@ const { soyultro } = require('soyultro')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Kill extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'kill',
             description: ['Kills the mentioned user.', 'Mata al usuario mencionado.'],
             usage: ['<@user>', '<@usuario>'],
@@ -14,7 +14,7 @@ module.exports = class Kill extends Command {
             tos: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let user
             if (args[0]) {
@@ -31,8 +31,8 @@ module.exports = class Kill extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.NOARGS)
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.NOARGS)
                         .setFooter({text: message.author.username, message.author.avatarURL()})
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -41,23 +41,23 @@ module.exports = class Kill extends Command {
                 let author = message.author.username
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(`${author} ${client.language.KILL[5]}`)
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(`${author} ${message.client.language.KILL[5]}`)
                     .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (user.id == message.author.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.KILL[3])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.KILL[3])
                     .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
 
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                .setTitle(`${author} ${client.language.KILL[2]} ${user.user.username}`)
+                .setTitle(`${author} ${message.client.language.KILL[2]} ${user.user.username}`)
                 .setColor(process.env.EMBED_COLOR)
                 .setImage(soyultro('kill'))
 

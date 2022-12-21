@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class stop extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'stop',
             description: ['Stops and deletes the current song.', 'Detiene y elimina la cola de reproducción.'],
             category: 'musica',
@@ -13,14 +13,14 @@ module.exports = class stop extends Command {
             alias: ['leave', 'l']
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
-            const player = client.manager.players.get(message.guild.id)
+            const player = message.client.manager.players.get(message.guild.id)
             if (!player) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.STOP)
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.STOP)
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }

@@ -3,8 +3,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class MineSweeper extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'minesweeper',
             description: ['Time to play the minesweeper.', 'Es hora de jugar al buscaminas.'],
             cooldown: 150,
@@ -13,7 +13,7 @@ module.exports = class MineSweeper extends Command {
             inactive: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             //buscaminas by eliyya
             //se definen las filas, columnas y bombas

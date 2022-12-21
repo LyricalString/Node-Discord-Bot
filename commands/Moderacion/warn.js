@@ -5,8 +5,8 @@ const guildSchema = require('../../models/guild.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Warn extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'warn',
             description: ['Warns a user.', 'Advierte a un usuario.'],
             usage: ['<user> <reason>', '<@usuario> <razón>'],
@@ -18,11 +18,11 @@ module.exports = class Warn extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -30,8 +30,8 @@ module.exports = class Warn extends Command {
             if (!message.member.hasPermission('MUTE_MEMBERS')) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.WARN[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.WARN[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -43,8 +43,8 @@ module.exports = class Warn extends Command {
             if (!user) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.WARN[2] + prefix + client.language.WARN[8])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.WARN[2] + prefix + message.client.language.WARN[8])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -83,9 +83,9 @@ module.exports = class Warn extends Command {
             const warn = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
                 .setDescription(
-                    `${user} ${client.language.WARN[6]} ${message.author}. ${client.language.WARN[7]} **${
-                        args != '' ? args.join(' ') : '-'
-                    }**`
+                    `${user} ${message.client.language.WARN[6]} ${message.author}. ${
+                        message.client.language.WARN[7]
+                    } **${args != '' ? args.join(' ') : '-'}**`
                 )
                 .setTimestamp()
             message.channel.send({ embeds: [warn] })

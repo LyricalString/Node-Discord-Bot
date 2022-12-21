@@ -3,8 +3,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Support extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'support',
             description: [
                 'This command shows how to get support.',
@@ -14,9 +14,11 @@ module.exports = class Support extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
-            let embed = new MessageEmbed().setColor(process.env.EMBED_COLOR).setDescription(client.language.SUPPORT)
+            let embed = new MessageEmbed()
+                .setColor(process.env.EMBED_COLOR)
+                .setDescription(message.client.language.SUPPORT)
             return message.channel.send({ embeds: [embed] })
         } catch (e) {
             sendError(e, message)

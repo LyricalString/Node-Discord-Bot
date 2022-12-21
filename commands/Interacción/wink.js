@@ -5,15 +5,15 @@ const { soyultro } = require('soyultro')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Wink extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'wink',
             description: ['Winks to the mentioned user.', 'Guiña el ojo al usuario mencionado.'],
             usage: ['[@user]', '[@usuario]'],
             category: 'Interaccion'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let user
             if (args[0]) {
@@ -30,7 +30,7 @@ module.exports = class Wink extends Command {
                 } else {
                     let author = message.author.username
                     let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                        .setTitle(`${author} ${client.language.WINK[4]}`)
+                        .setTitle(`${author} ${message.client.language.WINK[4]}`)
                         .setColor(process.env.EMBED_COLOR)
                         .setImage(soyultro('wink'))
                     if (args.length > 1) {
@@ -44,7 +44,7 @@ module.exports = class Wink extends Command {
             if (!user) {
                 let author = message.author.username
                 let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                    .setTitle(`${author} ${client.language.WINK[3]} ${args.join(' ')}`)
+                    .setTitle(`${author} ${message.client.language.WINK[3]} ${args.join(' ')}`)
                     .setColor(process.env.EMBED_COLOR)
                     .setImage(soyultro('wink'))
                 return message.channel.send({ embeds: [embed] })
@@ -52,7 +52,7 @@ module.exports = class Wink extends Command {
             if (user.id == message.author.id) {
                 let author = message.author.username
                 let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                    .setTitle(`${author} ${client.language.WINK[4]}`)
+                    .setTitle(`${author} ${message.client.language.WINK[4]}`)
                     .setColor(process.env.EMBED_COLOR)
                     .setImage(soyultro('wink'))
                 if (args.length > 1) {
@@ -65,7 +65,7 @@ module.exports = class Wink extends Command {
 
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                .setTitle(`${author} ${client.language.WINK[3]} ${user.user.username}`)
+                .setTitle(`${author} ${message.client.language.WINK[3]} ${user.user.username}`)
                 .setColor(process.env.EMBED_COLOR)
                 .setImage(soyultro('wink'))
 

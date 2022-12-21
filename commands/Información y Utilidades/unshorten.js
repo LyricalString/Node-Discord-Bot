@@ -6,19 +6,19 @@ let bannedWords = require('../../predefinedBannedWords.json')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class BannedWordsRefresh extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'unshorten',
             description: ['Analyzes a shortened link.', 'Analiza un link acortado.'],
             category: 'Administracion',
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -26,19 +26,19 @@ module.exports = class BannedWordsRefresh extends Command {
             if (!isUrl(args[0])) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
+                    .setTitle(message.client.language.ERROREMBED)
                     .setDescription('El argumento del comando no es un enlace.')
                     .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
-            unshorten(client, message, args, prefix, lang)
+            unshorten(message.client, message, args, prefix, lang)
         } catch (e) {
             sendError(e, message)
         }
     }
 }
 
-async function unshorten(client, message, args, prefix, lang) {
+async function unshorten(message.client, message, args, prefix, lang) {
     axios({
         method: 'get',
         url: args[0],
@@ -66,7 +66,7 @@ async function unshorten(client, message, args, prefix, lang) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${res.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
@@ -95,7 +95,7 @@ async function unshorten(client, message, args, prefix, lang) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${res.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
@@ -129,7 +129,7 @@ async function unshorten(client, message, args, prefix, lang) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${e.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
@@ -152,7 +152,7 @@ async function unshorten(client, message, args, prefix, lang) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${e.request._options.href}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })

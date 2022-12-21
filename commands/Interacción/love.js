@@ -4,15 +4,15 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Love extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'love',
             description: ['Shows the love between you and a user.', 'Muestra el amor entre tú y un usuario.'],
             usage: ['<@user>', '<@usuario>'],
             category: 'Interaccion'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let user
             if (args[0]) {
@@ -29,8 +29,8 @@ module.exports = class Love extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.NOARGS)
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.NOARGS)
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -38,16 +38,16 @@ module.exports = class Love extends Command {
             if (!user) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.LOVE[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.LOVE[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!user.user) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.LOVE[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.LOVE[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -55,14 +55,14 @@ module.exports = class Love extends Command {
                 let embed = new MessageEmbed()
                     .setTimestamp()
                     .setColor(process.env.EMBED_COLOR)
-                    .setFooter({ text: client.language.LOVE[2], iconURL: message.author.displayAvatarURL() })
+                    .setFooter({ text: message.client.language.LOVE[2], iconURL: message.author.displayAvatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
-            if (user.user.id == client.user.id) {
+            if (user.user.id == message.client.user.id) {
                 let embed = new MessageEmbed()
                     .setTimestamp()
                     .setColor(process.env.EMBED_COLOR)
-                    .setFooter({ text: client.language.LOVE[3], iconURL: message.author.displayAvatarURL() })
+                    .setFooter({ text: message.client.language.LOVE[3], iconURL: message.author.displayAvatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
 
@@ -77,10 +77,12 @@ module.exports = class Love extends Command {
             }
             const { soyultro } = require('soyultro')
             let resp = [
-                client.language.LOVE[4] +
+                message.client.language.LOVE[4] +
                     `${message.author.username} & ${user.user.username}` +
-                    client.language.LOVE[5],
-                client.language.LOVE[6] + `${message.author.username} & ${user.user.username}` + client.language.LOVE[7]
+                    message.client.language.LOVE[5],
+                message.client.language.LOVE[6] +
+                    `${message.author.username} & ${user.user.username}` +
+                    message.client.language.LOVE[7]
             ]
             let msg = resp[Math.floor(Math.random() * resp.length)]
             const embed = new MessageEmbed()

@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Restart extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'announcerestart',
             description: ['Announces restart of Node.', 'Anuncia un reinicio de Node.'],
             category: 'Moderation',
@@ -14,21 +14,21 @@ module.exports = class Restart extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         let res
         let sc = 'https://youtu.be/VI9qM-du-Ug'
-        const player = client.manager.players.get(message.guild.id)
+        const player = message.client.manager.players.get(message.guild.id)
         if (!player) return
         try {
             console.debug(player)
             player.queue.length = []
-            res = await client.manager.search(sc, message.author)
+            res = await message.client.manager.search(sc, message.author)
             if (res.loadType === 'LOAD_FAILED') {
                 if (!player.queue.current) player.destroy()
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.PLAY[9])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.PLAY[9])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -40,8 +40,8 @@ module.exports = class Restart extends Command {
                 if (!player.queue.current) player.destroy()
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.PLAY[10])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.PLAY[10])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             case 'SEARCH_RESULT': {

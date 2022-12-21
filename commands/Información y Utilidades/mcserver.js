@@ -5,8 +5,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class McServer extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'mcserver',
             description: [
                 'Gets information about a Minecraft Server!',
@@ -20,7 +20,7 @@ module.exports = class McServer extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let url
             if (args[1]) {
@@ -40,8 +40,8 @@ module.exports = class McServer extends Command {
                 .catch(() => {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.MCSERVER[12])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.MCSERVER[12])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 })

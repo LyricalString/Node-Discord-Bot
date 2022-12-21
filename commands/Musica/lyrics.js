@@ -5,8 +5,8 @@ const axios = require('axios')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Lyrics extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'lyrics',
             description: ['Sends the lyrics of the current song.', 'Envía la letra de la canción actual.'],
             alias: ['l', 'ly', 'letra'],
@@ -14,7 +14,7 @@ module.exports = class Lyrics extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let titulo = args.join('%20')
             axios.get(`https://some-random-api.ml/lyrics?title=${titulo}`).then((res) => {

@@ -5,15 +5,15 @@ const { soyultro } = require('soyultro')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Stare extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'stare',
             description: ['Stares the mentioned user.', 'Mira fijamente al usuario mencionado.'],
             usage: ['<@user>', '<@usuario>'],
             category: 'Interaccion'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let user
             if (args[0]) {
@@ -30,8 +30,8 @@ module.exports = class Stare extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.NOARGS)
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.NOARGS)
                         .setFooter({text: message.author.username, message.author.avatarURL()})
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -39,7 +39,7 @@ module.exports = class Stare extends Command {
             if (!user) {
                 let author = message.author.username
                 let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                    .setTitle(`${author} ${client.language.STARE[3]} ${args.join(' ')}`)
+                    .setTitle(`${author} ${message.client.language.STARE[3]} ${args.join(' ')}`)
                     .setColor(process.env.EMBED_COLOR)
                     .setImage(soyultro('stare'))
                 return message.channel.send({ embeds: [embed] })
@@ -47,15 +47,15 @@ module.exports = class Stare extends Command {
             if (user.id == message.author.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.STARE[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.STARE[1])
                     .setFooter({text: message.author.username, message.author.avatarURL()})
                 return message.channel.send({ embeds: [errorembed] })
             }
 
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link
-                .setTitle(`${author} ${client.language.STARE[3]} ${user.user.username}`)
+                .setTitle(`${author} ${message.client.language.STARE[3]} ${user.user.username}`)
                 .setColor(process.env.EMBED_COLOR)
                 .setImage(soyultro('stare'))
 

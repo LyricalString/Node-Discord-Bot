@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Spam extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'spammode',
             description: ['Enables or disables the spam commands.', 'Habilita o deshabilita los comandos de spam.'],
             permissions: ['ADMINISTRATOR'],
@@ -17,7 +17,7 @@ module.exports = class Spam extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (args[0]) {
                 if (args[0].toLowerCase() == 'enable') {
@@ -32,8 +32,8 @@ module.exports = class Spam extends Command {
                     message.guild.config.spam = true
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
-                        .setTitle(client.language.SUCCESSEMBED)
-                        .setDescription(client.language.SPAMMODE[1])
+                        .setTitle(message.client.language.SUCCESSEMBED)
+                        .setDescription(message.client.language.SPAMMODE[1])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 } else if (args[0].toLowerCase() == 'disable') {
@@ -48,8 +48,8 @@ module.exports = class Spam extends Command {
                     message.guild.config.spam = false
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
-                        .setTitle(client.language.SUCCESSEMBED)
-                        .setDescription(client.language.SPAMMODE[2])
+                        .setTitle(message.client.language.SUCCESSEMBED)
+                        .setDescription(message.client.language.SPAMMODE[2])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 }

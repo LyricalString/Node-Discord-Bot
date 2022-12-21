@@ -4,8 +4,8 @@ const userModel = require('../../models/user.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class OldMode extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'oldmode',
             description: [
                 'Allows to enable and disable the old features if you are not able to view the new features.',
@@ -20,7 +20,7 @@ module.exports = class OldMode extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             userModel
                 .findOne({
@@ -33,8 +33,8 @@ module.exports = class OldMode extends Command {
                         s.OLDMODE = true
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.OLDMODE[1])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.OLDMODE[1])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[0].toLowerCase() == 'disable') {
@@ -42,8 +42,8 @@ module.exports = class OldMode extends Command {
                         s.OLDMODE = false
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.OLDMODE[2])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.OLDMODE[2])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     }

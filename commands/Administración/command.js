@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Command2 extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'command',
             description: ['Allows o denies the usage of commands.', 'Habilita o deshabilita el uso de comandos.'],
             permissions: ['ADMINISTRATOR'],
@@ -22,14 +22,14 @@ module.exports = class Command2 extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (args[0].toLowerCase() === 'disable' && args[1]) {
-                if (!client.commands.get(args[1])) {
+                if (!message.client.commands.get(args[1])) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(`**${args[1]}** ${client.language.COMMAND[1]}`)
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(`**${args[1]}** ${message.client.language.COMMAND[1]}`)
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -47,15 +47,15 @@ module.exports = class Command2 extends Command {
                                 s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(client.language.COMMAND[2] + command)
+                                    .setTitle(message.client.language.SUCCESSEMBED)
+                                    .setDescription(message.client.language.COMMAND[2] + command)
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             } else {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.COMMAND[3])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.COMMAND[3])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -64,11 +64,11 @@ module.exports = class Command2 extends Command {
                         }
                     })
             } else if (args[0].toLowerCase() === 'enable' && args[1]) {
-                if (!client.commands.get(args[1])) {
+                if (!message.client.commands.get(args[1])) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.COMMAND[4])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.COMMAND[4])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -91,15 +91,15 @@ module.exports = class Command2 extends Command {
                                 s.save().catch((err) => s.update())
                                 const embed = new MessageEmbed()
                                     .setColor(process.env.EMBED_COLOR)
-                                    .setTitle(client.language.SUCCESSEMBED)
-                                    .setDescription(client.language.COMMAND[5] + command)
+                                    .setTitle(message.client.language.SUCCESSEMBED)
+                                    .setDescription(message.client.language.COMMAND[5] + command)
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({ embeds: [embed] })
                             } else {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.COMMAND[6])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.COMMAND[6])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -117,8 +117,8 @@ module.exports = class Command2 extends Command {
                             if (!s.config.DISABLED_COMMANDS[0]) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.COMMAND[7])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.COMMAND[7])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -126,7 +126,8 @@ module.exports = class Command2 extends Command {
                             } else {
                                 const embedadmins = new MessageEmbed()
                                     .setTitle(
-                                        '<:IconPrivateThreadIcon:859608405497217044>' + client.language.COMMAND[8]
+                                        '<:IconPrivateThreadIcon:859608405497217044>' +
+                                            message.client.language.COMMAND[8]
                                     )
                                     .setColor(process.env.EMBED_COLOR)
                                     .setTimestamp()
@@ -158,16 +159,16 @@ module.exports = class Command2 extends Command {
                         message.guild.config.DISABLED_COMMANDS = []
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.SHOWLISTENINGCHANNEL[5])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.SHOWLISTENINGCHANNEL[5])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     })
             } else {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.COMMAND[9] + '`' + prefix + 'command' + '`')
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.COMMAND[9] + '`' + prefix + 'command' + '`')
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }

@@ -3,8 +3,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Impostor extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'impostor',
             description: ["Are you the impostor? Let's try it.", '¿Eres el impostor? Probémoslo.'],
             usage: ['<@user/id>', '<@usuario/id>'],
@@ -12,7 +12,7 @@ module.exports = class Impostor extends Command {
             category: 'diversion'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let mencionado
             if (args[0]) {
@@ -25,12 +25,12 @@ module.exports = class Impostor extends Command {
             if (!mencionado && args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.IMPOSTOR[3])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.IMPOSTOR[3])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            let random = [client.language.IMPOSTOR[1], client.language.IMPOSTOR[2]] //Hacemos frases para ver si es o no
+            let random = [message.client.language.IMPOSTOR[1], message.client.language.IMPOSTOR[2]] //Hacemos frases para ver si es o no
 
             if (!mencionado)
                 //Si el autor no menciono a nadie

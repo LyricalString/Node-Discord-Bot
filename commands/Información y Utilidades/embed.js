@@ -3,8 +3,8 @@ const { MessageEmbed } = require('discord.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Embed extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'embed',
             description: ['Sends an embed.', 'Envía un embed.'],
             usage: [
@@ -17,39 +17,39 @@ module.exports = class Embed extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             args = args.join(' ').split(' + ')
 
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[5])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[5])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[1]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[2]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[2])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[2])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[3]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[3])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[3])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -61,8 +61,8 @@ module.exports = class Embed extends Command {
             if (!canal) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[4])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[4])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -100,8 +100,8 @@ module.exports = class Embed extends Command {
             if (!color) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[6])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[6])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     .setImage('https://i.postimg.cc/gj8NSLsy/embed-colors.png')
                 return message.channel.send({ embeds: [errorembed] })

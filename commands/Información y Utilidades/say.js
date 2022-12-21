@@ -3,8 +3,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Say extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'say',
             description: ['Says the message you type!', '¡Dice el mensaje que escribiste!'],
             cooldown: 5,
@@ -16,11 +16,11 @@ module.exports = class Say extends Command {
             nochannel: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -28,7 +28,7 @@ module.exports = class Say extends Command {
             if (args[0].toLowerCase() === 'colors') {
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .setImage('https://i.postimg.cc/gj8NSLsy/embed-colors.png')
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [embed] })

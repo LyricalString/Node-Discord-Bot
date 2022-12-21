@@ -3,8 +3,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Invitations extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'invitations',
             botpermissions: ['MANAGE_GUILD', 'MANAGE_MESSAGES'],
             description: [
@@ -17,12 +17,12 @@ module.exports = class Invitations extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             //Bueno..., quien sabe...
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -115,8 +115,8 @@ module.exports = class Invitations extends Command {
             //   //Si no hay invitaciones en el servidor retornará un mensaje
             //   const errorembed = new MessageEmbed()
             //     .setColor("RED")
-            //     .setTitle(client.language.ERROREMBED)
-            //     .setDescription(client.language.INVITATIONS[4])
+            //     .setTitle(message.client.language.ERROREMBED)
+            //     .setDescription(message.client.language.INVITATIONS[4])
             //     .setFooter({text: message.author.username, message.author.avatarURL()});
             //   return message.channel.send({embeds: [errorembed]});
             // }
@@ -144,22 +144,22 @@ module.exports = class Invitations extends Command {
             // for (let index in filtered.size) {
             //   const invite = new MessageEmbed()
             //     .setAuthor(
-            //       client.language.INVITATIONS[6] + `${user.tag}`,
+            //       message.client.language.INVITATIONS[6] + `${user.tag}`,
             //       user.avatarURL()
             //     )
             //     .setColor(process.env.EMBED_COLOR)
-            //     .addFields({name: client.language.INVITATIONS[7], filtered.size, value: true})
-            //     .addFields({name: client.language.INVITATIONS[8], uses, value: true})
+            //     .addFields({name: message.client.language.INVITATIONS[7], filtered.size, value: true})
+            //     .addFields({name: message.client.language.INVITATIONS[8], uses, value: true})
             //     .setTimestamp(" ");
             // }
             // const successEmbed = new MessageEmbed()
             //   .setAuthor(
-            //     client.language.INVITATIONS[6] + `${user.tag}`,
+            //     message.client.language.INVITATIONS[6] + `${user.tag}`,
             //     user.avatarURL()
             //   )
             //   .setColor(process.env.EMBED_COLOR)
-            //   .addFields({name: client.language.INVITATIONS[7], filtered.size, value: true})
-            //   .addFields({name: client.language.INVITATIONS[8], uses, value: true})
+            //   .addFields({name: message.client.language.INVITATIONS[7], filtered.size, value: true})
+            //   .addFields({name: message.client.language.INVITATIONS[8], uses, value: true})
             //   .setTimestamp(" ");
 
             // let ButtonArray = [previousButton, nextButton];

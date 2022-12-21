@@ -7,8 +7,8 @@ const { sendError } = require('../../utils/utils.js')
 require('moment-duration-format')
 
 module.exports = class Status extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'status',
             description: [`Shows the actual status of Node.`, `Muestra las estadísticas en tiempo real de node.`],
             cooldown: 1,
@@ -16,11 +16,11 @@ module.exports = class Status extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
-            const guildNum = await client.shard.fetchClientValues('guilds.cache.size')
-            const memberNum = await client.shard.broadcastEval((client) =>
-                client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)
+            const guildNum = await message.client.shard.fetchmessage.clientValues('guilds.cache.size')
+            const memberNum = await message.client.shard.broadcastEval((message.client) =>
+                message.client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)
             )
             const totalMembers = memberNum.reduce((prev, memberCount) => prev + memberCount, 0)
             const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0)
@@ -38,16 +38,16 @@ module.exports = class Status extends Command {
 
             const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
-                .setAuthor(`${client.language.STATUS[1]} ${client.user.username}`)
+                .setAuthor(`${message.client.language.STATUS[1]} ${message.client.user.username}`)
                 .setThumbnail(
-                    client.user.displayAvatarURL({
+                    message.client.user.displayAvatarURL({
                         format: 'png',
                         dynamic: true,
                         size: 4096
                     })
                 )
                 .addField(
-                    '<:stats:863983092695302144> ' + client.language.STATUS[3],
+                    '<:stats:863983092695302144> ' + message.client.language.STATUS[3],
                     '```' +
                         `RAM: ${diagramMaker(totalRAM, usedRAM, freeRAM)} [${Math.round(
                             (100 * usedRAM) / totalRAM
@@ -56,9 +56,9 @@ module.exports = class Status extends Command {
                     false
                 )
                 .addField(
-                    '<:hdd:864126690342207499> ' + client.language.STATUS[4],
+                    '<:hdd:864126690342207499> ' + message.client.language.STATUS[4],
                     '```' +
-                        `${client.language.STATUS[5]}\n${client.language.STATUS[6]} ${(
+                        `${message.client.language.STATUS[5]}\n${message.client.language.STATUS[6]} ${(
                             os.totalmem() /
                             1024 /
                             1024 /
@@ -68,49 +68,49 @@ module.exports = class Status extends Command {
                     false
                 )
                 .addField(
-                    '<:cmd:864107735255220235> ' + client.language.STATUS[7],
+                    '<:cmd:864107735255220235> ' + message.client.language.STATUS[7],
                     '```' + `${os.type} ${os.release} ${os.arch}` + '```',
                     false
                 )
                 .addField(
-                    '<:membersblurple:863983092658208790> ' + client.language.STATUS[8],
+                    '<:membersblurple:863983092658208790> ' + message.client.language.STATUS[8],
                     '```' + `${totalMembers}` + '```'
                 )
                 .addField(
-                    '<:sticker:864103714971975691> ' + client.language.STATUS[9],
-                    '```' + `${client.emojis.cache.size}` + '```',
+                    '<:sticker:864103714971975691> ' + message.client.language.STATUS[9],
+                    '```' + `${message.client.emojis.cache.size}` + '```',
                     true
                 )
                 .addField(
-                    '<:members:864107765050638367> ' + client.language.STATUS[10],
+                    '<:members:864107765050638367> ' + message.client.language.STATUS[10],
                     '```' + `${totalGuilds}` + '```',
                     true
                 )
                 .addField(
-                    '<:greendot:864163523331751956> ' + client.language.STATUS[11],
+                    '<:greendot:864163523331751956> ' + message.client.language.STATUS[11],
                     '```' +
                         `${moment
-                            .duration(client.uptime)
+                            .duration(message.client.uptime)
                             .format(
-                                `D [${client.language.STATUS[12]}], H [${client.language.STATUS[13]}], m [${client.language.STATUS[14]}], s [${client.language.STATUS[15]}]`
+                                `D [${message.client.language.STATUS[12]}], H [${message.client.language.STATUS[13]}], m [${message.client.language.STATUS[14]}], s [${message.client.language.STATUS[15]}]`
                             )}` +
                         '```',
                     true
                 )
                 .addField(
-                    '<:greendot:864163523331751956> ' + client.language.STATUS[16],
+                    '<:greendot:864163523331751956> ' + message.client.language.STATUS[16],
                     '```' +
                         `${moment
                             .duration(os.uptime * 1000)
                             .format(
-                                `D [${client.language.STATUS[12]}], H [${client.language.STATUS[13]}], m [${client.language.STATUS[14]}], s [${client.language.STATUS[15]}]`
+                                `D [${message.client.language.STATUS[12]}], H [${message.client.language.STATUS[13]}], m [${message.client.language.STATUS[14]}], s [${message.client.language.STATUS[15]}]`
                             )}` +
                         '```',
                     true
                 )
                 .addField(
-                    '<a:engranajes:836295967569477682> ' + client.language.STATUS[17],
-                    '```' + `${moment(client.readyAt).format('MMMM DD, YYYY HH:mm')}` + '```',
+                    '<a:engranajes:836295967569477682> ' + message.client.language.STATUS[17],
+                    '```' + `${moment(message.client.readyAt).format('MMMM DD, YYYY HH:mm')}` + '```',
                     true
                 )
                 .setColor('#2f3136')

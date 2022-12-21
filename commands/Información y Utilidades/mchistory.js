@@ -4,8 +4,8 @@ const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
 module.exports = class McHistory extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'mchistory',
             description: [
                 'Shows past names from Minecraft User.',
@@ -17,14 +17,14 @@ module.exports = class McHistory extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             let args2 = args.join('%20')
             let Fecha
             let NameMC
             if (!args2[1])
                 return message.channel.send(
-                    client.language.MCHISTORY[1] + process.env.prefix + client.language.MCHISTORY[2]
+                    message.client.language.MCHISTORY[1] + process.env.prefix + message.client.language.MCHISTORY[2]
                 )
             fetch(`https://mc-heads.net/minecraft/profile/${args2}`)
                 .then((res) => {
@@ -33,8 +33,8 @@ module.exports = class McHistory extends Command {
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.MCHISTORY[3])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.MCHISTORY[3])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         message.channel.send({ embeds: [errorembed] })
                         return undefined
@@ -44,7 +44,7 @@ module.exports = class McHistory extends Command {
                     if (!History_Info) return
 
                     const embedhistory = new MessageEmbed()
-                        .setTitle(client.language.MCHISTORY[4])
+                        .setTitle(message.client.language.MCHISTORY[4])
                         .setColor(process.env.EMBED_COLOR)
                         .setTimestamp()
 
@@ -53,7 +53,7 @@ module.exports = class McHistory extends Command {
                         NameMC = History_Info['name_history'][index]['name']
 
                         if (!Fecha) {
-                            embedhistory.addFields({ name: client.language.MCHISTORY[5], value: NameMC }) // LENGUAJEEEEEEEEEEEEEEE
+                            embedhistory.addFields({ name: message.client.language.MCHISTORY[5], value: NameMC }) // LENGUAJEEEEEEEEEEEEEEE
                         } else {
                             embedhistory.addFields({ name: parserTimeStamp(Fecha), value: NameMC })
                         }

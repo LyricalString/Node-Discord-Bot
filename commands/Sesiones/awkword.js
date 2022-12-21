@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Youtube extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'awkword',
             botpermissions: ['CREATE_INSTANT_INVITE'],
             description: ['Starts a awkword session together.', 'Comienza una sesión de awkword.'],
@@ -13,7 +13,7 @@ module.exports = class Youtube extends Command {
             category: 'Sesiones'
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             // check if the user is in a voice channel
             if (!message.member.voice.channel)
@@ -21,8 +21,8 @@ module.exports = class Youtube extends Command {
                     embeds: [
                         new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.BETRAYAL[2])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.BETRAYAL[2])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     ]
                 })
@@ -36,8 +36,8 @@ module.exports = class Youtube extends Command {
                     embeds: [
                         new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.YOUTUBE[5])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.YOUTUBE[5])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     ]
                 })
@@ -56,7 +56,7 @@ module.exports = class Youtube extends Command {
                     new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setDescription(
-                            `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.url} 'Enlace de Awkword') <a:flechaizquierda:836295936673579048>**`
+                            `<a:arrowright:835907836352397372> **${message.client.language.BETRAYAL[1]}(${invite.url} 'Enlace de Awkword') <a:flechaizquierda:836295936673579048>**`
                         )
                 ]
             })

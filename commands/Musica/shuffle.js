@@ -4,8 +4,8 @@ const Command = require('../../structures/Commandos.js')
 const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Shuffle extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'shuffle',
             description: ['Shuffles the queue.', 'Revuelve la cola de reproducción.'],
             category: 'musica',
@@ -13,10 +13,10 @@ module.exports = class Shuffle extends Command {
             alias: ['sh']
         })
     }
-    async run(client, message, args, prefix, lang, ipc) {
+    async run(message, args, prefix, lang) {
         try {
             const { channel } = message.member.voice
-            const player = client.manager.players.get(message.guild.id)
+            const player = message.client.manager.players.get(message.guild.id)
 
             if (player && player.voiceChannel) {
                 if (
