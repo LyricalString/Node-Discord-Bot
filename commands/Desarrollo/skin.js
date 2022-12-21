@@ -14,7 +14,7 @@ module.exports = class Skin extends Command {
             inactive: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let cabeza = new MessageButton()
                 .setStyle('blurple') //default: blurple

@@ -12,7 +12,7 @@ module.exports = class Invite extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)

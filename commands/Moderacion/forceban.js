@@ -18,7 +18,7 @@ module.exports = class Forceban extends Command {
             nochannel: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const user = args[0]
             if (!user) {
@@ -26,7 +26,7 @@ module.exports = class Forceban extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription(
-                        `${message.client.language.FORCEBAN[3]} **\`${process.env.prefix}${message.client.language.FORCEBAN[4]}\`**`
+                        `${message.client.language.FORCEBAN[3]} **\`${message.client.user}${message.client.language.FORCEBAN[4]}\`**`
                     )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })

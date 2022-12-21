@@ -16,7 +16,7 @@ module.exports = class ServerInfo extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let region = {
                 europe: 'Europa',

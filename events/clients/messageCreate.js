@@ -23,7 +23,7 @@ module.exports = class messageCreate extends Event {
         super(...args)
     }
 
-    async run(message, ipc) {
+    async run(message) {
         if (!message.guild) return
         if (
             (process.env.mode == 'maintenance' || process.env.mode == 'development') &&
@@ -938,7 +938,7 @@ module.exports = class messageCreate extends Event {
                                     }
                                 })
                             })
-                            cmd.run(message, args, prefix)
+                            cmd.run(message, args)
                         } catch (e) {
                             console.error(e)
                             const errorembed = new MessageEmbed()

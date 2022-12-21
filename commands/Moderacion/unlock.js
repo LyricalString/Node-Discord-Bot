@@ -15,7 +15,7 @@ module.exports = class Unlock extends Command {
             nochannel: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({

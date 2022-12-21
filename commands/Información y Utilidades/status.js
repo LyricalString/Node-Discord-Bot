@@ -16,7 +16,7 @@ module.exports = class Status extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const guildNum = await message.client.shard.fetchmessage.clientValues('guilds.cache.size')
             const memberNum = await message.client.shard.broadcastEval((client) =>

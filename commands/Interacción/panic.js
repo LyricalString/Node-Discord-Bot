@@ -12,7 +12,7 @@ module.exports = class Panic extends Command {
             category: 'Interaccion'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let author = message.author.username
             let embed = new MessageEmbed() //Preferible mandarlo en un Embed ya que la respuesta es un link

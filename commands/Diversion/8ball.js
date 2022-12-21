@@ -12,7 +12,7 @@ module.exports = class EightBall extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let respuesta = message.client.language.QUESTIONBALL[4]
             let argumentos = args.join(' ')

@@ -18,7 +18,7 @@ module.exports = class Channel extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let musica = false
             if (!args[0]) return
@@ -320,7 +320,7 @@ module.exports = class Channel extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription(
-                        `${message.client.language.SHOWLISTENINGCHANNEL[6]} ${prefix}${message.client.language.SHOWLISTENINGCHANNEL[7]}`
+                        `${message.client.language.SHOWLISTENINGCHANNEL[6]} ${message.client.user}${message.client.language.SHOWLISTENINGCHANNEL[7]}`
                     )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })

@@ -11,7 +11,7 @@ module.exports = class Ping extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let ping = Math.abs(message.createdTimestamp - Date.now())
             const embed = new MessageEmbed()

@@ -14,7 +14,7 @@ module.exports = class Activity extends Command {
             category: 'administracion'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             message.client.user
                 .setActivity(args.slice(1).join(' '), {

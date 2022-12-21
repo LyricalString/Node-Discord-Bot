@@ -12,7 +12,7 @@ module.exports = class FacePalm extends Command {
             category: 'Interaccion'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const { soyultro } = require('soyultro')
             let author = message.author.username

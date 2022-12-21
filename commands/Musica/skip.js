@@ -12,7 +12,7 @@ module.exports = class Skip extends Command {
             alias: ['s']
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const player = message.client.manager.players.get(message.guild.id)
             if (!player) {

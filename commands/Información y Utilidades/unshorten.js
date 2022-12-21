@@ -14,7 +14,7 @@ module.exports = class BannedWordsRefresh extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
@@ -31,14 +31,14 @@ module.exports = class BannedWordsRefresh extends Command {
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            unshorten(message, args, prefix)
+            unshorten(message, args)
         } catch (e) {
             sendError(e, message)
         }
     }
 }
 
-async function unshorten(message, args, prefix) {
+async function unshorten(message, args) {
     axios({
         method: 'get',
         url: args[0],

@@ -22,7 +22,7 @@ module.exports = class Command2 extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (args[0].toLowerCase() === 'disable' && args[1]) {
                 if (!message.client.commands.get(args[1])) {
@@ -168,7 +168,7 @@ module.exports = class Command2 extends Command {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
-                    .setDescription(message.client.language.COMMAND[9] + '`' + prefix + 'command' + '`')
+                    .setDescription(message.client.language.COMMAND[9] + `${message.client.user}` + 'command')
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }

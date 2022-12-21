@@ -13,7 +13,7 @@ module.exports = class stop extends Command {
             alias: ['leave', 'l']
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const player = message.client.manager.players.get(message.guild.id)
             if (!player) {

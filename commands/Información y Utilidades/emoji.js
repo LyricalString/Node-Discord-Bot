@@ -16,14 +16,16 @@ module.exports = class Emoji extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription(
-                        `${message.client.language.EMOJI[2]}\`${prefix}emoji ${message.client.language.EMOJI[3]}\`. ^^`
+                        `${message.client.language.EMOJI[2]}\`${
+                            message.guild.PREFIX ?? `${message.client.user}`
+                        }emoji ${message.client.language.EMOJI[3]}\`. ^^`
                     )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })

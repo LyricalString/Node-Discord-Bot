@@ -20,7 +20,7 @@ module.exports = class OldMode extends Command {
             production: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             userModel
                 .findOne({

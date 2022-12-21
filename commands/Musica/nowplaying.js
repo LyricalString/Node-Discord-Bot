@@ -16,7 +16,7 @@ module.exports = class NowPlaying extends Command {
             category: 'musica'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const { channel } = message.member.voice
             const player = message.client.manager.players.get(message.guild.id)

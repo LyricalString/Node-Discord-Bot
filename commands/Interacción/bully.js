@@ -14,7 +14,7 @@ module.exports = class Bully extends Command {
             category: 'Interaccion'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let user
             if (args[0]) {

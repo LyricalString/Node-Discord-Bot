@@ -16,7 +16,7 @@ module.exports = class ClashRoyale extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()

@@ -20,7 +20,7 @@ module.exports = class Lang extends Command {
      * @param {string[]} args
      * @param {string} prefix
      */
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const menu = new SelectMenuBuilder()
                 .setCustomId('menu1')

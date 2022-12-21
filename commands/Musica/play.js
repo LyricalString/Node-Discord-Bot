@@ -17,7 +17,7 @@ module.exports = class Play extends Command {
             category: 'musica'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let sc
             if (message.attachments.size == 0) {

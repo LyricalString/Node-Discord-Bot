@@ -14,7 +14,7 @@ module.exports = class Restart extends Command {
             production: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         let res
         let sc = 'https://youtu.be/VI9qM-du-Ug'
         const player = message.client.manager.players.get(message.guild.id)

@@ -17,7 +17,7 @@ module.exports = class Channel extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let evaled
             try {

@@ -18,7 +18,7 @@ module.exports = class AutoMix extends Command {
             category: 'musica'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const sc = message.attachments.first() || args.join(' ')
             if (!message.member) {

@@ -18,7 +18,7 @@ module.exports = class Radio extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             // const errorembed = new MessageEmbed()
             //     .setColor("RED")

@@ -12,7 +12,7 @@ module.exports = class Avatar extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         let embed = new MessageEmbed()
         let member
         if (args[0]) {
@@ -46,7 +46,7 @@ module.exports = class Avatar extends Command {
                     return
                 }))
             if (lang == 'es_ES') {
-                embed.setFooter({text: `${message.client.language.AVATAR[2]} ${member.user.tag}!`})
+                embed.setFooter({ text: `${message.client.language.AVATAR[2]} ${member.user.tag}!` })
                 embed.setImage(
                     member.user.displayAvatarURL({
                         dynamic: true,
@@ -56,7 +56,7 @@ module.exports = class Avatar extends Command {
                 embed.setColor('#00ff00')
                 message.channel.send({ embeds: [embed] })
             } else {
-                embed.setFooter({text: `${member.user.tag}${message.client.language.AVATAR[3]}`})
+                embed.setFooter({ text: `${member.user.tag}${message.client.language.AVATAR[3]}` })
                 embed.setImage(
                     member.user.displayAvatarURL({
                         dynamic: true,

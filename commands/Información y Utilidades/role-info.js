@@ -14,7 +14,7 @@ module.exports = class RoleInfo extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let role = (await message.guild.roles.fetch(args[0])) || message.mentions.roles.first()
             if (!role) {

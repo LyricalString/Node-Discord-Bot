@@ -17,7 +17,7 @@ module.exports = class Invitations extends Command {
             production: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             //Bueno..., quien sabe...
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {

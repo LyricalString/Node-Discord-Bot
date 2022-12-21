@@ -12,7 +12,7 @@ module.exports = class Fishing extends Command {
             category: 'Sesiones'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             // check if the user is in a voice channel
             if (!message.member.voice.channel)

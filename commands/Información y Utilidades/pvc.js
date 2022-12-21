@@ -14,7 +14,7 @@ module.exports = class PVC extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             guildModel.findOne({ guildID: message.guild.id.toString() }).then(async (s, err) => {
                 if (err) return

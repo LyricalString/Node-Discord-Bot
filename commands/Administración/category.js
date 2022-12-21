@@ -24,7 +24,7 @@ module.exports = class Ctegory extends Command {
             args: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         let categories = [
             'administracion',
             'diversion',
@@ -51,7 +51,7 @@ module.exports = class Ctegory extends Command {
                         .setColor('RED')
                         .setTitle(message.client.language.ERROREMBED)
                         .setDescription(
-                            `**${args[1]}** ${message.client.language.CATEGORY[1]}${prefix}${message.client.language.CATEGORY[13]}`
+                            `**${args[1]}** ${message.client.language.CATEGORY[1]}${message.client.user}${message.client.language.CATEGORY[13]}`
                         )
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
@@ -190,7 +190,7 @@ module.exports = class Ctegory extends Command {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
-                    .setDescription(message.client.language.CATEGORY[9] + '`' + prefix + 'category' + '`')
+                    .setDescription(message.client.language.CATEGORY[9] + `${message.client.user}` + 'category')
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }

@@ -13,7 +13,7 @@ module.exports = class Kiss extends Command {
             category: 'Interaccion'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let user
             if (args[0]) {
@@ -32,7 +32,7 @@ module.exports = class Kiss extends Command {
                         .setColor('RED')
                         .setTitle(message.client.language.ERROREMBED)
                         .setDescription(message.client.language.NOARGS)
-                        .setFooter({text: message.author.username,iconURL: message.author.avatarURL()})
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }

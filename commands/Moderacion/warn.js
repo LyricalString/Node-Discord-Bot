@@ -18,7 +18,7 @@ module.exports = class Warn extends Command {
             production: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
@@ -44,7 +44,9 @@ module.exports = class Warn extends Command {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
-                    .setDescription(message.client.language.WARN[2] + prefix + message.client.language.WARN[8])
+                    .setDescription(
+                        message.client.language.WARN[2] + message.client.user + message.client.language.WARN[8]
+                    )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }

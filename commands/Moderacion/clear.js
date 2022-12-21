@@ -17,7 +17,7 @@ module.exports = class Clear extends Command {
             nochannel: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             try {
                 const commands = [
@@ -38,10 +38,10 @@ module.exports = class Clear extends Command {
                     .setColor(process.env.EMBED_COLOR)
                     .setTitle(message.client.language.CLEAR[29])
                     .setDescription(
-                        `\`${prefix}${message.client.language.CLEAR[32]}\`${
+                        `\`${message.client.user}${message.client.language.CLEAR[32]}\`${
                             message.client.language.CLEAR[33]
-                        }\`${prefix}${message.client.language.CLEAR[34]}${commands.join(
-                            `\n\`${prefix}${message.client.language.CLEAR[34]}`
+                        }\`${message.client.user}${message.client.language.CLEAR[34]}${commands.join(
+                            `\n\`${message.client.user}${message.client.language.CLEAR[34]}`
                         )}`
                     )
                     .setFooter({ text: `${message.client.language.CLEAR[30]}` })

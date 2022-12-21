@@ -13,7 +13,7 @@ module.exports = class BannedWordsRefresh extends Command {
             nochannel: true
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const dirección = '../../predefinedBannedWords.json'
             delete require.cache[require.resolve(dirección)]

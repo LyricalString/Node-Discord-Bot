@@ -18,7 +18,7 @@ module.exports = class Code extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (args[0].toLowerCase() == 'generate') {
                 codeModel

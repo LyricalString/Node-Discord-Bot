@@ -13,7 +13,7 @@ module.exports = class Help extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (!args[0]) {
                 const embed = new MessageEmbed()
@@ -23,13 +23,19 @@ module.exports = class Help extends Command {
                     )
                     .addField(
                         message.client.language.HELP[7],
-                        `${message.client.language.HELP[8]} \`${message.guild.prefix}commands\`.`
+                        `${message.client.language.HELP[8]} \`${
+                            message.guild.PREFIX ?? `${message.client.user}`
+                        }commands\`.`
                     )
                     .addFields({ name: message.client.language.HELP[9], value: message.client.language.HELP[10] })
                     .addField(
                         message.client.language.HELP[11],
                         message.client.language.HELP[12] +
-                            `<a:arrowright:835907836352397372> \`${prefix}vote\` <a:flechaizquierda:836295936673579048> ${message.client.language.HELP[14]}(https://vote.nodebot.xyz 'Estamos esperando tu voto :)')`
+                            `<a:arrowright:835907836352397372> \`${
+                                message.guild.PREFIX ?? `${message.client.user}`
+                            }vote\` <a:flechaizquierda:836295936673579048> ${
+                                message.client.language.HELP[14]
+                            }(https://vote.nodebot.xyz 'Estamos esperando tu voto :)')`
                     )
                     .setThumbnail(message.author.avatarURL({ dynamic: true }))
                     .setTitle('✨' + message.client.language.HELP[13])
@@ -91,7 +97,9 @@ module.exports = class Help extends Command {
                         }
                     )
                     .setFooter(
-                        `\n${message.client.language.HELP[26]} \`${prefix}help [${message.client.language.HELP[27]}]\` ${message.client.language.HELP[28]}`
+                        `\n${message.client.language.HELP[26]} \`${
+                            message.guild.PREFIX ?? `${message.client.user}`
+                        }help [${message.client.language.HELP[27]}]\` ${message.client.language.HELP[28]}`
                     )
                     .setTimestamp()
 

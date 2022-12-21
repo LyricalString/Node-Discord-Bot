@@ -12,7 +12,7 @@ module.exports = class Impostor extends Command {
             category: 'diversion'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             let mencionado
             if (args[0]) {

@@ -14,7 +14,7 @@ module.exports = class Seek extends Command {
             role: 'tester'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (isNaN(args[0])) {
                 const errorembed = new MessageEmbed()

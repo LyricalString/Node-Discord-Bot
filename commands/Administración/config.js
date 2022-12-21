@@ -20,7 +20,7 @@ module.exports = class Config extends Command {
             category: 'administracion'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             if (args[0].toLowerCase() == 'tosmode') {
                 if (args[1]) {
@@ -187,7 +187,7 @@ module.exports = class Config extends Command {
                         .setColor('RED')
                         .setTitle(message.client.language.ERROREMBED)
                         .setDescription(
-                            `Debes de seguir el siguiente esquema de comando: \`${prefix}config mutedrole <id/mención del rol>\`.`
+                            `Debes de seguir el siguiente esquema de comando: \`${message.client.user}config mutedrole <id/mención del rol>\`.`
                         )
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
@@ -197,7 +197,7 @@ module.exports = class Config extends Command {
                     .setColor('RED')
                     .setTitle(message.client.language.ERROREMBED)
                     .setDescription(
-                        `Esa configuración no existe. Revisa el comando escribiendo \`${prefix}help config\``
+                        `Esa configuración no existe. Revisa el comando escribiendo \`${message.client.user}help config\``
                     )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })

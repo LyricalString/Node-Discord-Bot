@@ -21,7 +21,7 @@ module.exports = class Commands extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix) {
+    async run(message, args) {
         try {
             const myCoolMenu = new SelectMenuBuilder()
                 .setOptions(
