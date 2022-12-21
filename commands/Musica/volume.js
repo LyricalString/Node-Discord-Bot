@@ -14,7 +14,7 @@ module.exports = class Volume extends Command {
             category: 'musica'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const player = message.client.manager.players.get(message.guild.id)
             const { channel } = message.member.voice

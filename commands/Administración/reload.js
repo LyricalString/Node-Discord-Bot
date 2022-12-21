@@ -15,7 +15,7 @@ module.exports = class Reload extends Command {
             category: 'administracion'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             categories.forEach(async (category) => {
                 readdir(`./commands/${category}`, (err) => {

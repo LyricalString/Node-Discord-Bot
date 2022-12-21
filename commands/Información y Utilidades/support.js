@@ -14,7 +14,7 @@ module.exports = class Support extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)

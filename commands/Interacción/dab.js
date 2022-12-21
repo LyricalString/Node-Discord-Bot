@@ -12,7 +12,7 @@ module.exports = class Cuddle extends Command {
             category: 'Interaccion'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let user
             if (args[0]) {

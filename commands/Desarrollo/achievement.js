@@ -14,7 +14,7 @@ module.exports = class Achievement extends Command {
             production: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let args1 = args.join(' ')
             let args2 = args1.split(', ')

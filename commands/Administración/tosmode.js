@@ -20,7 +20,7 @@ module.exports = class ToSMode extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (args[0]) {
                 if (args[0].toLowerCase() == 'enable') {

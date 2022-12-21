@@ -11,7 +11,7 @@ module.exports = class Run extends Command {
             category: 'Interaccion'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const { soyultro } = require('soyultro')
             let author = message.author.username

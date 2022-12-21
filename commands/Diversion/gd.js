@@ -12,7 +12,7 @@ module.exports = class GD extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let args2 = args.join('%20')
             if (args2.length > 50) {

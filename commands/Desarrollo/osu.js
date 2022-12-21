@@ -17,7 +17,7 @@ module.exports = class Osu extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const osuApi = new osu.Api(process.env.OsuSecret, {
                 notFoundAsError: true, // Throw an error on not found instead of returning nothing. (default: true)

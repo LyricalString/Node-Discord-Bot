@@ -14,7 +14,7 @@ module.exports = class Lyrics extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let titulo = args.join('%20')
             axios.get(`https://some-random-api.ml/lyrics?title=${titulo}`).then((res) => {

@@ -24,7 +24,7 @@ module.exports = class Lang extends Command {
      * @param {*} webhookmessage.client
      * @param {*} ipc
      */
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const menu = new SelectMenuBuilder()
                 .setCustomId('menu1')

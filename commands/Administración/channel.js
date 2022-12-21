@@ -18,7 +18,7 @@ module.exports = class Channel extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let musica = false
             if (!args[0]) return

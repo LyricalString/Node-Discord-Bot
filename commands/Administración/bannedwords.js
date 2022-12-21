@@ -24,7 +24,7 @@ module.exports = class Ctegory extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (args[0].toLowerCase() == 'add' && args[1]) {
                 let word = args[1].toLowerCase()

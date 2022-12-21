@@ -14,7 +14,7 @@ module.exports = class Pampering extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let user
             if (args[0]) {

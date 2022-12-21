@@ -16,7 +16,7 @@ module.exports = class Emoji extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()

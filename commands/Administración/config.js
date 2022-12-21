@@ -20,7 +20,7 @@ module.exports = class Config extends Command {
             category: 'administracion'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (args[0].toLowerCase() == 'tosmode') {
                 if (args[1]) {

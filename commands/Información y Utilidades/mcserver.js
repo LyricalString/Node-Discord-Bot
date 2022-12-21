@@ -20,7 +20,7 @@ module.exports = class McServer extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let url
             if (args[1]) {

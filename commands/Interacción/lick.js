@@ -14,7 +14,7 @@ module.exports = class Lick extends Command {
             tos: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let user
             if (args[0]) {

@@ -18,7 +18,7 @@ module.exports = class Forceban extends Command {
             nochannel: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const user = args[0]
             if (!user) {

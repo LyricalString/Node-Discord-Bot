@@ -17,7 +17,7 @@ module.exports = class McHistory extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             let args2 = args.join('%20')
             let Fecha

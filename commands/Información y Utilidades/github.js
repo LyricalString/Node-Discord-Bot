@@ -15,7 +15,7 @@ module.exports = class GitHub extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()

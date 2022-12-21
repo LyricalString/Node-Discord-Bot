@@ -20,7 +20,7 @@ module.exports = class Search extends Command {
             production: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const sc = message.attachments.first() || args.join(' ')
             const { channel } = message.member.voice

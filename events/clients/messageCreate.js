@@ -938,7 +938,7 @@ module.exports = class messageCreate extends Event {
                                     }
                                 })
                             })
-                            cmd.run(message, args, prefix, message.member.user.LANG)
+                            cmd.run(message, args, prefix)
                         } catch (e) {
                             console.error(e)
                             const errorembed = new MessageEmbed()

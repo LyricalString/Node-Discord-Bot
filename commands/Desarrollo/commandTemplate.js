@@ -13,7 +13,7 @@ module.exports = class a extends Command {
             production: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
         } catch (e) {
             sendError(e, message)

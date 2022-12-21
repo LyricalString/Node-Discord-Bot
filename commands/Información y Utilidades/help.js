@@ -13,7 +13,7 @@ module.exports = class Help extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (!args[0]) {
                 const embed = new MessageEmbed()

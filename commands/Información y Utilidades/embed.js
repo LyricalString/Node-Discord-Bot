@@ -17,7 +17,7 @@ module.exports = class Embed extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             args = args.join(' ').split(' + ')
 

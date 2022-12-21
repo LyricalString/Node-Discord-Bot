@@ -16,7 +16,7 @@ module.exports = class Loop extends Command {
             category: 'musica'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const player = message.client.manager.players.get(message.guild.id)
             if (!player) {

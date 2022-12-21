@@ -12,7 +12,7 @@ module.exports = class Avatar extends Command {
             category: 'Info'
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         let embed = new MessageEmbed()
         let member
         if (args[0]) {

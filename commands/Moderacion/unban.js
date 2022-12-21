@@ -18,7 +18,7 @@ module.exports = class Ban extends Command {
             nochannel: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             await message.guild.bans
                 .remove(args[1])

@@ -17,7 +17,7 @@ module.exports = class Clear extends Command {
             nochannel: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             try {
                 const commands = [

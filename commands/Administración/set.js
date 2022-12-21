@@ -18,7 +18,7 @@ module.exports = class set extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (args[0].toLowerCase() == 'partner') {
                 if (args[1].toLowerCase() == 'add') {

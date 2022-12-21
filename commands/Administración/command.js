@@ -22,7 +22,7 @@ module.exports = class Command2 extends Command {
             args: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (args[0].toLowerCase() === 'disable' && args[1]) {
                 if (!message.client.commands.get(args[1])) {

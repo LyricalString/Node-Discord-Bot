@@ -14,7 +14,7 @@ module.exports = class queue extends Command {
             args: false
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const player = message.client.manager.players.get(message.guild.id)
             if (!player) {

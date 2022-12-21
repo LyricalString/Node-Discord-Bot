@@ -16,7 +16,7 @@ module.exports = class VotesLeader extends Command {
             production: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             if (args[0].toLowerCase() == 'commands' || args[0].toLowerCase() == 'cmd') {
                 CommandsModel.find()

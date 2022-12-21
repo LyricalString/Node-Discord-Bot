@@ -13,7 +13,7 @@ module.exports = class MineSweeper extends Command {
             inactive: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             //buscaminas by eliyya
             //se definen las filas, columnas y bombas

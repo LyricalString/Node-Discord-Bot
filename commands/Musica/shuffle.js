@@ -13,7 +13,7 @@ module.exports = class Shuffle extends Command {
             alias: ['sh']
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             const { channel } = message.member.voice
             const player = message.client.manager.players.get(message.guild.id)

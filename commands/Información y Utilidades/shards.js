@@ -14,7 +14,7 @@ module.exports = class Shards extends Command {
             inactive: true
         })
     }
-    async run(message, args, prefix, lang) {
+    async run(message, args, prefix) {
         try {
             delete require.cache[require.resolve(`../../estadisticas.json`)]
             let data = require('../../estadisticas.json')
