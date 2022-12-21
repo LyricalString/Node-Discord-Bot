@@ -118,7 +118,7 @@ module.exports = class Embed extends Command {
             ) {
                 embed.setTitle(titulo)
             }
-            if (!canal.permissionsFor(process.env.botID).has(['SEND_MESSAGES', 'EMBED_LINKS', 'VIEW_CHANNEL'])) {
+            if (!canal.permissionsFor(message.client.user.id).has(['SEND_MESSAGES', 'EMBED_LINKS', 'VIEW_CHANNEL'])) {
                 message.channel.send({
                     content:
                         'No tengo los permisos `SEND_MESSAGES`, `EMBED_LINKS` ni `VIEW_CHANNEL`, que son necesarios para enviar el embed.'

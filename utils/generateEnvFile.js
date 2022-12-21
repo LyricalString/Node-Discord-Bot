@@ -16,28 +16,6 @@ function token({ env = 'mode=development\n', envVals = [] }) {
     })
 }
 
-function lang({ env, envVals = [] }) {
-    return new Promise((resolve) => {
-        console.log('\x1b[32m%s\x1b[0m', 'Escoge un lenguaje:')
-        console.log('1 - Es (default)')
-        console.log('2 - En')
-        const onData = (data) => {
-            data = data.toString().replaceAll('\n', '').replaceAll('\r', '')
-            stdin.removeListener('data', onData)
-            if (['2', 'en', 'en_us'].includes(data.toLowerCase()))
-                return resolve({
-                    env: `${env}lang=en_US\n`,
-                    envVals
-                })
-            return resolve({
-                env: `${env}lang=${envVals.find((i) => i.prop === 'lang')?.value || 'es_ES'}\n`,
-                envVals
-            })
-        }
-        stdin.addListener('data', onData)
-    })
-}
-
 function prefix({ env, envVals = [] }) {
     return new Promise((resolve) => {
         console.log('\x1b[32m%s\x1b[0m', 'Establece un prefijo por defecto:')
@@ -52,21 +30,6 @@ function prefix({ env, envVals = [] }) {
                 })
             return resolve({
                 env: `${env}prefix=${envVals.find((i) => i.prop === 'prefix')?.value || '!'}\n`,
-                envVals
-            })
-        }
-        stdin.addListener('data', onData)
-    })
-}
-
-function botId({ env, envVals = [] }) {
-    return new Promise((resolve) => {
-        console.log('\x1b[32m%s\x1b[0m', 'Ingresa el id del bot:')
-        const onData = (data) => {
-            data = data.toString().replaceAll('\n', '').replaceAll('\r', '')
-            stdin.removeListener('data', onData)
-            return resolve({
-                env: `${env}botID=${data || envVals.find((i) => i.prop === 'botID')?.value || ''}\n`,
                 envVals
             })
         }
@@ -245,9 +208,7 @@ readFile('./.env', (err, data) => {
             value: i.split('=')[1]
         }))
     token({ envVals })
-        .then(lang)
         .then(prefix)
-        .then(botId)
         .then(mongoURL)
         .then(embedColor)
         .then(errorWebhookURL)

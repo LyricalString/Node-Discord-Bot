@@ -41,9 +41,7 @@ Siguiendo el formato más abajo, deberás de crear un archivo llamado `.env` par
 ```json
 mode = "[development/production]"
 token = "token del bot"
-lang = "[es_ES/en_US]"
 prefix = "prefijo predefinido"
-botID = "id del usuario bot"
 MONGO_URL =  "url de Mongo para que se conecte el bot"
 EMBED_COLOR = "color predefinido para los embeds"
 errorWebhookURL = "URL del webhook donde se enviarán los errores"

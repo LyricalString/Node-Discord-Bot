@@ -76,7 +76,7 @@ module.exports = class AutoMix extends Command {
                 playerCanal.id != channel.id &&
                 playerCanal.members.size == 1
             ) {
-                let member = await message.guild.members.fetch(process.env.botID).catch((e) => {
+                let member = await message.guild.members.fetch(message.client.user.id).catch((e) => {
                     return
                 })
                 member.voice.setChannel(channel.id)

@@ -619,7 +619,7 @@ module.exports = class messageCreate extends Event {
             if (!message.member) return
             message.member.user = User
             if (Guild) {
-                if (messageLower == `<@!${process.env.botID}>` || messageLower == `<@${process.env.botID}>`) {
+                if (messageLower == `<@!${client.user.id}>` || messageLower == `<@${client.user.id}>`) {
                     if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
                     if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
                     if (!message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS')) {
@@ -636,8 +636,8 @@ module.exports = class messageCreate extends Event {
                     //hace log de Guild a ver si le da tiempo de cogerla
                     prefix = Guild.prefix
                 } else if (
-                    messageLower.split(' ')[0] == `<@!${process.env.botID}>` ||
-                    messageLower.split(' ')[0] == `<@${process.env.botID}>`
+                    messageLower.split(' ')[0] == `<@!${client.user.id}>` ||
+                    messageLower.split(' ')[0] == `<@${client.user.id}>`
                 ) {
                     prefix = '<@!828771710676500502>'
                 } else {
