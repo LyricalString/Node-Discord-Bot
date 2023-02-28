@@ -1,9 +1,10 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Invitations extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'invitations',
             botpermissions: ['MANAGE_GUILD', 'MANAGE_MESSAGES'],
             description: [
@@ -16,12 +17,12 @@ module.exports = class Invitations extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             //Bueno..., quien sabe...
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -61,12 +62,24 @@ module.exports = class Invitations extends Command {
                 else if (invite.channel.type === 'group') {
                     embed
                         .setThumbnail(invite.channel.iconURL({ dynamic: true }))
-                        .addFields({name: 'Type', 'Group DM invite', value: true})
-                        .addFields({name: 'Group name', invite.channel.name ? invite.channel.name.toString() : 'None', value: true})
+                        .addFields({ name: 'Type', value: 'Group DM invite', inline: true })
+                        .addFields({
+                            name: 'Group name',
+                            value: invite.channel.name ? invite.channel.name.toString() : 'None',
+                            inline: true
+                        })
                 }
-                embed.addFields({name: 'Member Count', invite.uses ? invite.uses.toString() : '0', value: true})
+                embed.addFields({
+                    name: 'Member Count',
+                    value: invite.uses ? invite.uses.toString() : '0',
+                    inline: true
+                })
                 if (invite.createdTimestamp)
-                    embed.addFields({name: 'Created Timestamp', `<t:${Math.trunc(invite.createdTimestamp / 1000)}>`, value: true})
+                    embed.addFields({
+                        name: 'Created Timestamp',
+                        value: `<t:${Math.trunc(invite.createdTimestamp / 1000)}>`,
+                        inline: true
+                    })
 
                 //Hay que ser ordenado en los fields
                 if (invite.guild) {
@@ -102,9 +115,9 @@ module.exports = class Invitations extends Command {
             //   //Si no hay invitaciones en el servidor retornará un mensaje
             //   const errorembed = new MessageEmbed()
             //     .setColor("RED")
-            //     .setTitle(client.language.ERROREMBED)
-            //     .setDescription(client.language.INVITATIONS[4])
-            //     .setFooter(message.author.username, message.author.avatarURL());
+            //     .setTitle(message.client.language.ERROREMBED)
+            //     .setDescription(message.client.language.INVITATIONS[4])
+            //     .setFooter({text: message.author.username, message.author.avatarURL()});
             //   return message.channel.send({embeds: [errorembed]});
             // }
 
@@ -131,22 +144,22 @@ module.exports = class Invitations extends Command {
             // for (let index in filtered.size) {
             //   const invite = new MessageEmbed()
             //     .setAuthor(
-            //       client.language.INVITATIONS[6] + `${user.tag}`,
+            //       message.client.language.INVITATIONS[6] + `${user.tag}`,
             //       user.avatarURL()
             //     )
             //     .setColor(process.env.EMBED_COLOR)
-            //     .addFields({name: client.language.INVITATIONS[7], filtered.size, value: true})
-            //     .addFields({name: client.language.INVITATIONS[8], uses, value: true})
+            //     .addFields({name: message.client.language.INVITATIONS[7], filtered.size, value: true})
+            //     .addFields({name: message.client.language.INVITATIONS[8], uses, value: true})
             //     .setTimestamp(" ");
             // }
             // const successEmbed = new MessageEmbed()
             //   .setAuthor(
-            //     client.language.INVITATIONS[6] + `${user.tag}`,
+            //     message.client.language.INVITATIONS[6] + `${user.tag}`,
             //     user.avatarURL()
             //   )
             //   .setColor(process.env.EMBED_COLOR)
-            //   .addFields({name: client.language.INVITATIONS[7], filtered.size, value: true})
-            //   .addFields({name: client.language.INVITATIONS[8], uses, value: true})
+            //   .addFields({name: message.client.language.INVITATIONS[7], filtered.size, value: true})
+            //   .addFields({name: message.client.language.INVITATIONS[8], uses, value: true})
             //   .setTimestamp(" ");
 
             // let ButtonArray = [previousButton, nextButton];
@@ -155,26 +168,7 @@ module.exports = class Invitations extends Command {
             //   buttons: ButtonArray,
             // }); //En esta linea envía el mensaje y si hay un error lo envía a la consola
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

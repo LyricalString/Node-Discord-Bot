@@ -117,13 +117,15 @@ module.exports = class VoiceStateUpdate extends Event {
                 }
             }
         } catch (e) {
-            console.log(e)
-            const webhookClient = new WebhookClient({
-                url: process.env.guildAddWebhookURL
-            })
-            webhookClient.send(
-                `Ha habido un error en el evento voiceStateUpdate. Error: ${e}\n\n**------------------------------------**`
-            )
+            try {
+                console.log(e)
+                const webhookClient = new WebhookClient({
+                    url: process.env.guildAddWebhookURL
+                })
+                webhookClient.send(
+                    `Ha habido un error en el evento voiceStateUpdate. Error: ${e}\n\n**------------------------------------**`
+                )
+            } catch {}
         }
     }
 }

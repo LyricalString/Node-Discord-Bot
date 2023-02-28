@@ -1,9 +1,10 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Emoji extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'emoji',
             description: ['Creates a new emoji.', 'Crea un nuevo emoji.'],
             permissions: ['ADMINISTRATOR'],
@@ -15,21 +16,25 @@ module.exports = class Emoji extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(`${client.language.EMOJI[2]}\`${prefix}emoji ${client.language.EMOJI[3]}\`. ^^`)
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(
+                        `${message.client.language.EMOJI[2]}\`${
+                            message.guild.PREFIX ?? `${message.client.user}`
+                        }emoji ${message.client.language.EMOJI[3]}\`. ^^`
+                    )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (message.attachments.size == 0) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.EMOJI[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.EMOJI[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -38,8 +43,8 @@ module.exports = class Emoji extends Command {
                 if (!attachment) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.EMOJI[1])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.EMOJI[1])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -47,12 +52,12 @@ module.exports = class Emoji extends Command {
                     message.guild.emojis
                         .create(attachment, args[0], {})
                         .then((e) => {
-                            const emoji = client.emojis.cache.get(e.id)
+                            const emoji = message.client.emojis.cache.get(e.id)
                             const embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
-                                .setTitle(client.language.SUCCESSEMBED)
+                                .setTitle(message.client.language.SUCCESSEMBED)
                                 .setDescription(
-                                    `${client.language.EMOJI[4]} ${emoji}. ${client.language.EMOJI[5]} \`:${args[0]}:\` ${client.language.EMOJI[6]}`
+                                    `${message.client.language.EMOJI[4]} ${emoji}. ${message.client.language.EMOJI[5]} \`:${args[0]}:\` ${message.client.language.EMOJI[6]}`
                                 )
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({ embeds: [embed] })
@@ -60,8 +65,8 @@ module.exports = class Emoji extends Command {
                         .catch((e) => {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
-                                .setDescription(client.language.EMOJI[7])
+                                .setTitle(message.client.language.ERROREMBED)
+                                .setDescription(message.client.language.EMOJI[7])
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
                                 embeds: [errorembed]
@@ -70,33 +75,14 @@ module.exports = class Emoji extends Command {
                 } catch (e) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.EMOJI[8])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.EMOJI[8])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

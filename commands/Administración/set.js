@@ -3,10 +3,11 @@ const { MessageEmbed } = require('discord.js')
 const partnerSchema = require('../../models/partners.js')
 const userSchema = require('../../models/user.js')
 const guildSchema = require('../../models/guild.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class set extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'set',
             description: ['Sets a user role inside the bot', 'Cambia el role del usuario dentro del bot.'],
             usage: ['tester <add/del> <user/id>', 'partner <add/del> <guildID> <invite link>'],
@@ -17,7 +18,7 @@ module.exports = class set extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             if (args[0].toLowerCase() == 'partner') {
                 if (args[1].toLowerCase() == 'add') {
@@ -29,7 +30,7 @@ module.exports = class set extends Command {
                             if (err) return message.channel.send('err ' + err)
                             if (data) return message.channel.send('Ya está en la db partner esa guild')
                             if (!data) {
-                                await ipc.fetchGuild(args[2]).then((data2) => {
+                                await message.client.guilds.fetch(args[2]).then((data2) => {
                                     if (!data2)
                                         return message.channel.send('Este servidor no se encuentra dentro de Node.')
                                     if (data2) {
@@ -70,7 +71,7 @@ module.exports = class set extends Command {
                             if (!data)
                                 return message.channel.send('Esta guild no se encuentra en los servdiores partners')
                             if (data) {
-                                await ipc.fetchGuild(args[2]).then((data2) => {
+                                await message.client.guilds.fetch(args[2]).then((data2) => {
                                     if (!data2)
                                         return message.channel.send('Este servidor no se encuentra dentro de Node.')
                                     if (data2) {
@@ -90,7 +91,7 @@ module.exports = class set extends Command {
                             if (err) return message.channel.send('err ' + err)
                             if (!data) return message.channel.send('El usuario no está registrado en la base de datos')
                             if (data) {
-                                await ipc.fetchUser(args[2]).then((data2) => {
+                                await message.client.users.fetch(args[2]).then((data2) => {
                                     if (!data2) return message.channel.send('No encontramos al usuario en la cache.')
                                     if (data2) {
                                         data.TESTER = true
@@ -110,7 +111,7 @@ module.exports = class set extends Command {
                             if (err) return message.channel.send('err ' + err)
                             if (!data) return message.channel.send('El usuario no está registrado en la base de datos')
                             if (data) {
-                                await ipc.fetchUser(args[2]).then((data2) => {
+                                await message.client.users.fetch(args[2]).then((data2) => {
                                     if (!data2) return message.channel.send('No encontramos al usuario en la cache.')
                                     if (data2) {
                                         data.TESTER = false
@@ -124,24 +125,7 @@ module.exports = class set extends Command {
                 }
             }
         } catch (e) {
-            console.error(e)
-            message.channel.send(
-                new MessageEmbed()
-                    .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.fatal_error)
-                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-            )
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

@@ -1,9 +1,10 @@
 const Command = require('../../structures/Commandos.js')
 const { MessageEmbed } = require('discord.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Embed extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'embed',
             description: ['Sends an embed.', 'Envía un embed.'],
             usage: [
@@ -16,39 +17,39 @@ module.exports = class Embed extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             args = args.join(' ').split(' + ')
 
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[5])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[5])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[1]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[2]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[2])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[2])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!args[3]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[3])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[3])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -60,8 +61,8 @@ module.exports = class Embed extends Command {
             if (!canal) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[4])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[4])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -99,8 +100,8 @@ module.exports = class Embed extends Command {
             if (!color) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.CREATEEMBED[6])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.CREATEEMBED[6])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     .setImage('https://i.postimg.cc/gj8NSLsy/embed-colors.png')
                 return message.channel.send({ embeds: [errorembed] })
@@ -117,7 +118,7 @@ module.exports = class Embed extends Command {
             ) {
                 embed.setTitle(titulo)
             }
-            if (!canal.permissionsFor(process.env.botID).has(['SEND_MESSAGES', 'EMBED_LINKS', 'VIEW_CHANNEL'])) {
+            if (!canal.permissionsFor(message.client.user.id).has(['SEND_MESSAGES', 'EMBED_LINKS', 'VIEW_CHANNEL'])) {
                 message.channel.send({
                     content:
                         'No tengo los permisos `SEND_MESSAGES`, `EMBED_LINKS` ni `VIEW_CHANNEL`, que son necesarios para enviar el embed.'
@@ -126,26 +127,7 @@ module.exports = class Embed extends Command {
             }
             canal.send({ embeds: [embed] })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

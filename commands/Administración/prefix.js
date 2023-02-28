@@ -1,9 +1,10 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const GuildSchema = require('../../models/guild.js')
+const { sendError } = require('../../utils/utils.js')
 module.exports = class Prefix extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'prefix',
             description: ['Sets a new prefix for Node.', 'Establece un nuevo prefijo para Node.'],
             usage: ['set <new prefix> or reset', 'set <nuevo prefijo> or reset'],
@@ -13,7 +14,7 @@ module.exports = class Prefix extends Command {
             category: 'administracion'
         })
     }
-    async run(client, message, args, prefix2, lang, webhookClient) {
+    async run(message, args, prefix2, lang) {
         try {
             let prefix
             if (args[0]) {
@@ -23,9 +24,9 @@ module.exports = class Prefix extends Command {
                         if (prefix == '') {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
+                                .setTitle(message.client.language.ERROREMBED)
                                 .setDescription(
-                                    `${client.language.PREFIX[2]} \`${process.env.prefix}prefix set <${client.language.PREFIX[3]}>\``
+                                    `${message.client.language.PREFIX[2]} \`${process.env.prefix}prefix set <${message.client.language.PREFIX[3]}>\``
                                 )
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
@@ -42,16 +43,16 @@ module.exports = class Prefix extends Command {
                         message.guild.prefix = args[1].toLowerCase()
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(`${client.language.PREFIX[1]} \`${prefix}\``)
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(`${message.client.language.PREFIX[1]} \`${prefix}\``)
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
+                            .setTitle(message.client.language.ERROREMBED)
                             .setDescription(
-                                `${client.language.PREFIX[2]} \`${process.env.prefix}prefix set <${client.language.PREFIX[3]}>\``
+                                `${message.client.language.PREFIX[2]} \`${process.env.prefix}prefix set <${message.client.language.PREFIX[3]}>\``
                             )
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
@@ -67,40 +68,21 @@ module.exports = class Prefix extends Command {
                     message.guild.prefix = '.'
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
-                        .setTitle(client.language.SUCCESSEMBED)
+                        .setTitle(message.client.language.SUCCESSEMBED)
                         .setDescription(`Se ha reseteado el prefix, ahora vuelve a ser \`.\``)
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [embed] })
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.PREFIX[4])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.PREFIX[4])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             }
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

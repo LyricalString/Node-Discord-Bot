@@ -2,10 +2,11 @@ const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
 const guildSchema = require('../../models/guild.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Config extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'config',
             description: [
                 "Main command for changing server's configuration.",
@@ -19,7 +20,7 @@ module.exports = class Config extends Command {
             category: 'administracion'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             if (args[0].toLowerCase() == 'tosmode') {
                 if (args[1]) {
@@ -35,8 +36,8 @@ module.exports = class Config extends Command {
                         message.guild.config.tos = true
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.TOSMODE[1])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.TOSMODE[1])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[1].toLowerCase() == 'disable') {
@@ -51,14 +52,14 @@ module.exports = class Config extends Command {
                         message.guild.config.tos = false
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.TOSMODE[2])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.TOSMODE[2])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
+                            .setTitle(message.client.language.ERROREMBED)
                             .setDescription('Las únicas opciones disponibles son enable/disable.')
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
@@ -66,7 +67,7 @@ module.exports = class Config extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
+                        .setTitle(message.client.language.ERROREMBED)
                         .setDescription(
                             `Debes de añadir una de las siguientes opciones al comando: \`enable/disable\`.`
                         )
@@ -87,8 +88,8 @@ module.exports = class Config extends Command {
                         message.guild.config.spam = true
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.SPAMMODE[1])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.SPAMMODE[1])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[1].toLowerCase() == 'disable') {
@@ -103,14 +104,14 @@ module.exports = class Config extends Command {
                         message.guild.config.spam = false
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.SPAMMODE[2])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.SPAMMODE[2])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
+                            .setTitle(message.client.language.ERROREMBED)
                             .setDescription('Las únicas opciones disponibles son enable/disable.')
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
@@ -118,7 +119,7 @@ module.exports = class Config extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
+                        .setTitle(message.client.language.ERROREMBED)
                         .setDescription(
                             `Debes de añadir una de las siguientes opciones al comando: \`enable/disable\`.`
                         )
@@ -135,7 +136,7 @@ module.exports = class Config extends Command {
                         if (!role) {
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
+                                .setTitle(message.client.language.ERROREMBED)
                                 .setDescription('No he podido encontrar el rol.')
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
@@ -153,7 +154,7 @@ module.exports = class Config extends Command {
                         message.guild.config.MutedRole = role.id
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
+                            .setTitle(message.client.language.SUCCESSEMBED)
                             .setDescription(`Has seleccionado <@&${role.id}> como el nuevo rol para los muteos.`)
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
@@ -169,14 +170,14 @@ module.exports = class Config extends Command {
                         message.guild.config.MutedRole = ''
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
+                            .setTitle(message.client.language.SUCCESSEMBED)
                             .setDescription(`Has reseteado el rol para los muteos. Ahora no se asignará ningun rol.`)
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
+                            .setTitle(message.client.language.ERROREMBED)
                             .setDescription('Las únicas opciones disponibles son add <rol> o reset.')
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
@@ -184,9 +185,9 @@ module.exports = class Config extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
+                        .setTitle(message.client.language.ERROREMBED)
                         .setDescription(
-                            `Debes de seguir el siguiente esquema de comando: \`${prefix}config mutedrole <id/mención del rol>\`.`
+                            `Debes de seguir el siguiente esquema de comando: \`${message.client.user}config mutedrole <id/mención del rol>\`.`
                         )
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
@@ -194,34 +195,15 @@ module.exports = class Config extends Command {
             } else {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
+                    .setTitle(message.client.language.ERROREMBED)
                     .setDescription(
-                        `Esa configuración no existe. Revisa el comando escribiendo \`${prefix}help config\``
+                        `Esa configuración no existe. Revisa el comando escribiendo \`${message.client.user}help config\``
                     )
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

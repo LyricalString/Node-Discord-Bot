@@ -1,9 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Clear extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'clear',
             description: ['Advanced system for message deletion.', 'Sistema avanzado para el borrado de mensajes.'],
             alias: ['clear', 'delete', 'prune', 'purge'],
@@ -15,50 +17,52 @@ module.exports = class Clear extends Command {
             nochannel: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             try {
                 const commands = [
-                    `${client.language.CLEAR[3]}\`${client.language.CLEAR[4]}`,
-                    `${client.language.CLEAR[5]}\`${client.language.CLEAR[6]}`,
-                    `${client.language.CLEAR[7]}\`${client.language.CLEAR[8]}`,
-                    `${client.language.CLEAR[9]}\`${client.language.CLEAR[10]}`,
-                    `${client.language.CLEAR[11]}\`${client.language.CLEAR[12]}`,
-                    `${client.language.CLEAR[13]}\`${client.language.CLEAR[14]}`,
-                    `${client.language.CLEAR[19]}\`${client.language.CLEAR[20]}`,
-                    `${client.language.CLEAR[21]}\`${client.language.CLEAR[22]}`,
-                    `${client.language.CLEAR[23]}\`${client.language.CLEAR[24]}`,
-                    `${client.language.CLEAR[25]}\`${client.language.CLEAR[26]}`,
-                    `${client.language.CLEAR[27]}\`${client.language.CLEAR[28]}`
+                    `${message.client.language.CLEAR[3]}\`${message.client.language.CLEAR[4]}`,
+                    `${message.client.language.CLEAR[5]}\`${message.client.language.CLEAR[6]}`,
+                    `${message.client.language.CLEAR[7]}\`${message.client.language.CLEAR[8]}`,
+                    `${message.client.language.CLEAR[9]}\`${message.client.language.CLEAR[10]}`,
+                    `${message.client.language.CLEAR[11]}\`${message.client.language.CLEAR[12]}`,
+                    `${message.client.language.CLEAR[13]}\`${message.client.language.CLEAR[14]}`,
+                    `${message.client.language.CLEAR[19]}\`${message.client.language.CLEAR[20]}`,
+                    `${message.client.language.CLEAR[21]}\`${message.client.language.CLEAR[22]}`,
+                    `${message.client.language.CLEAR[23]}\`${message.client.language.CLEAR[24]}`,
+                    `${message.client.language.CLEAR[25]}\`${message.client.language.CLEAR[26]}`,
+                    `${message.client.language.CLEAR[27]}\`${message.client.language.CLEAR[28]}`
                 ]
 
                 const embd = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.CLEAR[29])
+                    .setTitle(message.client.language.CLEAR[29])
                     .setDescription(
-                        `\`${prefix}${client.language.CLEAR[32]}\`${client.language.CLEAR[33]}\`${prefix}${
-                            client.language.CLEAR[34]
-                        }${commands.join(`\n\`${prefix}${client.language.CLEAR[34]}`)}`
+                        `\`${message.client.user}${message.client.language.CLEAR[32]}\`${
+                            message.client.language.CLEAR[33]
+                        }\`${message.client.user}${message.client.language.CLEAR[34]}${commands.join(
+                            `\n\`${message.client.user}${message.client.language.CLEAR[34]}`
+                        )}`
                     )
-                    .setFooter(`${client.language.CLEAR[30]}`)
+                    .setFooter({ text: `${message.client.language.CLEAR[30]}` })
 
                 if (!args[0] || !args.length) return message.channel.send({ embeds: [embd] })
                 let amount = Number(args[0], 10) || parseInt(args[0])
                 if (isNaN(amount) || !Number.isInteger(amount)) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.CLEAR[39])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.CLEAR[39])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
-                // if (!amount || amount < 2 || amount > 100) return message.channel.send(client.language.CLEAR[40])
+                // if (!amount || amount < 2 || amount > 100) return message.channel.send(message.client.language.CLEAR[40])
 
                 if (!args[1]) {
                     try {
                         if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                             message.reply({
-                                content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                             })
                         } else {
                             if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -67,7 +71,7 @@ module.exports = class Clear extends Command {
                             let embed = new MessageEmbed()
                                 .setColor(process.env.EMBED_COLOR)
                                 .setDescription(
-                                    `${client.language.CLEAR[41]}${m.size}**/**${amount}${client.language.CLEAR[42]}`
+                                    `${message.client.language.CLEAR[41]}${m.size}**/**${amount}${message.client.language.CLEAR[42]}`
                                 )
 
                             message.channel
@@ -82,8 +86,8 @@ module.exports = class Clear extends Command {
                     } catch (e) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.CLEAR[43])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.CLEAR[43])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
                     }
@@ -104,7 +108,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -113,7 +117,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[44]}${m.size}**/**${amount}${client.language.CLEAR[45]}`
+                                            `${message.client.language.CLEAR[44]}${m.size}**/**${amount}${message.client.language.CLEAR[45]}`
                                         )
 
                                     message.channel
@@ -128,8 +132,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -149,7 +153,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -158,7 +162,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -173,8 +177,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -203,8 +207,8 @@ module.exports = class Clear extends Command {
 			    
 													embed = new MessageEmbed()
 														.setColor(process.env.EMBED_COLOR)
-														.setDescription(`${client.language.CLEAR[43]}${m.size}**/
-                        /***${amount}${client.language.CLEAR[44]}`);
+														.setDescription(`${message.client.language.CLEAR[43]}${m.size}**/
+                        /***${amount}${message.client.language.CLEAR[44]}`);
 			    
 													message.channel.send({embeds: [embed]}).then(msg => 
 										msg.delete({ timeout: 5000 }))
@@ -213,7 +217,7 @@ module.exports = class Clear extends Command {
 			    
 											} catch (e) {
 											    
-												message.channel.send(client.language.CLEAR[42])
+												message.channel.send(message.client.language.CLEAR[42])
 											}
 			    
 											break;
@@ -230,7 +234,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -239,7 +243,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -254,8 +258,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -275,7 +279,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -284,7 +288,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -299,8 +303,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -320,7 +324,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -329,7 +333,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -344,8 +348,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -372,7 +376,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -381,7 +385,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -396,8 +400,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -417,7 +421,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -426,7 +430,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -441,8 +445,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -466,7 +470,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -475,7 +479,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -490,8 +494,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -515,7 +519,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -524,7 +528,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -539,8 +543,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -564,7 +568,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -573,7 +577,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -588,8 +592,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -613,7 +617,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -622,7 +626,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -637,8 +641,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -662,7 +666,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -671,7 +675,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -686,8 +690,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -711,7 +715,7 @@ module.exports = class Clear extends Command {
                             try {
                                 if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                                     message.reply({
-                                        content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                                        content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                                     })
                                 } else {
                                     if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -720,7 +724,7 @@ module.exports = class Clear extends Command {
                                     embed = new MessageEmbed()
                                         .setColor(process.env.EMBED_COLOR)
                                         .setDescription(
-                                            `${client.language.CLEAR[47]}${m.size}**/**${amount}${client.language.CLEAR[48]}`
+                                            `${message.client.language.CLEAR[47]}${m.size}**/**${amount}${message.client.language.CLEAR[48]}`
                                         )
 
                                     message.channel
@@ -735,8 +739,8 @@ module.exports = class Clear extends Command {
                             } catch (e) {
                                 const errorembed = new MessageEmbed()
                                     .setColor('RED')
-                                    .setTitle(client.language.ERROREMBED)
-                                    .setDescription(client.language.CLEAR[46])
+                                    .setTitle(message.client.language.ERROREMBED)
+                                    .setDescription(message.client.language.CLEAR[46])
                                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                                 return message.channel.send({
                                     embeds: [errorembed]
@@ -750,40 +754,21 @@ module.exports = class Clear extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.CLEAR[49])
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.CLEAR[49])
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
             } catch (error) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(`${client.language.CLEAR[50]}\`${error}\``)
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(`${message.client.language.CLEAR[50]}\`${error}\``)
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

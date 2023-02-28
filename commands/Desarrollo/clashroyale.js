@@ -2,10 +2,11 @@ const axios = require('axios')
 
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class ClashRoyale extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'clashroyale',
             description: ['Display info about the Github account.', 'Muestra información sobre una cuenta de Github.'],
             usage: ['<username>', '<usuario>'],
@@ -15,17 +16,17 @@ module.exports = class ClashRoyale extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const sentMessage = await message.channel.send(client.language.TIKTOK[1])
+            const sentMessage = await message.channel.send(message.client.language.TIKTOK[1])
             let response, details
             response = await axios
                 .get(`https://api.clashroyale.com/v1/players/#V9rqulj`, {
@@ -46,16 +47,16 @@ module.exports = class ClashRoyale extends Command {
             if (!account) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[13])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[13])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!account.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[13])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[13])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -64,26 +65,7 @@ module.exports = class ClashRoyale extends Command {
 
             sentMessage.edit({ embed: embed2 })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

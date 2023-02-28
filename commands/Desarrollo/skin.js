@@ -1,10 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 let encendido = false
 
 module.exports = class Skin extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'skin',
             description: ['Shows a menu with the skins.', 'Muestra un menú con las skins.'],
             usage: ['<@user>', '<@usuario>'],
@@ -13,7 +14,7 @@ module.exports = class Skin extends Command {
             inactive: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             let cabeza = new MessageButton()
                 .setStyle('blurple') //default: blurple
@@ -62,7 +63,7 @@ module.exports = class Skin extends Command {
             })
             console.log('4')
             if (encendido == false) {
-                client.on('clickButton', async (button, err) => {
+                message.client.on('clickButton', async (button, err) => {
                     if (err) return
                     console.log('5')
                     if (button.id === 'bu1') {
@@ -110,26 +111,7 @@ module.exports = class Skin extends Command {
                 })
             } else return
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

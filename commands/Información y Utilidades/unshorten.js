@@ -3,37 +3,42 @@ const Command = require('../../structures/Commandos.js')
 const isUrl = require('../../utils/isUrl.js')
 const axios = require('axios')
 let bannedWords = require('../../predefinedBannedWords.json')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class BannedWordsRefresh extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'unshorten',
             description: ['Analyzes a shortened link.', 'Analiza un link acortado.'],
             category: 'Administracion',
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
-        if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
-            message.reply({
-                content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
-            })
-        } else {
-            if (!message.deleted) message.delete().catch((e) => console.log(e))
+    async run(message, args) {
+        try {
+            if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
+                message.reply({
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                })
+            } else {
+                if (!message.deleted) message.delete().catch((e) => console.log(e))
+            }
+            if (!isUrl(args[0])) {
+                const errorembed = new MessageEmbed()
+                    .setColor('RED')
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription('El argumento del comando no es un enlace.')
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
+                return message.channel.send({ embeds: [errorembed] })
+            }
+            unshorten(message, args)
+        } catch (e) {
+            sendError(e, message)
         }
-        if (!isUrl(args[0])) {
-            const errorembed = new MessageEmbed()
-                .setColor('RED')
-                .setTitle(client.language.ERROREMBED)
-                .setDescription('El argumento del comando no es un enlace.')
-                .setFooter(message.author.username, message.author.avatarURL())
-            return message.channel.send({ embeds: [errorembed] })
-        }
-        unshorten(client, message, args, prefix, lang, webhookClient)
     }
 }
 
-async function unshorten(client, message, args, prefix, lang, webhookClient) {
+async function unshorten(message, args) {
     axios({
         method: 'get',
         url: args[0],
@@ -42,7 +47,7 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
         .then((res) => {
             if (!res) return null
             if (res.status == 301) {
-                return unshorten(response.redirect_destination)
+                return unshorten(res.redirect_destination)
             } else if (res.status == 200) {
                 for (let index in bannedWords) {
                     if (res.request.res.responseUrl.indexOf(bannedWords[index]) !== -1) {
@@ -61,7 +66,7 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${res.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
@@ -90,7 +95,7 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${res.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
@@ -124,7 +129,7 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${e.request.res.responseUrl}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
@@ -147,7 +152,7 @@ async function unshorten(client, message, args, prefix, lang, webhookClient) {
                 }
                 const embed = new MessageEmbed()
                     .setColor(process.env.EMBED_COLOR)
-                    .setTitle(client.language.SUCCESSEMBED)
+                    .setTitle(message.client.language.SUCCESSEMBED)
                     .addFields({ name: 'Link Adjuntado', value: `\`\`\`${args[0]}\`\`\`` })
                     .addFields({ name: 'Resultado', value: `\`\`\`${e.request._options.href}\`\`\`` })
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })

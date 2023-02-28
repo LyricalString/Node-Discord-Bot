@@ -1,5 +1,7 @@
 require('dotenv').config()
 const { ShardingManager, DiscordAPIError } = require('discord.js')
+proces.env.EMBED_COLOR ||= 'RED'
+process.env.prefix ||= '!'
 
 //Hago esto para solo ejecutar una vez el código de TopGG
 const { readFile, writeFile } = require('fs')

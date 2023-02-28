@@ -2,9 +2,11 @@ const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const { SelectMenuBuilder, ActionRowBuilder } = require('@discordjs/builders')
 
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Search extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'search',
             description: [
                 'Searches on youtube for the top 5 results from your song.',
@@ -18,19 +20,19 @@ module.exports = class Search extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             const sc = message.attachments.first() || args.join(' ')
             const { channel } = message.member.voice
             if (!channel) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
+                    .setTitle(message.client.language.ERROREMBED)
                     .setDescription('Necesitas estar en un canal de voz para ejecutar este comando.')
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const player = client.manager.create({
+            const player = message.client.manager.create({
                 guild: message.guild.id,
                 voiceChannel: channel.id,
                 textChannel: message.channel.id,
@@ -42,7 +44,7 @@ module.exports = class Search extends Command {
                 player.setVolume(35)
             }
 
-            const playerCanal = client.channels.cache.get(player.voiceChannel)
+            const playerCanal = message.client.channels.cache.get(player.voiceChannel)
             if (!playerCanal) return
             if (playerCanal.id != channel.id) {
                 const errorembed = new MessageEmbed()
@@ -51,7 +53,7 @@ module.exports = class Search extends Command {
                     .setDescription('Necesitas estar en el mismo canal de voz que el bot para ejecutar este comando.')
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const res = await client.manager.search(sc, message.author)
+            const res = await message.client.manager.search(sc, message.author)
             let n = 0
             const tracks = res.tracks.slice(0, 5)
             const results = res.tracks
@@ -80,12 +82,12 @@ module.exports = class Search extends Command {
                 embeds: [
                     new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter(message.author.username, message.author.avatarURL())
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.fatal_error)
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 ]
             })
-            webhookClient.send(
+            webhookmessage.client.send(
                 `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
             )
             message.author

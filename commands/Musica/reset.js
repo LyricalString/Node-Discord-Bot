@@ -1,9 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Reset extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'reset',
             alias: ['r', 'musicreset'],
             description: ["Resets Node's music functions.", 'Resetea las funciones de música de Node'],
@@ -11,39 +13,20 @@ module.exports = class Reset extends Command {
             category: 'musica'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
-            const player = client.manager.players.get(message.guild.id)
+            const player = message.client.manager.players.get(message.guild.id)
             if (!player) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.RESET)
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.RESET)
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             player.destroy()
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

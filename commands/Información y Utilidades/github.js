@@ -2,10 +2,11 @@ const axios = require('axios')
 
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class GitHub extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'github',
             description: ['Display info about the Github account.', 'Muestra información sobre una cuenta de Github.'],
             usage: ['<username>', '<usuario>'],
@@ -14,17 +15,17 @@ module.exports = class GitHub extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
-            const sentMessage = await message.channel.send(client.language.TIKTOK[1])
+            const sentMessage = await message.channel.send(message.client.language.TIKTOK[1])
             let response, details
             response = await axios
                 .get(`https://api.github.com/users/${args[0]}`, {
@@ -45,16 +46,16 @@ module.exports = class GitHub extends Command {
             if (!account) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[13])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[13])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!account.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.INSTAGRAM[13])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.INSTAGRAM[13])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
@@ -64,38 +65,47 @@ module.exports = class GitHub extends Command {
                 .setColor(process.env.EMBED_COLOR)
                 .setThumbnail(account.avatar_url)
             if (account.name)
-                embed2.addFields({ name: client.language.GITHUB[2].toString(), value: account.name.toString() })
+                embed2.addFields({ name: message.client.language.GITHUB[2].toString(), value: account.name.toString() })
             if (account.type)
-                embed2.addFields({ name: client.language.GITHUB[3].toString(), value: account.type.toString() })
+                embed2.addFields({ name: message.client.language.GITHUB[3].toString(), value: account.type.toString() })
             if (account.company)
-                embed2.addFields({ name: client.language.GITHUB[4].toString(), value: account.company.toString() })
+                embed2.addFields({
+                    name: message.client.language.GITHUB[4].toString(),
+                    value: account.company.toString()
+                })
             if (account.blog)
-                embed2.addFields({ name: client.language.GITHUB[5].toString(), value: account.blog.toString() })
+                embed2.addFields({ name: message.client.language.GITHUB[5].toString(), value: account.blog.toString() })
             if (account.location)
-                embed2.addFields({ name: client.language.GITHUB[6].toString(), value: account.location.toString() })
+                embed2.addFields({
+                    name: message.client.language.GITHUB[6].toString(),
+                    value: account.location.toString()
+                })
             if (account.email)
-                embed2.addFields({ name: client.language.GITHUB[7].toString(), value: account.email.toString() })
+                embed2.addFields({
+                    name: message.client.language.GITHUB[7].toString(),
+                    value: account.email.toString()
+                })
             if (account.bio)
-                embed2.addFields({ name: client.language.GITHUB[8].toString(), value: account.bio.toString() })
+                embed2.addFields({ name: message.client.language.GITHUB[8].toString(), value: account.bio.toString() })
             if (account.twitter_username)
                 embed2.addFields({
-                    name: client.language.GITHUB[9].toString(),
+                    name: message.client.language.GITHUB[9].toString(),
                     value: account.twitter_username.toString()
                 })
             if (account.public_repos)
                 embed2.addFields({
-                    name: client.language.GITHUB[10].toString(),
+                    name: message.client.language.GITHUB[10].toString(),
                     value: account.public_repos.toString()
                 })
             if (account.followers)
-                embed2.addFields({ name: client.language.GITHUB[11].toString(), value: account.followers.toString() })
+                embed2.addFields({
+                    name: message.client.language.GITHUB[11].toString(),
+                    value: account.followers.toString()
+                })
 
             sentMessage.edit({ content: ' ', embeds: [embed2] })
         } catch (e) {
-            console.log(e)
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}** \n Message: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
+            sendError(e, message)
         }
     }
 }

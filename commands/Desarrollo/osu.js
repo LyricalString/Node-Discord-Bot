@@ -1,10 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const osu = require('node-osu')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class Osu extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'osu',
             description: [
                 'Shows the people name who helped on the development of Node.',
@@ -16,7 +17,7 @@ module.exports = class Osu extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             const osuApi = new osu.Api(process.env.OsuSecret, {
                 notFoundAsError: true, // Throw an error on not found instead of returning nothing. (default: true)
@@ -31,33 +32,52 @@ module.exports = class Osu extends Command {
                     .then((user) => {
                         const usuario = user[0]
                         const embed = new MessageEmbed().setColor(process.env.EMBED_COLOR).setTitle(usuario.username)
-                        if (usuario.user_id != null) embed.addFields({name: 'ID del Usuario', usuario.user_id, value: true})
-                        if (usuario.join_date != null) embed.addFields({name: 'Fecha de unión', usuario.join_date, value: true})
-                        if (usuario.count300 != null) embed.addFields({name: 'Combos 300', usuario.count300, value: true})
-                        if (usuario.count100 != null) embed.addFields({name: 'Combos 100', usuario.count100, value: true})
-                        if (usuario.count50 != null) embed.addFields({name: 'Combos 50', usuario.count50, value: true})
-                        if (usuario.playcount != null) embed.addFields({name: 'Partidas', usuario.playcount, value: true})
+                        if (usuario.user_id != null)
+                            embed.addFields({ name: 'ID del Usuario', value: usuario.user_id, inline: true })
+                        if (usuario.join_date != null)
+                            embed.addFields({ name: 'Fecha de unión', value: usuario.join_date, inline: true })
+                        if (usuario.count300 != null)
+                            embed.addFields({ name: 'Combos 300', value: usuario.count300, inline: true })
+                        if (usuario.count100 != null)
+                            embed.addFields({ name: 'Combos 100', value: usuario.count100, inline: true })
+                        if (usuario.count50 != null)
+                            embed.addFields({ name: 'Combos 50', value: usuario.count50, inline: true })
+                        if (usuario.playcount != null)
+                            embed.addFields({ name: 'Partidas', value: usuario.playcount, inline: true })
                         if (usuario.ranked_score != null)
-                            embed.addFields({name: 'Puntuación Competitivo', usuario.ranked_score, value: true})
-                        if (usuario.total_score != null) embed.addFields({name: 'Puntuación Total', usuario.total_score, value: true})
-                        if (usuario.pp_rank != null) embed.addFields({name: 'Puntos Rendimiento', usuario.pp_rank, value: true})
+                            embed.addFields({
+                                name: 'Puntuación Competitivo',
+                                value: usuario.ranked_score,
+                                inline: true
+                            })
+                        if (usuario.total_score != null)
+                            embed.addFields({ name: 'Puntuación Total', value: usuario.total_score, inline: true })
+                        if (usuario.pp_rank != null)
+                            embed.addFields({ name: 'Puntos Rendimiento', value: usuario.pp_rank, inline: true })
                         if (usuario.pp_country_rank != null)
-                            embed.addFields({name: 'Rankin Puntos Rendimiento por País', usuario.pp_country_rank, value: true})
-                        if (usuario.accuracy != null) embed.addFields({name: 'Precisión', usuario.accuracy, value: true})
-                        if (usuario.level != null) embed.addFields({name: 'Nivel', Math.round(usuario.level), value: true})
-                        if (usuario.country != null) embed.addFields({name: 'País', usuario.country, value: true})
+                            embed.addFields({
+                                name: 'Rankin Puntos Rendimiento por País',
+                                value: usuario.pp_country_rank,
+                                inline: true
+                            })
+                        if (usuario.accuracy != null)
+                            embed.addFields({ name: 'Precisión', value: usuario.accuracy, inline: true })
+                        if (usuario.level != null)
+                            embed.addFields({ name: 'Nivel', value: '' + Math.round(usuario.level), inline: true })
+                        if (usuario.country != null)
+                            embed.addFields({ name: 'País', value: usuario.country, inline: true })
                         if (usuario.total_seconds_played != null)
-                            embed.addField(
-                                'Horas Jugadas',
-                                Math.roung(parseInt(usuario.total_seconds_played) / 3600),
-                                true
-                            )
+                            embed.addFields({
+                                name: 'Horas Jugadas',
+                                value: '' + Math.round(parseInt(usuario.total_seconds_played) / 3600),
+                                inline: true
+                            })
                         message.channel.send({ embeds: [embed] })
                     })
                     .catch((e) => {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
+                            .setTitle(message.client.language.ERROREMBED)
                             .setDescription('Ese usuario no está registrado en Osu!')
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [errorembed] })
@@ -73,7 +93,7 @@ module.exports = class Osu extends Command {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
+                                .setTitle(message.client.language.ERROREMBED)
                                 .setDescription('Ese usuario no está registrado en Osu!')
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
@@ -91,7 +111,7 @@ module.exports = class Osu extends Command {
                             console.error(e)
                             const errorembed = new MessageEmbed()
                                 .setColor('RED')
-                                .setTitle(client.language.ERROREMBED)
+                                .setTitle(message.client.language.ERROREMBED)
                                 .setDescription('Ese usuario no está registrado en Osu!')
                                 .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                             return message.channel.send({
@@ -103,27 +123,7 @@ module.exports = class Osu extends Command {
                 }
             }
         } catch (e) {
-            console.error(e)
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

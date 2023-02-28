@@ -1,9 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Unlock extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'unlock',
             description: ['Unlocks the channel for everyone.', 'Desbloquea el canal para el público general.'],
             permissions: ['MANAGE_GUILD', 'MANAGE_CHANNELS'],
@@ -13,11 +15,11 @@ module.exports = class Unlock extends Command {
             nochannel: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES')) {
                 message.reply({
-                    content: `${client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
+                    content: `${message.client.language.MESSAGE[1]} \`"MANAGE_MESSAGES"\``
                 })
             } else {
                 if (!message.deleted) message.delete().catch((e) => console.log(e))
@@ -26,31 +28,12 @@ module.exports = class Unlock extends Command {
                 SEND_MESSAGES: true
             })
             const embed = new MessageEmbed()
-                .setTitle(client.language.LOCK[3])
-                .setDescription(`🔓 ${message.channel} ${client.language.UNLOCK}`)
+                .setTitle(message.client.language.LOCK[3])
+                .setDescription(`🔓 ${message.channel} ${message.client.language.UNLOCK}`)
                 .setColor(process.env.EMBED_COLOR)
             await message.channel.send({ embeds: [embed] })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

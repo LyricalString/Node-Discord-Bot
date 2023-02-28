@@ -1,16 +1,18 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Love extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'love',
             description: ['Shows the love between you and a user.', 'Muestra el amor entre tú y un usuario.'],
             usage: ['<@user>', '<@usuario>'],
             category: 'Interaccion'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             let user
             if (args[0]) {
@@ -27,8 +29,8 @@ module.exports = class Love extends Command {
                 } else {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.NOARGS)
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.NOARGS)
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -36,31 +38,31 @@ module.exports = class Love extends Command {
             if (!user) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.LOVE[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.LOVE[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (!user.user) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.LOVE[1])
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.LOVE[1])
                     .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (user.user.id == message.author.id) {
                 let embed = new MessageEmbed()
-                    .setTimestamp(' ')
+                    .setTimestamp()
                     .setColor(process.env.EMBED_COLOR)
-                    .setFooter({ text: client.language.LOVE[2], iconURL: message.author.displayAvatarURL() })
+                    .setFooter({ text: message.client.language.LOVE[2], iconURL: message.author.displayAvatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
-            if (user.user.id == client.user.id) {
+            if (user.user.id == message.client.user.id) {
                 let embed = new MessageEmbed()
-                    .setTimestamp(' ')
+                    .setTimestamp()
                     .setColor(process.env.EMBED_COLOR)
-                    .setFooter({ text: client.language.LOVE[3], iconURL: message.author.displayAvatarURL() })
+                    .setFooter({ text: message.client.language.LOVE[3], iconURL: message.author.displayAvatarURL() })
                 return message.channel.send({ embeds: [embed] })
             }
 
@@ -75,10 +77,12 @@ module.exports = class Love extends Command {
             }
             const { soyultro } = require('soyultro')
             let resp = [
-                client.language.LOVE[4] +
+                message.client.language.LOVE[4] +
                     `${message.author.username} & ${user.user.username}` +
-                    client.language.LOVE[5],
-                client.language.LOVE[6] + `${message.author.username} & ${user.user.username}` + client.language.LOVE[7]
+                    message.client.language.LOVE[5],
+                message.client.language.LOVE[6] +
+                    `${message.author.username} & ${user.user.username}` +
+                    message.client.language.LOVE[7]
             ]
             let msg = resp[Math.floor(Math.random() * resp.length)]
             const embed = new MessageEmbed()
@@ -93,25 +97,7 @@ module.exports = class Love extends Command {
             }
             message.channel.send({ embeds: [embed] })
         } catch (e) {
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

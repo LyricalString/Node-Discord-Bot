@@ -1,10 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const userModel = require('../../models/user.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class OldMode extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'oldmode',
             description: [
                 'Allows to enable and disable the old features if you are not able to view the new features.',
@@ -19,7 +20,7 @@ module.exports = class OldMode extends Command {
             production: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             userModel
                 .findOne({
@@ -32,8 +33,8 @@ module.exports = class OldMode extends Command {
                         s.OLDMODE = true
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.OLDMODE[1])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.OLDMODE[1])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     } else if (args[0].toLowerCase() == 'disable') {
@@ -41,34 +42,15 @@ module.exports = class OldMode extends Command {
                         s.OLDMODE = false
                         const embed = new MessageEmbed()
                             .setColor(process.env.EMBED_COLOR)
-                            .setTitle(client.language.SUCCESSEMBED)
-                            .setDescription(client.language.OLDMODE[2])
+                            .setTitle(message.client.language.SUCCESSEMBED)
+                            .setDescription(message.client.language.OLDMODE[2])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({ embeds: [embed] })
                     }
                     s.save().catch((e) => console.error(e))
                 })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

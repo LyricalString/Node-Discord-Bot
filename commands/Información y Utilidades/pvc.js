@@ -1,10 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const guildModel = require('../../models/guild.js')
+const { sendError } = require('../../utils/utils.js')
 
 module.exports = class PVC extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'pvc',
             description: ['Opens/Closes your Private Channel.', 'Abre/cierra su canal privado.'],
             args: true,
@@ -13,7 +14,7 @@ module.exports = class PVC extends Command {
             category: 'Info'
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             guildModel.findOne({ guildID: message.guild.id.toString() }).then(async (s, err) => {
                 if (err) return
@@ -22,7 +23,7 @@ module.exports = class PVC extends Command {
                 if (!s.config.Pvc) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
+                        .setTitle(message.client.language.ERROREMBED)
                         .setDescription(
                             'Debes de configurar previamente el módulo de Private Voice Channels desde /config pvc'
                         )
@@ -36,8 +37,8 @@ module.exports = class PVC extends Command {
                 ) {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.PVC[1] + '<#' + s.config.Pvc.StartingChannel + '>')
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.PVC[1] + '<#' + s.config.Pvc.StartingChannel + '>')
                         .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 }
@@ -48,10 +49,10 @@ module.exports = class PVC extends Command {
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setDescription(
-                            `<@${message.author.id}> ${client.language.PVC[2]}`,
+                            `<@${message.author.id}> ${message.client.language.PVC[2]}`,
                             message.author.displayAvatarURL()
                         )
-                        .setTimestamp(' ')
+                        .setTimestamp()
                     message.channel.send({ embeds: [embed] })
                 } else if (args[0].toLowerCase() == 'close') {
                     channel.permissionOverwrites.edit(message.guild.roles.everyone, {
@@ -60,17 +61,19 @@ module.exports = class PVC extends Command {
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setDescription(
-                            `<@${message.author.id}> ${client.language.PVC[3]}`,
+                            `<@${message.author.id}> ${message.client.language.PVC[3]}`,
                             message.author.displayAvatarURL()
                         )
-                        .setTimestamp(' ')
+                        .setTimestamp()
                     message.channel.send({ embeds: [embed] })
                 } else if (args[0].toLowerCase() == 'ban') {
                     if (!args[1]) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(`${client.language.PVC[4]} \`.pvc ban ${client.language.PVC[5]}\``)
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(
+                                `${message.client.language.PVC[4]} \`.pvc ban ${message.client.language.PVC[5]}\``
+                            )
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({
                             embeds: [errorembed]
@@ -83,8 +86,8 @@ module.exports = class PVC extends Command {
                     if (!miembro) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.PVC[12])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.PVC[12])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({
                             embeds: [errorembed]
@@ -97,17 +100,19 @@ module.exports = class PVC extends Command {
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setDescription(
-                            `${client.language.PVC[6]} <@${miembro.id}> ${client.language.PVC[7]}`,
+                            `${message.client.language.PVC[6]} <@${miembro.id}> ${message.client.language.PVC[7]}`,
                             message.author.displayAvatarURL()
                         )
-                        .setTimestamp(' ')
+                        .setTimestamp()
                     message.channel.send({ embeds: [embed] })
                 } else if (args[0].toLowerCase() == 'unban') {
                     if (!args[1]) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(`${client.language.PVC[8]} \`.pvc unban ${client.language.PVC[9]}\``)
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(
+                                `${message.client.language.PVC[8]} \`.pvc unban ${message.client.language.PVC[9]}\``
+                            )
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({
                             embeds: [errorembed]
@@ -120,8 +125,8 @@ module.exports = class PVC extends Command {
                     if (!miembro) {
                         const errorembed = new MessageEmbed()
                             .setColor('RED')
-                            .setTitle(client.language.ERROREMBED)
-                            .setDescription(client.language.PVC[12])
+                            .setTitle(message.client.language.ERROREMBED)
+                            .setDescription(message.client.language.PVC[12])
                             .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                         return message.channel.send({
                             embeds: [errorembed]
@@ -133,34 +138,15 @@ module.exports = class PVC extends Command {
                     const embed = new MessageEmbed()
                         .setColor(process.env.EMBED_COLOR)
                         .setDescription(
-                            `${client.language.PVC[10]} <@${miembro.id}> ${client.language.PVC[11]}`,
+                            `${message.client.language.PVC[10]} <@${miembro.id}> ${message.client.language.PVC[11]}`,
                             message.author.displayAvatarURL()
                         )
-                        .setTimestamp(' ')
+                        .setTimestamp()
                     message.channel.send({ embeds: [embed] })
                 }
             })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }

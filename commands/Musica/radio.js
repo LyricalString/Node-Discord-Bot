@@ -1,9 +1,12 @@
 const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/Commandos.js')
 const isUrl = require('../../utils/isUrl.js')
+
+const { sendError } = require('../../utils/utils.js')
+
 module.exports = class Radio extends Command {
-    constructor(client) {
-        super(client, {
+    constructor() {
+        super({
             name: 'radio',
             description: [
                 'Listen to any radio station in the world.',
@@ -15,34 +18,34 @@ module.exports = class Radio extends Command {
             args: true
         })
     }
-    async run(client, message, args, prefix, lang, webhookClient, ipc) {
+    async run(message, args) {
         try {
             // const errorembed = new MessageEmbed()
             //     .setColor("RED")
-            //     .setTitle(client.language.ERROREMBED)
+            //     .setTitle(message.client.language.ERROREMBED)
             //     .setDescription('La API se encuentra en mantenimiento. Volverán cuando vuelva la API.')
-            //     .setFooter(message.author.username, message.author.avatarURL());
+            //     .setFooter({text: message.author.username, message.author.avatarURL()});
             //   return message.channel.send({ embeds: [errorembed] });
             const { channel } = message.member.voice
             if (!channel) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.RADIO[1])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.RADIO[1])
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
             if (message.guild.config.MUSIC_CHANNELS[0] && !message.guild.config.MUSIC_CHANNELS.includes(channel.id)) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.RADIO[13])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.RADIO[13])
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
 
-            const player = client.manager.create({
+            const player = message.client.manager.create({
                 guild: message.guild.id,
                 voiceChannel: channel.id,
                 textChannel: message.channel.id,
@@ -52,35 +55,35 @@ module.exports = class Radio extends Command {
                 player.connect()
                 player.setVolume(35)
             }
-            const playerCanal = client.channels.cache.get(player.voiceChannel)
+            const playerCanal = message.client.channels.cache.get(player.voiceChannel)
             if (!playerCanal) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.PLAY[1])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.PLAY[1])
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             if (playerCanal.id != channel.id && playerCanal.members.size == 1) {
-                let member = await message.guild.members.fetch(process.env.botID).catch((e) => {
+                let member = await message.guild.members.fetch(message.client.user.id).catch((e) => {
                     return
                 })
                 member.voice.setChannel(channel.id)
             } else if (playerCanal.id != channel.id) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.PLAY[2])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.PLAY[2])
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             const query = args.join(' ')
             if (!args[0]) {
                 const errorembed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(client.language.ERROREMBED)
-                    .setDescription(client.language.RADIO[3])
-                    .setFooter(message.author.username, message.author.avatarURL())
+                    .setTitle(message.client.language.ERROREMBED)
+                    .setDescription(message.client.language.RADIO[3])
+                    .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                 return message.channel.send({ embeds: [errorembed] })
             }
             let volume = 100
@@ -115,25 +118,29 @@ module.exports = class Radio extends Command {
                 .catch((e) => {
                     const errorembed = new MessageEmbed()
                         .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.RADIO[11])
-                        .setFooter(message.author.username, message.author.avatarURL())
+                        .setTitle(message.client.language.ERROREMBED)
+                        .setDescription(message.client.language.RADIO[11])
+                        .setFooter({ text: message.author.username, iconURL: message.author.avatarURL() })
                     return message.channel.send({ embeds: [errorembed] })
                 })
-            await client.manager.search(str, message.author).then(async (res) => {
+            await message.client.manager.search(str, message.author).then(async (res) => {
                 switch (res.loadType) {
                     case 'TRACK_LOADED':
                         player.queue.add(res.tracks[0])
                         const embed = new MessageEmbed()
-                            .setTitle(client.language.RADIO[12])
+                            .setTitle(message.client.language.RADIO[12])
                             .setColor(process.env.EMBED_COLOR)
-                            .addFields({name: client.language.RADIO[6], value: `${name}`})
-                            .addFields({name: client.language.RADIO[9], `${codec}`, value: true})
-                            .addFields({name: client.language.RADIO[10], `${bitrate}`, value: true})
+                            .addFields({ name: message.client.language.RADIO[6], value: `${name}` })
+                            .addFields({ name: message.client.language.RADIO[9], value: `${codec}`, inline: true })
+                            .addFields({ name: message.client.language.RADIO[10], value: `${bitrate}`, inline: true })
                         if (favicon && isUrl(favicon)) embed.setThumbnail(favicon)
                         message.channel.send({ embeds: [embed] })
                         if (homepage)
-                            embed.addFields({name: client.language.RADIO[7], `${client.language.RADIO[8]}(${homepage})`, value: true})
+                            embed.addFields({
+                                name: message.client.language.RADIO[7],
+                                value: `${message.client.language.RADIO[8]}(${homepage})`,
+                                inline: true
+                            })
                         if (!player.playing) {
                             player.play()
                             player.setVolume(volume || 50)
@@ -143,31 +150,12 @@ module.exports = class Radio extends Command {
                         break
 
                     case 'LOAD_FAILED':
-                        message.channel.send(client.language.RADIO[11])
+                        message.channel.send(message.client.language.RADIO[11])
                         break
                 }
             })
         } catch (e) {
-            console.error(e)
-            message.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor('RED')
-                        .setTitle(client.language.ERROREMBED)
-                        .setDescription(client.language.fatal_error)
-                        .setFooter(message.author.username, message.author.avatarURL())
-                ]
-            })
-            webhookClient.send(
-                `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-            )
-            try {
-                message.author
-                    .send(
-                        'Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>'
-                    )
-                    .catch(e)
-            } catch (e) {}
+            sendError(e, message)
         }
     }
 }
