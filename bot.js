@@ -9,5 +9,3 @@ client.login()
 
 require('./handlers/events.js')(client)
 require('./handlers/commands.js')(client)
-client.commands = new Collection()
-client.cooldowns = new Collection()
