@@ -84,7 +84,7 @@ module.exports = class Commands extends Command {
                 )
                 .setMaxValues(1)
                 .setMinValues(1)
-                .setCustomID('menucommands')
+                .setCustomId('menucommands')
                 .setPlaceHolder(message.client.language.COMMANDS[12])
             const embed = new MessageEmbed()
                 .setColor(process.env.EMBED_COLOR)
