@@ -1,5 +1,6 @@
 > **⚠ AVISO ⚠**  
-> La explicación de la situación está en se puede encontrar [aquí](https://youtu.be/WhJ21pJ-IRQ). El bot ya no se encuentra en funcionamiento. Podeis hacer un fork de este repositorio y crear vuestros propios bots para seguir con la esencia de Node 😄
+> Nuevo Proyecto con nuevo codigo: https://github.com/Node-Estudios/NodeBot
+
 
 <img width="150" height="150" align="left" style="float: left; margin: 0 10px 0 0;" alt="🤖 Node" src="https://i.goopics.net/52j27r.jpg">
 
